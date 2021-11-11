@@ -2,6 +2,10 @@ import React from 'react';
 
 import './BouteilleSAQ.css';
 
+/** 
+ * Component de l'affichage de la recherche des bouteilles de la SAQ
+ * 
+*/
 export default class BouteilleSAQ extends React.Component {
 	render() {
 		return (

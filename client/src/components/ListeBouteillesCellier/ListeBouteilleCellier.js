@@ -226,14 +226,15 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.5rem' }}>
+				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
+				<Typography color="text.primary">Mon Cellier</Typography>
 					<Link underline="hover" color="white" href="/celliers/liste">
 						Celliers
 					</Link>
 					<Typography color="text.primary">{this.state.nomCellier}</Typography>
 					<Typography color="text.primary">Liste des bouteilles</Typography>
 				</Breadcrumbs>
-				<FormControl sx={{ m: 1, minWidth: 120 }}>
+				<FormControl sx={{ m: 1, minWidth: 120, color: 'white', borderRadius: '0.5rem' }}>
 					<InputLabel htmlFor="grouped-native-select">Trier par</InputLabel>
 					<Select
 						native
