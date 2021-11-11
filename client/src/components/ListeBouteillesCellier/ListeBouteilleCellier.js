@@ -41,7 +41,6 @@ export default class ListeBouteilleCellier extends React.Component {
 		this.ajouterAction = this.ajouterAction.bind(this);
 		this.retirerAction = this.retirerAction.bind(this);
 		this.sortBouteilles = this.sortBouteilles.bind(this);
-		this.setDrapeau = this.setDrapeau.bind(this);
 	}
 
 	componentDidMount() {
@@ -56,11 +55,9 @@ export default class ListeBouteilleCellier extends React.Component {
 		const order = parsedObj.order;
 		if (order.toUpperCase() === 'ASC') {
 			const sortedItems = this.state.items.sort((a, b) => a[key].localeCompare(b[key]));
-			console.log(sortedItems);
 			this.setState({ items: sortedItems });
 		} else if (order.toUpperCase() === 'DESC') {
 			const sortedItems = this.state.items.sort((a, b) => b[key].localeCompare(a[key]));
-			console.log(sortedItems);
 			this.setState({ items: sortedItems });
 		}
 	}
@@ -84,15 +81,11 @@ export default class ListeBouteilleCellier extends React.Component {
 						if (i[0] === "pays") item.drapeau = this.getDrapeauPays(i[1]);
 					});
 				})
-
 				this.setState({
 					items: donnees.data,
 					premierId: donnees.data[0].id,
 					nomCellier: donnees.data[0].emplacement,
 				});
-
-
-				console.log(this.state.items);
 			});
 	}
 
