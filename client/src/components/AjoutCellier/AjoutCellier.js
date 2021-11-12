@@ -38,6 +38,11 @@ export default class AjoutCellier extends React.Component {
 		this.setState({ titreBoutton: 'Nouveau cellier' });
 	}
 
+    componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
 	/** 
 	 * Fonction de validation des inputs
 	 * 

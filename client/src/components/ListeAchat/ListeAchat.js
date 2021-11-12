@@ -13,7 +13,7 @@ export default class ListeAchat extends React.Component {
     this.state = {
       items: [],
       itemsSelected: [],
-      bouteilles: []['id', 'millesime', 'quantite'],
+      bouteilles: [],
       listeAchat: false,
       titre: "",
       idListeAchat: undefined
@@ -59,7 +59,6 @@ export default class ListeAchat extends React.Component {
                     }
                 });
             })
-    
   } 
 
 
@@ -73,6 +72,7 @@ export default class ListeAchat extends React.Component {
     })
       .then((reponse) => reponse.json())
       .then((donnees) => {
+        //if (!donnees.data) this.setState({ listeAchat: false});
         this.setState({ items: donnees.data });
         this.setState({ listeAchat: true });
         //console.log("Éxiste listeAchat ? : ", this.state.listeAchat);
@@ -102,21 +102,18 @@ export default class ListeAchat extends React.Component {
   creerListeAchat() {
     console.log("Créer liste d'achat");
     console.log("Colonnes séléctionnées: ", this.state.itemsSelected);
-    /*
+    
     this.state.itemsSelected
             .map((item) => {
-
                 this.state.items.map(x => {
                     if (x.id === item) {
-                        console.log("x: ", x);
-                        this.setState({bouteilles: x})
-                        this.setState({bouteilles: [x.id, x.millesime, x.qantite]});
+                        this.setState({bouteilles: item})
                         //CODE ICI POUR PRÉPARER À SEND LE FETCH
                         // var item est égale à l'object de la bouteille sélectionnée avec toutes ses infos.
                     }
                 });
             })
-    */
+    
     console.log("this.state.bouteilles: ", this.state.bouteilles);
     /*
     bouteilles = this.state.itemsSelected
