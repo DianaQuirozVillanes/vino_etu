@@ -129,7 +129,7 @@ export default class Connexion extends React.Component {
 						onClick={() => this.seConnecter()}
 						sx={{backgroundColor: "#641b30", color: "white"}}
 					>
-						<LoginOutlinedIcon />
+						<LoginOutlinedIcon sx={{marginRight: '1rem'}}/>
 						Se connecter
 					</Fab>
 				</Box>
