@@ -226,9 +226,9 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem', color: 'white' }}>
+				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
 				<Typography color="text.primary">Mon Cellier</Typography>
-					<Link underline="hover" color="white" href="/celliers/liste">
+					<Link underline="hover" color="inherit" to="/celliers/liste">
 						Celliers
 					</Link>
 					<Typography color="text.primary">{this.state.nomCellier}</Typography>

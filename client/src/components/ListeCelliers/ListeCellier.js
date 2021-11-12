@@ -55,8 +55,9 @@ export default class ListeCellier extends React.Component {
 
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.5rem' }}>
-					<Link underline="hover" color="inherit" href="/">
+				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem' }}>
+				<Typography color="text.primary">Mon Cellier</Typography>
+					<Link underline="hover" color="inherit" to="/">
 						Celliers
 					</Link>
 					<Typography color="text.primary">Liste des celliers</Typography>

@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { Box } from '@mui/system';
-import { TextField } from '@mui/material';
+import { Fab, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
+import { Breadcrumbs, Link, Typography } from '@mui/material';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 import './AjoutCellier.css';
 
@@ -82,43 +84,55 @@ export default class AjoutCellier extends React.Component {
 
 	render() {
 		return (
-			<Box
-				className="nouvelle_cellier_container"
-				sx={{
-					backgroundColor: 'rgba(0, 0, 0, 0.8)',
-					display: 'flex',
-					justfyContent: 'center',
-					alignItems: 'center',
-					gap: '1rem',
-					width: '85vw',
-					flexDirection: 'column',
-					borderRadius: '1rem',
-					margin: '0 auto',
-					marginTop: '20vh'
-				}}
-			>
-				<span className="nouvelle_cellier_title"> {this.state.titreBoutton} </span>
+			<Box>
+				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem' }}>
+					<Typography color="text.primary">Mon Cellier</Typography>
+					<Typography color="text.primary">Nouveau cellier</Typography>
+				</Breadcrumbs>
 
-				<TextField
-					autoFocus
-					label="Emplacement"
-					variant="outlined"
-					onBlur={(evt) => this.setState({ emplacement: evt.target.value })}
-				/>
-				<TextField
-					margin="dense"
-					id="temperature"
-					label="Température"
-					type="number"
-					variant="standard"
-					inputProps={{ step: '0.5' }}
-					onBlur={(e) => this.setState({ temperature: e.target.value })}
-				/>
+				<Box
+					className="nouvelle_cellier_container"
+					sx={{
+						backgroundColor: 'rgba(0, 0, 0, 0.8)',
+						display: 'flex',
+						justfyContent: 'center',
+						alignItems: 'center',
+						gap: '1rem',
+						width: '85vw',
+						flexDirection: 'column',
+						borderRadius: '1rem',
+						margin: '0 auto',
+						marginTop: '20vh'
+					}}
+				>
+					<span className="nouvelle_cellier_title"> {this.state.titreBoutton} </span>
 
-				<Button type="button" onClick={(e) => this.creerCellier()}>
-					{' '}
-					{this.state.titreBoutton}{' '}
-				</Button>
+					<TextField
+						autoFocus
+						label="Emplacement"
+						variant="outlined"
+						onBlur={(evt) => this.setState({ emplacement: evt.target.value })}
+					/>
+					<TextField
+						margin="dense"
+						id="temperature"
+						label="Température"
+						type="number"
+						variant="outlined"
+						inputProps={{ step: '0.5' }}
+						onBlur={(e) => this.setState({ temperature: e.target.value })}
+					/>
+
+					<Fab
+						variant="extended"
+						onClick={() => this.creerCellier()}
+						sx={{ backgroundColor: '#641b30', color: 'white' }}
+					>
+						<AddOutlinedIcon sx={{ marginRight: '1rem' }} />
+						Nouveau cellier
+					</Fab>
+
+				</Box>
 			</Box>
 		);
 	}

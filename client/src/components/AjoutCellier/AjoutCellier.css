@@ -16,7 +16,6 @@
 }
 
 .nouvelle_cellier_container button {
-    width: 100%;
     color: white;
     outline: unset;
     border-radius: .5rem;
@@ -24,7 +23,6 @@
     border: none;
     margin-bottom: 2rem;
     font-size: 1em;
-    font-weight: 700;
     background-color: #641B30;
 }
 

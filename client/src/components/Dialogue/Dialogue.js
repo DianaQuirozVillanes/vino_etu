@@ -15,7 +15,7 @@ export default class Dialogue extends React.Component {
 
 		this.state = {
 			open: false,
-			valeur: undefined,
+			valeur: "1",
 			titre: "",
 			action: "",
 		}
@@ -55,20 +55,19 @@ export default class Dialogue extends React.Component {
 						</DialogContentText>
 						<TextField
 							autoFocus
-							margin="dense"
 							id="number"
 							label="Quantité"
 							type="number"
 							fullWidth
 							variant="standard"
-							value="1"
-							onBlur={(e) => this.setState({valeur : e.target.value })}
+							value={this.state.valeur}
+							onChange={(e) => this.setState({valeur : e.target.value })}
 							inputProps={{ min: "1" }}
 						/>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={this.handleClose}>Annuler</Button>
-						<Button onClick={() => {this.props.changerQuantite(this.state.valeur) }}>OK</Button>
+						<Button onClick={() => {this.props.changerQuantite(this.state.valeur); this.setState({valeur: "1"}); }}>OK</Button>
 					</DialogActions>
 				</Dialog>
 			</div>
