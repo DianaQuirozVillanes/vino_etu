@@ -19,7 +19,6 @@ export default class Connexion extends React.Component {
 		this.validation = this.validation.bind(this);
 		this.seConnecter = this.seConnecter.bind(this);
 
-		console.log('Mon props: ', this.props);
 	}
 
 	validation() {
@@ -37,7 +36,6 @@ export default class Connexion extends React.Component {
 			if (bRegex) {
 				bValidation = true;
 			} else {
-				console.log('Courriel non admissible');
 			}
 		}
 
@@ -65,17 +63,14 @@ export default class Connexion extends React.Component {
 				.then((data) => {
 					if (data.data) {
 						this.props.login(data.data);
-						console.log('Connexion avec succès!!!', data.data);
 						this.props.history.push('/celliers/liste');
 					} else {
-						console.log('Courriel ou mot de passe incorrect.');
 					}
 				});
 		}
 	}
 
 	render() {
-		console.log('this.props.id_usager: ', this.props.id_usager);
 
 		return (
 			<Box

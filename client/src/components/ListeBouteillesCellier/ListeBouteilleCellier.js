@@ -63,7 +63,6 @@ export default class ListeBouteilleCellier extends React.Component {
 	}
 
 	triBouteilles(order) {
-		console.log(JSON.parse(order));
 	}
 
 	fetchBouteilles() {
@@ -205,7 +204,7 @@ export default class ListeBouteilleCellier extends React.Component {
 		const bouteilles = this.state.items.map((item, index) => {
 
 			return (
-				<div>
+				<div key={index}>
 					{premierId ? (
 						<div>
 							<BouteilleCellier

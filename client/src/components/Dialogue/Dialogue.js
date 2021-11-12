@@ -38,8 +38,6 @@ export default class Dialogue extends React.Component {
 
 	handleClose() {
 		
-		//console.log(this.props.valeurChamps);
-		console.log(this.state.valeur);
 		this.setState({ open: false });
 		
 	}
