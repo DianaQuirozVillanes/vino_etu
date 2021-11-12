@@ -31,6 +31,12 @@ export default class ModifierCellier extends React.Component {
         this.chercherCellier();
     }
 
+    componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
+
     chercherCellier() {
         const getMethod = {
             method: 'GET',

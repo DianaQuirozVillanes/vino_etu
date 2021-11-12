@@ -24,6 +24,12 @@ export default class Admin extends React.Component {
         this.getUsager()
     }
 
+    componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
+    
     getUsager() {
         const options = {
             method: 'GET',

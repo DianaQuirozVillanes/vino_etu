@@ -25,6 +25,17 @@ export default class DetailsBouteille extends React.Component {
     this.modifier = this.modifier.bind(this);
   }
 
+  componentDidMount() {
+    if (!this.props.estConnecte) {
+      return this.props.history.push('/connexion');
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.props.estConnecte) {
+      return this.props.history.push('/connexion');
+    }
+  }
   recupereBouteille() {
     const getMethod = {
       method: "GET",
@@ -35,7 +46,7 @@ export default class DetailsBouteille extends React.Component {
     };
     fetch(
       "https://rmpdwebservices.ca/webservice/php/bouteilles/" +
-        this.props.param.match.params.id,
+      this.props.param.match.params.id,
       getMethod
     )
       .then((reponse) => reponse.json())
@@ -164,14 +175,14 @@ export default class DetailsBouteille extends React.Component {
           value={this.state.note}
         />
 
-        <TextField 
+        <TextField
           label="Date ajout"
           variant="outlined"
           onChange={(evt) => this.setState({ date_ajout: evt.target.value })}
           value={this.state.date_ajout}
           type="date"
-        />        
-        
+        />
+
         <Button type="button" onClick={(e) => this.modifier()}>
           Modifier
         </Button>

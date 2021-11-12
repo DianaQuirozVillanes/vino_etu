@@ -41,9 +41,19 @@ export default class AjoutBouteille extends React.Component {
 	}
 
 	componentDidMount() {
+		if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+		
 		this.fetchCelliers();
 		console.log(this.props.id_usager);
 	}
+
+	componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
 
 	fetchCelliers() {
 		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + this.props.id_usager, {

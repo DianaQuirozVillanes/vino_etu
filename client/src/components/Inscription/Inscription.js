@@ -26,6 +26,12 @@ export default class Inscription extends React.Component {
     this.sinscrire = this.sinscrire.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.estConnecte) {
+      return this.props.history.push('/connexion');
+    }
+  }
+
   validation() {
     let bValidation = false;
 
@@ -49,7 +55,7 @@ export default class Inscription extends React.Component {
 
       if (bRegex) {
         if (this.state.mot_passe === this.state.mot_passe_verif) {
-            bValidation = true;
+          bValidation = true;
         }
       }
     }
@@ -80,17 +86,17 @@ export default class Inscription extends React.Component {
       };
 
       fetch("https://rmpdwebservices.ca/webservice/php/usagers/", postMethod)
-                .then(res => res.json()) 
-                .then((data) => {
-                if (data.data) {
-                      this.props.history.push("/connexion");  //doit aller sur listecelliers et dèjà connecté
-                    } else {
-                      console.log("Erreur à l'inscription d'usager");
-                    }
-                }); 
+        .then(res => res.json())
+        .then((data) => {
+          if (data.data) {
+            this.props.history.push("/connexion");  //doit aller sur listecelliers et dèjà connecté
+          } else {
+            console.log("Erreur à l'inscription d'usager");
+          }
+        });
     } else {
       console.log("Validation incorrecte!!!");
-    } 
+    }
   }
 
   render() {

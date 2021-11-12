@@ -34,14 +34,18 @@ export default class ModifieCompte extends React.Component {
      } */
 
     componentDidMount() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
 
+        this.fetchCelliers();
         this.getUsager()
     }
 
     componentDidUpdate() {
-
-        console.log(this.state.prenom, this.state.nom, this.state.courriel, this.state.mot_passe, this.state.mot_passe_verif)
-
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
     }
 
     // Validation du formulaire

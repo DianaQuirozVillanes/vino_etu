@@ -14,9 +14,18 @@ export default class BouteilleCellier extends React.Component {
 			drapeau: ''
 		};
 	}
+	
 	componentDidMount() {
-		
-	}
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
+
+	componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
 
 
 	render() {

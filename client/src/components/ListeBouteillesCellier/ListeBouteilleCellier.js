@@ -44,10 +44,18 @@ export default class ListeBouteilleCellier extends React.Component {
 	}
 
 	componentDidMount() {
+		if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+		
 		this.fetchBouteilles();
 	}
 
-	componentDidUpdate() { }
+	componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
 
 	sortBouteilles(obj) {
 		const parsedObj = JSON.parse(obj);
