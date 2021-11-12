@@ -91,7 +91,7 @@ export default class Connexion extends React.Component {
 					flexDirection: 'column',
 					borderRadius: '1rem',
 					margin: '0 auto',
-					marginTop: '20vh'
+					marginTop: '15vh'
 				}}
 			>
 				<Box

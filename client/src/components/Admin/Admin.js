@@ -32,7 +32,7 @@ export default class Admin extends React.Component {
         }
     }
     
-    getUsager() {
+    getUsagers() {
         const options = {
             method: 'GET',
             headers: {

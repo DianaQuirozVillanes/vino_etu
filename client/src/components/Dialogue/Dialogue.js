@@ -64,8 +64,8 @@ export default class Dialogue extends React.Component {
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose}>Annuler</Button>
-						<Button onClick={() => {this.props.changerQuantite(this.state.valeur); this.setState({valeur: "1"}); }}>OK</Button>
+						<Button className='dialog_button' onClick={this.handleClose}>Annuler</Button>
+						<Button className='dialog_button' onClick={() => {this.props.changerQuantite(this.state.valeur); this.setState({valeur: "1"}); }}>OK</Button>
 					</DialogActions>
 				</Dialog>
 			</div>

@@ -112,7 +112,7 @@ export default class ModifierCellier extends React.Component {
 					flexDirection: 'column',
 					borderRadius: '1rem',
 					margin: '0 auto',
-					marginTop: '20vh'
+					marginTop: '15vh'
 				}}
 			>
 				<span className="modifier_cellier_title"> {this.state.titreBoutton} </span>

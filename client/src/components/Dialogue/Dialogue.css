@@ -1,3 +1,19 @@
 .MuiDialogTitle-root {
 	color: black;
 }
+
+.MuiDialogContent-root {
+	color: black;
+}
+
+.MuiInputLabel-root.Mui-focused {
+	color: black !important;
+}
+
+.MuiInput-root:after {
+	border-bottom: black !important;
+}
+
+.dialog_button {
+	color: black !important;
+}
