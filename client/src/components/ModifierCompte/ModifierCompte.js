@@ -1,8 +1,10 @@
 import React from "react";
 import "./ModifierCompte.css";
 // import Bcryptjs from "bcryptjs";
-import { Box, color } from "@mui/system";
+import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
+import { Breadcrumbs, Link, Typography } from '@mui/material';
+
 
 export default class ModifierCompte extends React.Component {
     constructor(props) {
@@ -25,7 +27,6 @@ export default class ModifierCompte extends React.Component {
         this.validation = this.validation.bind(this);
         this.modifier = this.modifier.bind(this);
     }
-
 
     componentDidMount() {
         // Vérifie la connexion et redirige au besoin.
@@ -133,69 +134,79 @@ export default class ModifierCompte extends React.Component {
     render() {
         // Affichage.
         return (
-            <Box
-                className="modification_contenu"
-                sx={{
-                    backgroundColor: "rgba(0, 0, 0, 0.8)",
-                    display: "flex",
-                    justfyContent: "center",
-                    alignItems: "center",
-                    gap: "1rem",
-                    width: "85vw",
-                    flexDirection: "column",
-                    borderRadius: "1rem",
-                    margin: "0 auto",
-                    marginTop: "10vh",
-                }}
-            >
+            <>
+                <Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
+                    <Link underline="hover" color="inherit" onClick={() => this.props.history.push('/')}>
+                        Mon Cellier
+                    </Link>
+
+                    <Typography color="text.primary">Modifier compte</Typography>
+                </Breadcrumbs>
+
                 <Box
+                    className="modification_contenu"
                     sx={{
+                        backgroundColor: "rgba(0, 0, 0, 0.8)",
                         display: "flex",
-                        width: "80%",
+                        justfyContent: "center",
+                        alignItems: "center",
+                        gap: "1rem",
+                        width: "85vw",
                         flexDirection: "column",
-                        gap: "2rem",
+                        borderRadius: "1rem",
+                        margin: "0 auto",
+                        marginTop: "10vh",
                     }}
                 >
-
-                    <span className="modification_titre">Modifier son compte</span>
-
                     <Box
                         sx={{
                             display: "flex",
+                            width: "80%",
                             flexDirection: "column",
-                            gap: "1rem",
+                            gap: "2rem",
                         }}
                     >
-                        {(this.state.success !== '') ?
-                            <span style={{ color: 'green', marginBottom: '1rem' }}>{this.state.success}</span>
-                            : ('')
-                        }
-                        <TextField
-                            onChange={e => this.setState({ prenom: e.target.value })}
-                            label="Prénom"
-                            value={this.state.prenom}
-                            variant="outlined"
-                        />
-                        <TextField
-                            onChange={e => this.setState({ nom: e.target.value })}
-                            label="Nom"
-                            value={this.state.nom}
-                            variant="outlined"
-                        />
-                        <TextField
-                            onChange={e => this.setState({ courriel: e.target.value })}
-                            label="Courriel"
-                            value={this.state.courriel}
-                            variant="outlined"
-                            type="email"
-                        />
+
+                        <span className="modification_titre">Modifier son compte</span>
+
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "1rem",
+                            }}
+                        >
+                            {(this.state.success !== '') ?
+                                <span style={{ color: 'green', marginBottom: '1rem' }}>{this.state.success}</span>
+                                : ('')
+                            }
+                            <TextField
+                                onChange={e => this.setState({ prenom: e.target.value })}
+                                label="Prénom"
+                                value={this.state.prenom}
+                                variant="outlined"
+                            />
+                            <TextField
+                                onChange={e => this.setState({ nom: e.target.value })}
+                                label="Nom"
+                                value={this.state.nom}
+                                variant="outlined"
+                            />
+                            <TextField
+                                onChange={e => this.setState({ courriel: e.target.value })}
+                                label="Courriel"
+                                value={this.state.courriel}
+                                variant="outlined"
+                                type="email"
+                            />
+                        </Box>
+
+                        {<button onClick={this.modifier}>{(this.state.modifier, "Modifier le compte")}</button>}
+
                     </Box>
 
-                    {<button onClick={this.modifier}>{(this.state.modifier, "Modifier le compte")}</button>}
-
-                </Box>
-
-            </Box >
+                </Box >
+            </>
         );
     }
 }
