@@ -2,7 +2,8 @@ import React from 'react';
 import Page404 from '../Page404/Page404';
 import { Route, Redirect, withRouter, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { Box } from '@mui/system';
-import { TextField } from '@mui/material';
+import { Fab, TextField } from '@mui/material';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import './Connexion.css';
 
 export default class Connexion extends React.Component {
@@ -118,8 +119,14 @@ export default class Connexion extends React.Component {
 							placeholder="12345"
 						/>
 					</Box>
-
-					<button onClick={() => this.seConnecter()}>Se connecter</button>
+					<Fab 
+						variant="extended" 
+						onClick={() => this.seConnecter()}
+						sx={{backgroundColor: "#641b30", color: "white"}}
+					>
+						<LoginOutlinedIcon sx={{marginRight: '1rem'}}/>
+						Se connecter
+					</Fab>
 				</Box>
 			</Box>
 		);

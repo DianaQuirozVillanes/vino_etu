@@ -2,7 +2,8 @@ import React from "react";
 import "./Inscription.css";
 import Bcryptjs from "bcryptjs";
 import { Box } from "@mui/system";
-import { TextField } from "@mui/material";
+import { Fab, TextField } from "@mui/material";
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 
 /* import Page404 from "../Page404/Page404";
 import {Route, Switch, BrowserRouter as Router} from 'react-router-dom'; */
@@ -155,7 +156,15 @@ export default class Inscription extends React.Component {
 
           </Box>
 
-          <button onClick={() => this.sinscrire()}>S'inscrire</button>
+          <Fab 
+						variant="extended" 
+						onClick={() => this.sinscrire()}
+						sx={{backgroundColor: "#641b30", color: "white"}}
+					>
+						<ExitToAppOutlinedIcon sx={{marginRight: '1rem'}}/>
+						Créer un compte
+					</Fab>
+
         </Box>
       </Box>
     );

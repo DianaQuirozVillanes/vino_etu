@@ -1,12 +1,15 @@
 import React from 'react';
 import BouteilleSAQ from '../BouteilleSAQ/BouteilleSAQ';
+
 import './AjoutBouteilleCellier.css';
+
 import { Box } from '@mui/system';
 import { TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+
 import moment from 'moment';
 
 export default class AjoutBouteille extends React.Component {
@@ -39,9 +42,8 @@ export default class AjoutBouteille extends React.Component {
 		this.ajouterBouteilleCellier = this.ajouterBouteilleCellier.bind(this);
 		this.choixBouteille = this.choixBouteille.bind(this);
 		this.fetchCelliers = this.fetchCelliers.bind(this);
-		this.choixCellier = this.choixCellier.bind(this);
 	}
-
+	
 	componentDidMount() {
 		// Vérifie la connexion et redirige au besoin.
 		if (!this.props.estConnecte) {
@@ -72,20 +74,11 @@ export default class AjoutBouteille extends React.Component {
 			});
 	}
 
-	// Assigner le state de id_cellier au value
-	choixCellier(e) {
-		this.setState({ id_cellier: e.target.value });
-	}
-
-	/**
-	* Fetch des bouteilles de la SAQ.
-	*/
 	fetchBouteillesSAQ(event) {
 		if (event.target.value === '') {
 			this.setState({ bouteillesSAQ: [] });
 			return;
 		}
-
 		fetch('https://rmpdwebservices.ca/webservice/php/saq/' + event.target.value, {
 			method: 'GET',
 			headers: new Headers({
@@ -115,7 +108,6 @@ export default class AjoutBouteille extends React.Component {
 	// Ajouter une bouteille au cellier en POST.
 	ajouterBouteilleCellier() {
 		const entete = new Headers();
-
 		const nouvelleBouteille = {
 			prixBouteilleSAQ: this.state.prixBouteilleSAQ,
 			usager_id: this.props.id_usager,
@@ -179,7 +171,7 @@ export default class AjoutBouteille extends React.Component {
 					}}
 				>
 					<span className="ajout_bouteille_cellier_titre">Ajouter une bouteille au cellier</span>
-
+					
 					<Box
 						sx={{
 							display: 'flex',
@@ -196,7 +188,7 @@ export default class AjoutBouteille extends React.Component {
 							onChange={(event) => this.fetchBouteillesSAQ(event)}
 						/>
 						{bouteilles}
-
+						
 						<FormControl>
 							<InputLabel>Choisir le cellier</InputLabel>
 							<Select
