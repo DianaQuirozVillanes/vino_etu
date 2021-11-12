@@ -110,7 +110,7 @@ export default class App extends React.Component {
             exact
             path="/compte/modifier"
             component={(props) => (
-              <ModifieCompte
+              <ModifierCompte
                 estConnecte={this.state.estConnecte}
                 id_usager={this.state.id_usager}
                 estAdmin={this.state.estAdmin}

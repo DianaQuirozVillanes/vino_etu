@@ -9,18 +9,6 @@ import { Box } from "@mui/system";
 
 export default class Cellier extends React.Component {
 
-	componentDidMount() {
-		if (!this.props.estConnecte) {
-			return this.props.history.push("/connexion");
-		}
-	}
-
-	componentDidUpdate() {
-        if (!this.props.estConnecte) {
-            return this.props.history.push('/connexion');
-        }
-    }
-
 	render() {
 		return (
 			<Link to={"/cellier/" + this.props.info.id_cellier} className="cellier_container_parent">
