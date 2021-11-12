@@ -25,7 +25,6 @@ export default class ModifierCompte extends React.Component {
         this.modifier = this.modifier.bind(this);
     }
 
-
     componentDidMount() {
         // Vérifie la connexion et redirige au besoin.
         if (!this.props.estConnecte) {
