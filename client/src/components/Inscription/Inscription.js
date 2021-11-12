@@ -2,7 +2,8 @@ import React from "react";
 import "./Inscription.css";
 import Bcryptjs from "bcryptjs";
 import { Box } from "@mui/system";
-import { TextField } from "@mui/material";
+import { Fab, TextField } from "@mui/material";
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 
 /* import Page404 from "../Page404/Page404";
 import {Route, Switch, BrowserRouter as Router} from 'react-router-dom'; */
@@ -67,7 +68,6 @@ export default class Inscription extends React.Component {
 
     if (this.validation()) {
       let mot_chiffre = Bcryptjs.hashSync(this.state.mot_passe).toString();
-      console.log("mot_chiffre: ", mot_chiffre);
 
       const donnes = {
         nom: this.state.nom,
@@ -75,7 +75,6 @@ export default class Inscription extends React.Component {
         courriel: this.state.courriel,
         mot_passe: mot_chiffre
       };
-      console.log('donnes: ', donnes);
       const postMethod = {
         method: "POST",
         headers: {
@@ -90,17 +89,13 @@ export default class Inscription extends React.Component {
         .then((data) => {
           if (data.data) {
             this.props.history.push("/connexion");  //doit aller sur listecelliers et dèjà connecté
-          } else {
-            console.log("Erreur à l'inscription d'usager");
           }
         });
     } else {
-      console.log("Validation incorrecte!!!");
     }
   }
 
   render() {
-    console.log("Inscription");
 
     return (
       <Box
@@ -166,7 +161,15 @@ export default class Inscription extends React.Component {
 
           </Box>
 
-          <button onClick={() => this.sinscrire()}>S'inscrire</button>
+          <Fab
+            variant="extended"
+            onClick={() => this.sinscrire()}
+            sx={{ backgroundColor: "#641b30", color: "white" }}
+          >
+            <ExitToAppOutlinedIcon sx={{ marginRight: '1rem' }} />
+            Créer un compte
+          </Fab>
+
         </Box>
       </Box>
     );
