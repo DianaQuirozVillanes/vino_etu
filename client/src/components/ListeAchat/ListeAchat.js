@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './ListeAchat.css';
-import { DataGrid } from '@mui/x-data-grid';  //import { DataGrid } from '@mui/x-data-grid/index-cjs';
+//import { DataGrid } from '@mui/x-data-grid';  //import { DataGrid } from '@mui/x-data-grid/index-cjs';
 import Button from '@mui/material/Button';
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
-//import { DataGrid } from '@mui/x-data-grid/index-cjs';
+import { DataGrid } from '@mui/x-data-grid';
 
 export default class ListeAchat extends React.Component {
   constructor(props) {
