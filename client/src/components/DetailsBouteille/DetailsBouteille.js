@@ -42,7 +42,6 @@ export default class DetailsBouteille extends React.Component {
       .then((donnees) => {
         if (donnees.data[0] === undefined)
           return this.props.history.push("/celliers/liste");
-        console.log("Datos botella: ", donnees.data[0]);
 
         this.setState({
           nom: donnees.data[0].nom,
@@ -70,7 +69,6 @@ export default class DetailsBouteille extends React.Component {
       note: this.state.note,
       date_ajout: this.state.date_ajout,
     };
-    console.log("Donnes: ", donnees);
     const putMethod = {
       method: "PUT",
       headers: {

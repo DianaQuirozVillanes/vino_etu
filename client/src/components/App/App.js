@@ -10,7 +10,7 @@ import ListeCelliers from "../ListeCelliers/ListeCellier";
 import AjoutCellier from "../AjoutCellier/AjoutCellier";
 import DetailsBouteille from "../DetailsBouteille/DetailsBouteille";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import ModifieCompte from "../ModifieCompte/ModifieCompte";
+import ModifierCompte from "../ModifierCompte/ModifierCompte";
 import ListeAchat from "../ListeAchat/ListeAchat";
 import "./App.css";
 import Admin from "../Admin/Admin";
@@ -76,7 +76,7 @@ export default class App extends React.Component {
             exact
             path="/compte/modifier"
             component={(props) => (
-              <ModifieCompte title="Modifier son compte" {...props} />
+              <ModifierCompte title="Modifier son compte" {...props} />
             )}
           />
 

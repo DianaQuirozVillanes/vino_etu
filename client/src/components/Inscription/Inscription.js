@@ -61,7 +61,6 @@ export default class Inscription extends React.Component {
 
     if (this.validation()) {
       let mot_chiffre = Bcryptjs.hashSync(this.state.mot_passe).toString();
-      console.log("mot_chiffre: ", mot_chiffre);
 
       const donnes = {
         nom: this.state.nom,
@@ -69,7 +68,6 @@ export default class Inscription extends React.Component {
         courriel: this.state.courriel,
         mot_passe: mot_chiffre
       };
-      console.log('donnes: ', donnes);
       const postMethod = {
         method: "POST",
         headers: {
@@ -85,16 +83,13 @@ export default class Inscription extends React.Component {
                 if (data.data) {
                       this.props.history.push("/connexion");  //doit aller sur listecelliers et dèjà connecté
                     } else {
-                      console.log("Erreur à l'inscription d'usager");
                     }
                 }); 
     } else {
-      console.log("Validation incorrecte!!!");
     } 
   }
 
   render() {
-    console.log("Inscription");
 
     return (
       <Box

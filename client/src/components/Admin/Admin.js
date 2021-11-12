@@ -7,19 +7,29 @@ export default class Admin extends React.Component {
     constructor(props) {
         super(props);
 
+        // Object usagers dans un state.
         this.state = {
             usagers: []
         };
     }
 
     componentDidMount() {
+        // Vérifie la connexion et redirige au besoin.
         if (!this.props.estConnecte) {
             return this.props.history.push('/connexion');
         }
-        this.getUsager()
+
+        // Titre du document
+        document.title = this.props.title;
+
+        // Get les informations de l'usager.
+        this.getUsagers() 
     }
 
-    getUsager() {
+    /**
+     * Fetch de tous les usagers.
+     */
+    getUsagers() {
         const options = {
             method: 'GET',
             headers: {
@@ -38,6 +48,7 @@ export default class Admin extends React.Component {
     }
 
     render() {
+        // Assigner des nom aux 'fields' de la table.
         const columns = [
             { field: 'prenom', headerName: 'Prénom', width: 80 },
             { field: 'nom', headerName: 'Nom', width: 80 },
@@ -49,6 +60,7 @@ export default class Admin extends React.Component {
             }
         ];
 
+        // 'Mapping' des 'key' & 'values' de chaque usager.
         const users = this.state.usagers.map(user => {
             return {
                 id: parseInt(user.id_usager),
@@ -58,6 +70,7 @@ export default class Admin extends React.Component {
             }
         })
 
+        // Affichage.
         return (
             <>
                 <Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>

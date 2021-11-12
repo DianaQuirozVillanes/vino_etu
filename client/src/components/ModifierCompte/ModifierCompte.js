@@ -1,50 +1,47 @@
 import React from "react";
-import "./ModifieCompte.css";
-import Bcryptjs from "bcryptjs";
+import "./ModifierCompte.css";
+// import Bcryptjs from "bcryptjs";
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 
-export default class ModifieCompte extends React.Component {
+export default class ModifierCompte extends React.Component {
     constructor(props) {
         super(props);
 
-        // Object contenant les informations d'un utilisateur
+        // Object contenant les informations d'un usager dans un state.
         this.state = {
             usager: [],
             prenom: "",
             nom: "",
             courriel: "",
-            mot_passe: "",
-            mot_passe_verif: "",
+            // mot_passe: "",
+            // mot_passe_verif: "",
             modifier: false,
             validation: false,
         };
 
-        // Binder le contexte 'this' aux fonctions
+        // Binder le contexte 'this' aux fonctions.
         this.validation = this.validation.bind(this);
         this.modifier = this.modifier.bind(this);
     }
 
-    // Vérifie si connecté
-    /*  componentDidMount() {
-         if (!this.props.estConnecte) {
-             // Si non connecté, redirige à la connexion
-             return this.props.history.push("/connexion");
-         }
-     } */
 
     componentDidMount() {
+        // Vérifie la connexion et redirige au besoin.
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
 
-        this.getUsager()
+        // Titre du document.
+        document.title = this.props.title;
+
+        // Get les informations de l'usager.
+        this.getUsagers()
     }
 
-    componentDidUpdate() {
-
-        console.log(this.state.prenom, this.state.nom, this.state.courriel, this.state.mot_passe, this.state.mot_passe_verif)
-
-    }
-
-    // Validation du formulaire
+    /**
+     * Validation du formulaire
+     */
     validation() {
         let bValidation = false;
 
@@ -54,33 +51,32 @@ export default class ModifieCompte extends React.Component {
             this.state.nom &&
             this.state.nom.trim() !== "" &&
             this.state.courriel &&
-            this.state.courriel.trim() !== "" &&
-            this.state.mot_passe &&
-            this.state.mot_passe.trim() !== "" &&
-            this.state.mot_passe_verif &&
-            this.state.mot_passe_verif.trim() !== ""
+            this.state.courriel.trim() !== ""
+            /* this.state.mot_passe &&
+               this.state.mot_passe.trim() !== "" &&
+               this.state.mot_passe_verif &&
+               this.state.mot_passe_verif.trim() !== "" */
         ) {
-            // Validation selon la forme minimale [a-Z]@[a-Z]
+            // Validation selon la forme minimale [a-Z]@[a-Z].
             let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
             let bRegex = expRegex.test(this.state.courriel);
 
             if (bRegex) {
-                if (this.state.mot_passe === this.state.mot_passe_verif) {
-                    // chiffrer le mot de passe  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    let mot_passe_chiffre = Bcryptjs.hashSync(
-                        this.state.mot_passe
-                    ).toString();
-                    console.log("mot_passe_chiffre: ", mot_passe_chiffre);
-                    bValidation = true;
-                }
+                /*   if (this.state.mot_passe === this.state.mot_passe_verif) {
+                      // chiffrer le mot de passe.
+                      let mot_passe_chiffre = Bcryptjs.hashSync(
+                          this.state.mot_passe
+                      ).toString(); */
+                bValidation = true;
             }
         }
-
         return bValidation;
     }
 
-
-    getUsager() {
+    /**
+    * Fetch de tous les usagers.
+    */
+    getUsagers() {
         const options = {
             method: 'GET',
             headers: {
@@ -89,32 +85,27 @@ export default class ModifieCompte extends React.Component {
             }
         }
 
-        fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + 1, options)
+        fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + this.props.id_usager, options)
             .then(reponse => reponse.json())
             .then((donnees) => {
                 this.setState({
                     prenom: donnees.data[0].prenom,
                     nom: donnees.data[0].nom,
-                    courriel: donnees.data[0].courriel,
-                    mot_passe: donnees.data[0].mot_passe,
-                    mot_passe_verif: donnees.data[0].mot_passe_verif
+                    courriel: donnees.data[0].courriel
                 })
-                console.log(this.state.usager);
             });
     }
 
-
-    // Fonction pour modifier les informations de l'usager. À faire vérifier par Bobbychou.
+    /**
+     * Modifier les informations de l'usager.
+     */
     modifier() {
         if (this.validation) {
-            console.log("Validation valide");
 
             const donnes = {
                 prenom: this.state.prenom,
                 nom: this.state.nom,
-                courriel: this.state.courriel,
-                mot_passe: this.state.mot_passe,
-                mot_passe_verif: this.mot_passe_verif
+                courriel: this.state.courriel
             };
 
             const options = {
@@ -123,23 +114,22 @@ export default class ModifieCompte extends React.Component {
                     "Content-type": "application/json",
                     authorization: "Basic " + btoa("vino:vino"),
                 },
-                body: JSON.stringify(donnes),
+                body: JSON.stringify(donnes)
             };
 
-            fetch("https://rmpdwebservices.ca/webservice/php/usagers" + 1, options)
+            fetch("https://rmpdwebservices.ca/webservice/php/usagers" + this.props.id_usager, options)
                 .then(res => res.json())
                 .then((data) => {
-                    console.log(data);
-                    //this.getCommentaires();
+                    if (data.data === true) {
+                        console.log('true');
+                    }
                 });
-        } else {
-            console.log("Pas de modifications pour toé messieu!!!");
         }
     }
 
-    // Affichage
     render() {
 
+        // Affichage.
         return (
             <Box
                 className="modification_contenu"
@@ -164,10 +154,10 @@ export default class ModifieCompte extends React.Component {
                         gap: "2rem",
                     }}
                 >
+
                     <span className="modification_titre">Modifier son compte</span>
 
                     <Box
-
                         sx={{
                             display: "flex",
                             flexDirection: "column",
@@ -192,20 +182,6 @@ export default class ModifieCompte extends React.Component {
                             value={this.state.courriel}
                             variant="outlined"
                             type="email"
-                        />
-                        <TextField
-                            onChange={e => this.setState({ mot_passe: e.target.value })}
-                            label="Mot de passe"
-                            value={this.state.mot_passe}
-                            variant="outlined"
-                            type="password"
-                        />
-                        <TextField
-                            onChange={e => this.setState({ mot_passe_verif: e.target.value })}
-                            label="Confirmer mot de passe"
-                            value={this.state.mot_passe_verif}
-                            variant="outlined"
-                            type="password"
                         />
                     </Box>
 

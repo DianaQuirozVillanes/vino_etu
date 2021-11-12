@@ -77,11 +77,9 @@ export default class ListeAchat extends React.Component {
     }
 
     creerListeAchat() {
-        console.log("Créer liste d'achat");
     }
 
     render() {
-        console.log("items: ", this.state.items);
 
         const columns = [
             { field: 'id', headerName: 'idVino', width: 120 },
@@ -92,7 +90,6 @@ export default class ListeAchat extends React.Component {
 
         ];
 
-        console.log("columns: ", columns);
 
         return (
             <Box className="liste_achat_container" sx={{
