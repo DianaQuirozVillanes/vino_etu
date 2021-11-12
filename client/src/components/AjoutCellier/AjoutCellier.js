@@ -59,7 +59,7 @@ export default class AjoutCellier extends React.Component {
             fetch('https://rmpdwebservices.ca/webservice/php/celliers/', postMethod)
                 .then((reponse) => reponse.json())
                 .then((donnees) => {
-                    if (donnees.data) return this.props.history.push("/cellier/"+ donnees.data);
+                    if (donnees.data) return this.props.history.push("/cellier/" + donnees.data);
                 });
 
         } else {
@@ -80,12 +80,12 @@ export default class AjoutCellier extends React.Component {
                 <TextField autoFocus label="Emplacement" variant="outlined"
                     onBlur={evt => this.setState({ emplacement: evt.target.value })} />
                 <TextField margin="dense" id="temperature" label="Température"
-					type="number" inputProps={{ step: "0.5" }}
+                    type="number" inputProps={{ step: "0.5" }}
                     InputProps={{
                         endAdornment: <InputAdornment position="end"
                         >°C</InputAdornment>
                     }}
-					onBlur={(e) => this.setState({temperature : e.target.value })} />
+                    onBlur={(e) => this.setState({ temperature: e.target.value })} />
 
                 <Button type="button" onClick={(e) => this.creerCellier()}> {this.state.titreBoutton} </Button>
             </Box>

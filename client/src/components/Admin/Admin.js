@@ -23,7 +23,7 @@ export default class Admin extends React.Component {
         document.title = this.props.title;
 
         // Get les informations de l'usager.
-        this.getUsagers() 
+        this.getUsagers()
     }
 
     /**
