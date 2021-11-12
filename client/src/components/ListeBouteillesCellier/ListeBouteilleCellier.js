@@ -55,17 +55,14 @@ export default class ListeBouteilleCellier extends React.Component {
 		const order = parsedObj.order;
 		if (order.toUpperCase() === 'ASC') {
 			const sortedItems = this.state.items.sort((a, b) => a[key].localeCompare(b[key]));
-			console.log(sortedItems);
 			this.setState({ items: sortedItems });
 		} else if (order.toUpperCase() === 'DESC') {
 			const sortedItems = this.state.items.sort((a, b) => b[key].localeCompare(a[key]));
-			console.log(sortedItems);
 			this.setState({ items: sortedItems });
 		}
 	}
 
 	triBouteilles(order) {
-		console.log(JSON.parse(order));
 	}
 
 	fetchBouteilles() {
@@ -91,7 +88,6 @@ export default class ListeBouteilleCellier extends React.Component {
 				});
 
 
-				console.log(this.state.items);
 			});
 	}
 

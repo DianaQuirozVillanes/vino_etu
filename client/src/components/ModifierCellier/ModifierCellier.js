@@ -44,7 +44,6 @@ export default class ModifierCellier extends React.Component {
             .then((reponse) => reponse.json())
             .then((donnees) => {
                 if (donnees.data[0] === undefined) return this.props.history.push("/celliers/liste");
-                console.log("Données cellier: ", donnees.data[0]);
 
                 this.setState({
                     emplacement: donnees.data[0].emplacement,
@@ -72,7 +71,6 @@ export default class ModifierCellier extends React.Component {
                 emplacement: this.state.emplacement,
                 temperature: this.state.temperature
             };
-            console.log("Donnes: ", donnes);
 
             const putMethod = {
                 method: 'PUT',
@@ -89,7 +87,6 @@ export default class ModifierCellier extends React.Component {
                     if (donnees.data) return this.props.history.push("/celliers/liste");
                 });
         } else {
-            console.log("Validation incorrecte!!!");
         }
     }
 

@@ -28,7 +28,6 @@ export default class ListeCellier extends React.Component {
 	}
 
 	fetchCelliers() {
-		console.log('id_usager : ', this.props.id_usager);
 
 		/*const donnees = {
 			usager_id: null
@@ -46,7 +45,6 @@ export default class ListeCellier extends React.Component {
 			.then((reponse) => reponse.json())
 			.then((donnees) => {
 				this.setState({ items: donnees.data });
-				console.log('Celliers: ', this.state.items);
 			});
 	}
 

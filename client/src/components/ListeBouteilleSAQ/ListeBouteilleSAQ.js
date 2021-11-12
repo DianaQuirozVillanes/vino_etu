@@ -17,7 +17,6 @@ export default class ListeBouteilleSAQ extends React.Component {
             .then(reponse => reponse.json())
             .then((donnees)=>{
                 this.setState({bouteilles:donnees.data}) 
-                console.log(donnees)
             });
     }
 

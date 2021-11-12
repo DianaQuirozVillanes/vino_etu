@@ -51,8 +51,6 @@ export default class Pied extends React.Component {
 	}
 
 	render() {
-		console.log("Est connecté: ", this.props.estConnecte);
-		console.log("Usager: ", this.props.id_usager);
 
 		if (!this.props.estConnecte) {
 			return (
