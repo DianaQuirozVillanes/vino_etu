@@ -26,10 +26,13 @@ export default class Admin extends React.Component {
         this.getUsagers()
     }
 
-    /**
-     * Fetch de tous les usagers.
-     */
-    getUsagers() {
+    componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
+    
+    getUsager() {
         const options = {
             method: 'GET',
             headers: {

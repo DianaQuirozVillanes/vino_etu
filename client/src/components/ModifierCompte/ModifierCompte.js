@@ -1,7 +1,7 @@
 import React from "react";
 import "./ModifierCompte.css";
 // import Bcryptjs from "bcryptjs";
-import { Box } from "@mui/system";
+import { Box, color } from "@mui/system";
 import { TextField } from "@mui/material";
 
 export default class ModifierCompte extends React.Component {
@@ -18,6 +18,7 @@ export default class ModifierCompte extends React.Component {
             // mot_passe_verif: "",
             modifier: false,
             validation: false,
+            success: ''
         };
 
         // Binder le contexte 'this' aux fonctions.
@@ -31,11 +32,13 @@ export default class ModifierCompte extends React.Component {
             return this.props.history.push('/connexion');
         }
 
-        // Titre du document.
-        document.title = this.props.title;
-
-        // Get les informations de l'usager.
         this.getUsagers()
+    }
+
+    componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
     }
 
     /**
@@ -116,18 +119,17 @@ export default class ModifierCompte extends React.Component {
                 body: JSON.stringify(donnes)
             };
 
-            fetch("https://rmpdwebservices.ca/webservice/php/usagers" + this.props.id_usager, options)
+            fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + this.props.id_usager, options)
                 .then(res => res.json())
                 .then((data) => {
                     if (data.data === true) {
-                        console.log('true');
+                        this.setState({ success: 'Informations modifiées' });
                     }
                 });
         }
     }
 
     render() {
-
         // Affichage.
         return (
             <Box
@@ -163,6 +165,10 @@ export default class ModifierCompte extends React.Component {
                             gap: "1rem",
                         }}
                     >
+                        {(this.state.success !== '') ?
+                            <span style={{ color: 'green', marginBottom: '1rem' }}>{this.state.success}</span>
+                            : ('')
+                        }
                         <TextField
                             onChange={e => this.setState({ prenom: e.target.value })}
                             label="Prénom"
