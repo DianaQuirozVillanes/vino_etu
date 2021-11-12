@@ -104,7 +104,7 @@ class UsagerModele extends Modele
      */
     public function modifierUsager($body)
     {
-        $requete = "UPDATE vino__usager SET nom = '$body->nom', prenom = '$body->prenom', courriel = '$body->courriel', mot_passe = '$body->mot_passe' WHERE id_usager = $body->id";
+        $requete = "UPDATE vino__usager SET nom = '$body->nom', prenom = '$body->prenom', courriel = '$body->courriel' WHERE id_usager = $body->id";
 
         $res = $this->_db->query($requete);
 

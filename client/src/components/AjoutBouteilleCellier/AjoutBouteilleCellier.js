@@ -57,9 +57,12 @@ export default class AjoutBouteille extends React.Component {
 		this.fetchCelliers();
 	}
 
-	/**
-	* Fetch des celliers.
-	*/
+	componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
+
 	fetchCelliers() {
 		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + this.props.id_usager, {
 			method: 'GET',

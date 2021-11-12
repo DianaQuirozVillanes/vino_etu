@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
-    width: 100%;  
+    width: 100%;
     margin: 0 1.5rem;
 }
 
@@ -16,4 +16,13 @@ a.cellier_container_parent {
     margin: 0;
     border-radius: .5em;
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+.cellier_item a {
+    width: 100%;
+    text-align: right;
+}
+
+.spantest.temp {
+    width: 100%;
 }
