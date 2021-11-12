@@ -30,39 +30,29 @@
 	color: white;
 	font-size: 0.875em;
 	font-weight: 700;
-	margin: 1em;
-	margin-left: 0;
 	display: flex;
 	flex-direction: column;
-	justify-content:space-evenly ;
-	gap: 0.5em;
+	gap: 1.5rem;
+	width: 100% !important;
+	align-items: center;
+	padding-top: 1rem;
 }
 
-.bouteille_description > p {
-	margin: 0.25em;
+.bouteille_description > * {
+	text-align: center;
 }
 
-.bouteille_boutons_container {
+.bouteille_boutons_container > * {
+	padding: 1rem 2rem !important;
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
-	margin-top: 0.5rem;
-	padding-left: 1.5rem;
+	align-items: center;
+	gap: 0.25rem;
+	width: 80% !important;
 }
 
 .bouteille_boutons_container > a {
 	text-decoration: none;
-}
-
-.bouteille_boutons {
-	align-items: center;
-	width: 80% !important;
-	color: black;
-	outline: unset;
-	border: none;
-	margin-bottom: 0.5rem !important;
-	font-weight: 700;
-	background-color: white;
 }
 
 .bouton_modifier {
@@ -105,8 +95,4 @@
 
 .url_saq {
 	margin-left: 2em;
-}
-
-.bouteille_drapeau {
-	margin-left: 4px;
 }

@@ -52,39 +52,44 @@ export default class BouteilleCellier extends React.Component {
 						<p>{this.props.info.millesime}</p>
 						<p>Qté : {this.props.info.quantite}</p>
 					</div>
-					<div className="bouteille_boutons_container">
-						<Box>
-							<Fab
-								className="bouteille_boutons"
-								variant="extended"
-								onClick={() => this.props.ajouterAction(this.props.info)}
-							>
-								<AddIcon sx={{marginRight: '0.25rem' }}/>
-								Ajouter
-							</Fab>
-							<Fab
-								className="bouteille_boutons"
-								variant="extended"
-								onClick={() => this.props.retirerAction(this.props.info)}
-							>
-								<RemoveIcon sx={{marginRight: '0.25rem' }}/>
-								Boire
-							</Fab>
-							<Fab
-								className="bouteille_boutons bouton_modifier"
-								variant="extended"
-								onClick={() => this.props.retirerAction(this.props.info)}
-								component={Link} to={'/cellier/bouteilles/' + this.props.info.id}
-								sx={{backgroundColor: "#641b30", color: "white"}}
-							>
-								<AutoFixHighOutlinedIcon sx={{marginRight: '0.25rem' }}/>
-								Modifier
-							</Fab>
-						</Box>
-						{/*<Link to={'/cellier/bouteilles/' + this.props.info.id}>
-							<button className="bouteille_boutons bouton_modifier">Modifier</button>
-						</Link>*/}
-					</div>
+					<Box
+						className="bouteille_boutons_container"
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: '0.5rem',
+						}}
+					>
+						<Fab
+							className="bouteille_boutons"
+							variant="extended"
+							onClick={() => this.props.ajouterAction(this.props.info)}
+						>
+							<AddIcon/>
+							Ajouter
+						</Fab>
+						<Fab
+							className="bouteille_boutons"
+							variant="extended"
+							onClick={() => this.props.retirerAction(this.props.info)}
+						>
+							<RemoveIcon />
+							Boire
+						</Fab>
+						<Fab
+							className="bouteille_boutons bouton_modifier"
+							variant="extended"
+							onClick={() => this.props.retirerAction(this.props.info)}
+							component={Link}
+							to={'/cellier/bouteilles/' + this.props.info.id}
+							sx={{ backgroundColor: '#641b30', color: 'white' }}
+						>
+							<AutoFixHighOutlinedIcon />
+							Modifier
+						</Fab>
+					</Box>
 				</div>
 			</div>
 		);
