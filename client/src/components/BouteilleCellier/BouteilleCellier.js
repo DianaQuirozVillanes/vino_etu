@@ -50,7 +50,7 @@ export default class BouteilleCellier extends React.Component {
 							alt="Drapeau du pays"
 						/>
 						<p>{this.props.info.millesime}</p>
-						<p>Quantité : {this.props.info.quantite}</p>
+						<p>Qté : {this.props.info.quantite}</p>
 					</div>
 					<div className="bouteille_boutons_container">
 						<Box>
@@ -59,7 +59,7 @@ export default class BouteilleCellier extends React.Component {
 								variant="extended"
 								onClick={() => this.props.ajouterAction(this.props.info)}
 							>
-								<AddIcon />
+								<AddIcon sx={{marginRight: '0.25rem' }}/>
 								Ajouter
 							</Fab>
 							<Fab
@@ -67,7 +67,7 @@ export default class BouteilleCellier extends React.Component {
 								variant="extended"
 								onClick={() => this.props.retirerAction(this.props.info)}
 							>
-								<RemoveIcon />
+								<RemoveIcon sx={{marginRight: '0.25rem' }}/>
 								Boire
 							</Fab>
 							<Fab
@@ -75,9 +75,9 @@ export default class BouteilleCellier extends React.Component {
 								variant="extended"
 								onClick={() => this.props.retirerAction(this.props.info)}
 								component={Link} to={'/cellier/bouteilles/' + this.props.info.id}
-								sx={{backgroundColor: "#641b30"}}
+								sx={{backgroundColor: "#641b30", color: "white"}}
 							>
-								<AutoFixHighOutlinedIcon />
+								<AutoFixHighOutlinedIcon sx={{marginRight: '0.25rem' }}/>
 								Modifier
 							</Fab>
 						</Box>
