@@ -44,10 +44,18 @@ export default class ListeBouteilleCellier extends React.Component {
 	}
 
 	componentDidMount() {
+		if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+		
 		this.fetchBouteilles();
 	}
 
-	componentDidUpdate() { }
+	componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
 
 	sortBouteilles(obj) {
 		const parsedObj = JSON.parse(obj);
@@ -55,17 +63,14 @@ export default class ListeBouteilleCellier extends React.Component {
 		const order = parsedObj.order;
 		if (order.toUpperCase() === 'ASC') {
 			const sortedItems = this.state.items.sort((a, b) => a[key].localeCompare(b[key]));
-			console.log(sortedItems);
 			this.setState({ items: sortedItems });
 		} else if (order.toUpperCase() === 'DESC') {
 			const sortedItems = this.state.items.sort((a, b) => b[key].localeCompare(a[key]));
-			console.log(sortedItems);
 			this.setState({ items: sortedItems });
 		}
 	}
 
 	triBouteilles(order) {
-		console.log(JSON.parse(order));
 	}
 
 	fetchBouteilles() {
@@ -83,15 +88,11 @@ export default class ListeBouteilleCellier extends React.Component {
 						if (i[0] === "pays") item.drapeau = this.getDrapeauPays(i[1]);
 					});
 				})
-
 				this.setState({
 					items: donnees.data,
 					premierId: donnees.data[0].id,
 					nomCellier: donnees.data[0].emplacement,
 				});
-
-
-				console.log(this.state.items);
 			});
 	}
 
@@ -232,15 +233,16 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.5rem' }}>
-					<Link underline="hover" color="white" href="/celliers/liste">
+				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
+				<Typography color="text.primary">Mon Cellier</Typography>
+					<Link underline="hover" color="inherit" to="/celliers/liste">
 						Celliers
 					</Link>
 					<Typography color="text.primary">{this.state.nomCellier}</Typography>
 					<Typography color="text.primary">Liste des bouteilles</Typography>
 				</Breadcrumbs>
-				<FormControl sx={{ m: 1, minWidth: 120 }}>
-					<InputLabel htmlFor="grouped-native-select">Trier par</InputLabel>
+				<FormControl sx={{ m: 1, minWidth: 120, color: 'white', borderRadius: '0.5rem', marginLeft: '1.8rem' }}>
+					<InputLabel htmlFor="grouped-native-select" sx={{color: 'white'}}>Trier par</InputLabel>
 					<Select
 						native
 						defaultValue=""

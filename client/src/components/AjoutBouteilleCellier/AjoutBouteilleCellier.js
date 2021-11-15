@@ -1,17 +1,22 @@
 import React from 'react';
 import BouteilleSAQ from '../BouteilleSAQ/BouteilleSAQ';
+
 import './AjoutBouteilleCellier.css';
+
 import { Box } from '@mui/system';
 import { TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+
 import moment from 'moment';
 
 export default class AjoutBouteille extends React.Component {
 	constructor(props) {
 		super(props);
+
+		// Object contenant les informations nécéssaire.
 		this.state = {
 			bouteillesSAQ: [],
 			celliers: [],
@@ -32,18 +37,31 @@ export default class AjoutBouteille extends React.Component {
 			url_saq: ''
 		};
 
-		// Binding des fonctions
+		// Binder le contexte 'this' aux fonctions.
 		this.fetchBouteillesSAQ = this.fetchBouteillesSAQ.bind(this);
 		this.ajouterBouteilleCellier = this.ajouterBouteilleCellier.bind(this);
 		this.choixBouteille = this.choixBouteille.bind(this);
 		this.fetchCelliers = this.fetchCelliers.bind(this);
-		this.choixCellier = this.choixCellier.bind(this);
+	}
+	
+	componentDidMount() {
+		// Vérifie la connexion et redirige au besoin.
+		if (!this.props.estConnecte) {
+			return this.props.history.push('/connexion');
+		}
+
+		// Titre du document.
+		document.title = this.props.title;
+
+		// Get les informations du cellier.
+		this.fetchCelliers();
 	}
 
-	componentDidMount() {
-		this.fetchCelliers();
-		console.log(this.props.id_usager);
-	}
+	componentDidUpdate() {
+        if (!this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
 
 	fetchCelliers() {
 		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + this.props.id_usager, {
@@ -55,13 +73,8 @@ export default class AjoutBouteille extends React.Component {
 		})
 			.then((reponse) => reponse.json())
 			.then((donnees) => {
-				console.log(donnees.data);
 				this.setState({ celliers: donnees.data });
 			});
-	}
-
-	choixCellier(e) {
-		this.setState({ id_cellier: e.target.value });
 	}
 
 	fetchBouteillesSAQ(event) {
@@ -69,7 +82,6 @@ export default class AjoutBouteille extends React.Component {
 			this.setState({ bouteillesSAQ: [] });
 			return;
 		}
-
 		fetch('https://rmpdwebservices.ca/webservice/php/saq/' + event.target.value, {
 			method: 'GET',
 			headers: new Headers({
@@ -83,6 +95,7 @@ export default class AjoutBouteille extends React.Component {
 			});
 	}
 
+	// Choisir la bouteille.
 	choixBouteille(info) {
 		this.setState({
 			bouteillesSAQ: [],
@@ -95,9 +108,9 @@ export default class AjoutBouteille extends React.Component {
 		});
 	}
 
+	// Ajouter une bouteille au cellier en POST.
 	ajouterBouteilleCellier() {
 		const entete = new Headers();
-
 		const nouvelleBouteille = {
 			prixBouteilleSAQ: this.state.prixBouteilleSAQ,
 			usager_id: this.props.id_usager,
@@ -130,11 +143,13 @@ export default class AjoutBouteille extends React.Component {
 			});
 	}
 
+
 	render() {
 		const bouteilles = this.state.bouteillesSAQ.map((bouteille, index) => {
 			return <BouteilleSAQ info={bouteille} choixBouteille={this.choixBouteille} key={index} />;
 		});
 
+		// Affichage.
 		return (
 			<Box
 				className="formulaire_ajout_bouteille_cellier"
@@ -159,7 +174,7 @@ export default class AjoutBouteille extends React.Component {
 					}}
 				>
 					<span className="ajout_bouteille_cellier_titre">Ajouter une bouteille au cellier</span>
-
+					
 					<Box
 						sx={{
 							display: 'flex',
@@ -176,7 +191,7 @@ export default class AjoutBouteille extends React.Component {
 							onChange={(event) => this.fetchBouteillesSAQ(event)}
 						/>
 						{bouteilles}
-
+						
 						<FormControl>
 							<InputLabel>Choisir le cellier</InputLabel>
 							<Select

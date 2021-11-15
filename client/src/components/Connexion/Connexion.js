@@ -2,7 +2,8 @@ import React from 'react';
 import Page404 from '../Page404/Page404';
 import { Route, Redirect, withRouter, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { Box } from '@mui/system';
-import { TextField } from '@mui/material';
+import { Fab, TextField } from '@mui/material';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import './Connexion.css';
 
 export default class Connexion extends React.Component {
@@ -18,8 +19,13 @@ export default class Connexion extends React.Component {
 		this.validation = this.validation.bind(this);
 		this.seConnecter = this.seConnecter.bind(this);
 
-		console.log('Mon props: ', this.props);
 	}
+
+	componentDidMount() {
+        if (this.props.estConnecte) {
+            return this.props.history.push('/connexion');
+        }
+    }
 
 	validation() {
 		let bValidation = false;
@@ -36,7 +42,6 @@ export default class Connexion extends React.Component {
 			if (bRegex) {
 				bValidation = true;
 			} else {
-				console.log('Courriel non admissible');
 			}
 		}
 
@@ -64,17 +69,14 @@ export default class Connexion extends React.Component {
 				.then((data) => {
 					if (data.data) {
 						this.props.login(data.data);
-						console.log('Connexion avec succès!!!', data.data);
 						this.props.history.push('/celliers/liste');
 					} else {
-						console.log('Courriel ou mot de passe incorrect.');
 					}
 				});
 		}
 	}
 
 	render() {
-		console.log('this.props.id_usager: ', this.props.id_usager);
 
 		return (
 			<Box
@@ -123,8 +125,14 @@ export default class Connexion extends React.Component {
 							placeholder="12345"
 						/>
 					</Box>
-
-					<button onClick={() => this.seConnecter()}>Se connecter</button>
+					<Fab 
+						variant="extended" 
+						onClick={() => this.seConnecter()}
+						sx={{backgroundColor: "#641b30", color: "white"}}
+					>
+						<LoginOutlinedIcon sx={{marginRight: '1rem'}}/>
+						Se connecter
+					</Fab>
 				</Box>
 			</Box>
 		);
