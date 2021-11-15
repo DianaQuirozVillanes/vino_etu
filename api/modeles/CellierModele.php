@@ -19,10 +19,11 @@ class CellierModele extends Modele
     public function ajouterNouveauCellier($data)
     {
         //TODO : Valider les données.
-
-        $requete = "INSERT INTO vino__cellier(emplacement,usager_id) VALUES (" .
+        
+        $requete = "INSERT INTO vino__cellier(emplacement,usager_id,temperature) VALUES (" .
             "'" . $data->emplacement . "'," .
-            "" . $data->usager_id . ")";
+            "" . $data->usager_id . "," .
+            "" . $data->temperature . ")";
 
         $res = $this->_db->query($requete);
 

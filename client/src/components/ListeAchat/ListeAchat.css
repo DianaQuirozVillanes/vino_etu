@@ -38,3 +38,7 @@
 .MuiDataGrid-root {
     color :white !important;
 }
+
+.liste_achat_rows .MuiCheckbox-root {
+    color: white;
+}

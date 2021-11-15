@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './ListeAchat.css';
 //import { DataGrid } from '@mui/x-data-grid';  //import { DataGrid } from '@mui/x-data-grid/index-cjs';
 import Button from '@mui/material/Button';
@@ -17,25 +17,33 @@ export default class ListeAchat extends React.Component {
       listeAchat: false,
       titre: "",
       idListeAchat: undefined,
-      isChecked: false
+      isChecked: false,
+      mappedItems: []
     }
 
     this.fetchBouteilles = this.fetchBouteilles.bind(this);
     this.creerListeAchat = this.creerListeAchat.bind(this);
     this.fetchListeAchat = this.fetchListeAchat.bind(this);
     this.effacerListe = this.effacerListe.bind(this);
+    this.afficherBouteilles = this.afficherBouteilles.bind(this);
+    this.onCheckbox = this.onCheckbox.bind(this);
+    this.onModificationQte = this.onModificationQte.bind(this);
   }
 
   componentDidMount() {
-    if (!this.props.estConnecte) {
-      return this.props.history.push("/connexion");
-    }
-    
+    //if (!this.props.estConnecte) {
+    //return this.props.history.push("/connexion");
+    //}
+
     this.fetchListeAchat();
   }
 
+  componentDidUpdate() {
+    console.log('UPDATE', this.state.itemsSelected)
+  }
+
   fetchListeAchat() {
-    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + this.props.id_usager, {
+    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + 1, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -45,22 +53,23 @@ export default class ListeAchat extends React.Component {
       .then((reponse) => reponse.json())
       .then((donnees) => {
         if (donnees.data) {
-          this.setState({ items: donnees.data });
-          this.setState({ listeAchat: true });
-          this.setState({titre: "Liste d'achat"});
+          this.setState(
+            {
+              items: donnees.data,
+              listeAchat: true,
+              titre: "Liste d'achat"
+            }
+          );
         } else {
           this.fetchBouteilles();
-          this.setState({titre: "Inventaire des bouteilles"});
+          this.setState({ titre: "Inventaire des bouteilles" });
         }
       });
-    
-      console.log('this.state.items: ', this.state.items);
-      console.log("Éxiste listeAchat ? : ", this.state.listeAchat);
   }
 
   fetchBouteilles() {
     //Ici on doit mettre le nouveau fetch pour avoir la liste de vinos de tous nos celliers avec la quantite, pour savoir sin on doit acheter
-    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + this.props.id_usager, {
+    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + 1, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -71,31 +80,30 @@ export default class ListeAchat extends React.Component {
       .then((donnees) => {
         if (donnees.data) {
           this.setState({ items: donnees.data });
+          this.afficherBouteilles();
         }
       });
   }
 
   creerListeAchat() {
-    console.log("Bouton créer liste d'achat");
     console.log("Colonnes séléctionnées: ", this.state.itemsSelected);
-    
+
     //Il manque capturer la quntité, comment le faire ??????
     //Ou, il faut mettre quantité d'achat ? 
 
-    if ( this.state.itemsSelected.length > 0 ) {
+    if (this.state.itemsSelected.length > 0) {
       console.log("Créer liste d'achat");
-      var i = 0;
+
       this.setState({ bouteilles: [] })
       this.state.itemsSelected
-              .map((item) => {
-                    const temporal = [{id: item.bouteille_id, millesime: item.millesime, quantite: item.quantite_achat}];
-                    //console.log("temporal: ", temporal[0]);
-                    this.state.bouteilles.push(temporal[0]);
-                    i++;
-              })
-      
+        .map((item) => {
+          const temporal = [{ id: item.bouteille_id, millesime: item.millesime, quantite: item.quantite_achat }];
+          //console.log("temporal: ", temporal);
+          this.state.bouteilles.push(temporal);
+        })
+
       console.log("this.state.bouteilles: ", this.state.bouteilles);
-      
+
       /*
       let donnes = {
           id_usager: this.props.id_usager,
@@ -121,17 +129,17 @@ export default class ListeAchat extends React.Component {
     } else {
       console.log("Il n'y a pas des bouteilles séléectionnées pour liste d'achat");
     }
-    
+
   }
 
   effacerListe() {
     //Il faut mettre une fenêtre dialogoe pour confirmation
-      
+
     if (this.state.listeAchat) {
       this.state.items.map(x => {
         console.log("x: ", x.id);
-        this.setState({idListeAchat: x.id});
-        });
+        this.setState({ idListeAchat: x.id });
+      });
 
       console.log("Liste d'achat: ", this.state.idListeAchat);
       console.log("Effacer la liste d'achat");
@@ -157,47 +165,87 @@ export default class ListeAchat extends React.Component {
     } else {
       console.log("Rien se passe...");
     }
-    
+
     /*
     this.setState({ isChecked: !this.state.isChecked });
     console.log('this.state.isChecked ?: ', this.state.isChecked);
     if (!this.state.isChecked) {   //effacer la liste d'achat
       console.log("Effacer la liste d'achat");  */
-      //Il faut mettre une fenêtre dialogoe pour confirmation
+    //Il faut mettre une fenêtre dialogoe pour confirmation
 
-      /*
-      const postMethod = {
-          method: 'DELETE',
-          headers: {
-              'Content-type': 'application/json',
-              authorization: 'Basic ' + btoa('vino:vino')
-          },
-      };
+    /*
+    const postMethod = {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+            authorization: 'Basic ' + btoa('vino:vino')
+        },
+    };
 
-      fetch('https://rmpdwebservices.ca/webservice/php/listeachat/' + this.state.idListeAchat, postMethod)
-          .then((reponse) => reponse.json())
-          .then((donnees) => {
-              if (donnees.data) return this.props.history.push("/listeachat");
-          });
-      */
+    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/' + this.state.idListeAchat, postMethod)
+        .then((reponse) => reponse.json())
+        .then((donnees) => {
+            if (donnees.data) return this.props.history.push("/listeachat");
+        });
+    */
     /*
   } else {
       console.log("Rien se passe...");
     } */
   }
 
-  render() {
-    console.log("Éxiste listeAchat ? : ", this.state.listeAchat);
+  onModificationQte(e) {
+    this.setState(function (state, props) {
+      let index = state.mappedItems.findIndex(x => x.id === e.id);
+      let nouveauTableau = state.mappedItems.slice();
 
+      nouveauTableau[index].quantite_achat = e.value;
+
+      return {
+        mappedItems: nouveauTableau
+      };
+    });
+  }
+
+  onCheckbox(ids) {
+    const selectedIDs = new Set(ids)
+
+    const selectedRowData = this.state.mappedItems.filter((row) => {
+      if (selectedIDs.has(row.id)) {
+        return row;
+      }
+    })
+
+    this.setState({ itemsSelected: selectedRowData })
+  }
+
+  afficherBouteilles() {
+    let arr = [...this.state.mappedItems];
+
+    const map = this.state.items.map(bteObj => {
+      return {
+        id: bteObj.bouteille_id,
+        nom: bteObj.nom,
+        millesime: bteObj.millesime,
+        quantite: bteObj.quantite,
+        quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
+          ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).qte
+      }
+    })
+
+    arr = map;
+
+    this.setState({ mappedItems: arr })
+  }
+
+  render() {
     const colonnes = [
-      //{ field: 'bouteille_id', headerName: 'ID', width: 90, type: 'number' },
+      { field: 'id', headerName: 'ID', width: 90, type: 'number' },
       { field: 'nom', headerName: 'Nom', width: 230 },
       { field: 'millesime', headerName: 'Millesime', width: 150 },
-      { field: 'quantite', headerName: 'Quantite Inventaire', width: 130, type: 'number' },
-      { field: 'quantite_achat', headerName: 'Quantite Achat', width: 130, editable: true, type: 'number' },
+      { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
+      { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number' },
     ];
-
-    console.log("items: ", this.state.items);
 
     return (
       <Box className="liste_achat_container" sx={{
@@ -209,36 +257,31 @@ export default class ListeAchat extends React.Component {
         <span> {this.state.titre} </span>
 
         <div className="liste_achat_rows" style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={this.state.items} columns={colonnes}
-            pageSize={5} rowsPerPageOptions={[5]} checkboxSelection disableSelectionOnClick
-            
-            onSelectionModelChange={(ids) => {
-              const selectedIDs = new Set(ids)
-              const selectedRowData = this.state.items.filter((row) =>
-                selectedIDs.has(row.id.toString())
-              )
-              console.log("selectedRowData: ", selectedRowData);
-              this.setState({ itemsSelected: selectedRowData })
-
-            //onSelectionModelChange={itm => 
-              //console.log("Selectionné: ", itm)
-              //this.setState({ itemsSelected: itm })
-            }}
+          <DataGrid
+            rows={this.state.mappedItems}
+            columns={colonnes}
+            onCellEditCommit={(e) => this.onModificationQte(e)}
+            onRow
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            disableSelectionOnClick={true}
+            checkboxSelection
+            onSelectionModelChange={(ids) => this.onCheckbox(ids)}
           />
         </div>
-        
+
         {/* <label id='effacer' className="liste_achat_check">Effacer liste d'achat <input type="checkbox"  onChange ={(e) => this.effacerListe()} 
           disabled={ !this.state.listeAchat } /> </label> */}
 
-        <TextField  className="liste_achat_check" label="Effacer liste d'achat" variant="outlined" value="0" type="checkbox" style={{ color: 'white', width: '20%' }}
-                    onChange ={(e) => this.effacerListe()} 
-                    disabled={ !this.state.listeAchat } /> 
+        <TextField className="liste_achat_check" label="Effacer liste d'achat" variant="outlined" value="0" type="checkbox" style={{ color: 'white', width: '20%' }}
+          onChange={(e) => this.effacerListe()}
+          disabled={!this.state.listeAchat} />
 
-          {/* PAS EFFACER!!!!!
+        {/* PAS EFFACER!!!!!
           disabled={ !this.state.listeAchat } */}
         <Button className="button" type="button" onClick={(e) => this.creerListeAchat()}
-           disabled={ this.state.listeAchat }> Créer Liste </Button>
+          disabled={this.state.listeAchat}> Créer Liste </Button>
       </Box>
     );
   }
-} 
+}

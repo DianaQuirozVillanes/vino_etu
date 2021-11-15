@@ -37,9 +37,7 @@ export default class Dialogue extends React.Component {
 	}
 
 	handleClose() {
-		
 		this.setState({ open: false });
-		
 	}
 
 	render() {
