@@ -64,8 +64,8 @@ export default class AjoutCellier extends React.Component {
 		if (this.validation()) {
 			let donnes = {
 				emplacement: this.state.emplacement,
-				usager_id: this.props.id_usager /* ,
-                temperature: this.state.temperature */
+				usager_id: this.props.id_usager,
+                temperature: this.state.temperature
 			};
 
 			const postMethod = {
