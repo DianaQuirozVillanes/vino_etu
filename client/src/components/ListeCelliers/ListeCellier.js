@@ -70,7 +70,7 @@ export default class ListeCellier extends React.Component {
 				</Breadcrumbs>
 				<Box sx={{ justifyContent: 'space-between', alignItems: 'center', gap: "20px" }}>
 					<Fab size="small" margin="10px" > <AddCircleIcon onClick={() => this.props.history.push("/celliers/ajouter")} sx={{ color: '#641B30' }} /> </Fab>
-					{/* <Fab size="small"  > <AddShoppingCartOutlinedIcon  onClick={()=> this.props.history.push("/listeachat")} sx={{ color: '#641B30' }} /> </Fab> */}
+					<Fab size="small"  > <AddShoppingCartOutlinedIcon  onClick={()=> this.props.history.push("/listeachat")} sx={{ color: '#641B30' }} /> </Fab>
 				</Box>
 				<section className="liste_celliers">
 					{celliers}

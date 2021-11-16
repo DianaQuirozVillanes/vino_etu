@@ -156,9 +156,9 @@ export default class Pied extends React.Component {
 										<AccountCircleIcon onClick={() => this.props.history.push("/compte/modifier")} /> Mon profil
 									</MenuItem>
 
-									{/* <MenuItem onClick={() => this.props.history.push("/listeachat")} sx={{ display: 'flex', gap: '.5rem' }}>
+									<MenuItem onClick={() => this.props.history.push("/listeachat")} sx={{ display: 'flex', gap: '.5rem' }}>
 										<AddShoppingCartOutlinedIcon onClick={() => this.props.history.push("/listeachat")} /> Liste d'achat
-									</MenuItem> */}
+									</MenuItem>
 
 									<MenuItem onClick={() => this.props.logout()} sx={{ display: 'flex', gap: '.5rem' }}>
 										<LogoutIcon onClick={() => this.props.logout()} /> Se déconnecter
