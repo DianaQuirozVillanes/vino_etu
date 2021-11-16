@@ -49,6 +49,7 @@ export default class ListeBouteilleCellier extends React.Component {
         }
 		
 		this.fetchBouteilles();
+		document.title = this.props.title;
 	}
 
 	componentDidUpdate() {
