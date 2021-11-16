@@ -62,7 +62,8 @@ export default class App extends React.Component {
   render() {
     return (
       <Router>
-        <Entete />
+        <Entete 
+          props={this.props} />
         <Switch>
           <Route
             exact
