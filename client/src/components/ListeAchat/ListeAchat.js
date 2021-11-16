@@ -181,6 +181,10 @@ export default class ListeAchat extends React.Component {
     });
   }
 
+  /**
+   * 
+   * @param {*} ids 
+   */
   onCheckbox(ids) {
     const selectedIDs = new Set(ids)
 
@@ -192,7 +196,7 @@ export default class ListeAchat extends React.Component {
 
     this.setState({ itemsSelected: selectedRowData })
   }
-
+  
   afficherBouteilles() {
     let arr = [...this.state.mappedItems];
 

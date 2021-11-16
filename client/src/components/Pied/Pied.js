@@ -118,12 +118,12 @@ export default class Pied extends React.Component {
 							}}
 						>
 
-							<MenuItem onClick={() => this.props.history.push("/celliers/liste")} sx={{ display: 'flex', gap: '.5rem' }}>
-								<FormatListNumberedIcon onClick={() => this.props.history.push("/celliers/liste")} /> Liste des celliers
+							<MenuItem onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/liste")}} sx={{ display: 'flex', gap: '.5rem' }}>
+								<FormatListNumberedIcon onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/liste")}} /> Liste des celliers
 							</MenuItem>
 
-							<MenuItem onClick={() => this.props.history.push("/celliers/ajouter")} sx={{ display: 'flex', gap: '.5rem' }}>
-								<PlaylistAddIcon onClick={() => this.props.history.push("/celliers/ajouter")} /> Ajouter un cellier
+							<MenuItem onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter")}} sx={{ display: 'flex', gap: '.5rem' }}>
+								<PlaylistAddIcon onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter")}} /> Ajouter un cellier
 							</MenuItem>
 						</Menu>
 
@@ -147,16 +147,17 @@ export default class Pied extends React.Component {
 						>
 							{this.props.estAdmin ? (
 								
-									<MenuItem onClick={() => this.props.history.push("/admin")} sx={{ display: 'flex', gap: '.5rem' }}>
+									<MenuItem onClick={() => {this.closeAccMenu(); this.props.history.push("/admin")}} sx={{ display: 'flex', gap: '.5rem' }}>
 										<AdminPanelSettingsIcon onClick={() => this.props.history.push("/admin")} /> Panneau admin
 									</MenuItem>
 								
 									) : ('')}
-									<MenuItem onClick={() => this.props.history.push("/compte/modifier")} sx={{ display: 'flex', gap: '.5rem' }}>
+									<MenuItem onClick={() => {this.closeAccMenu(); this.props.history.push("/compte/modifier")}} sx={{ display: 'flex', gap: '.5rem' }}>
 										<AccountCircleIcon onClick={() => this.props.history.push("/compte/modifier")} /> Mon profil
 									</MenuItem>
 
-									<MenuItem onClick={() => this.props.history.push("/listeachat")} sx={{ display: 'flex', gap: '.5rem' }}>
+									<MenuItem onClick={() => {this.closeAccMenu(); this.props.history.push("/listeachat")}}
+										sx={{ display: 'flex', gap: '.5rem' }}>
 										<AddShoppingCartOutlinedIcon onClick={() => this.props.history.push("/listeachat")} /> Liste d'achat
 									</MenuItem>
 
