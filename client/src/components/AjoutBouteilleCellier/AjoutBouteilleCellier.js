@@ -110,7 +110,7 @@ export default class AjoutBouteille extends React.Component {
 		this.setState({
 			bouteillesSAQ: [],
 			nom: info.nom,
-			prixBouteilleSAQ: info.prix,
+			prix: info.prix_saq,
 			pays: info.pays,
 			vino__type_id: info.type,
 			url_img: info.url_img,
@@ -186,7 +186,6 @@ export default class AjoutBouteille extends React.Component {
 				quantite: this.state.quantite,
 				prix: this.state.prix
 			};
-			console.log(nouvelleBouteille);
 			entete.append('Content-Type', 'application/json');
 			fetch('https://rmpdwebservices.ca/webservice/php/bouteilles', {
 				method: 'POST',
