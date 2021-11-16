@@ -1,10 +1,11 @@
 import React from 'react';
 import './ListeAchat.css';
-//import { DataGrid } from '@mui/x-data-grid';  //import { DataGrid } from '@mui/x-data-grid/index-cjs';
+import { DataGrid } from '@mui/x-data-grid';  //import { DataGrid } from '@mui/x-data-grid/index-cjs';
 import Button from '@mui/material/Button';
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
-import { DataGrid } from '@mui/x-data-grid/index-cjs';
+import DeleteIcon from '@mui/icons-material/Delete';
+//import { DataGrid } from '@mui/x-data-grid/index-cjs';
 
 export default class ListeAchat extends React.Component {
   constructor(props) {
@@ -31,9 +32,9 @@ export default class ListeAchat extends React.Component {
   }
 
   componentDidMount() {
-    //if (!this.props.estConnecte) {
-    //return this.props.history.push("/connexion");
-    //}
+    if (!this.props.estConnecte) {
+      return this.props.history.push("/connexion");
+    }
 
     this.fetchListeAchat();
   }
@@ -43,7 +44,7 @@ export default class ListeAchat extends React.Component {
   }
 
   fetchListeAchat() {
-    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + 1, {
+    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + this.props.id_usager, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -60,16 +61,23 @@ export default class ListeAchat extends React.Component {
               titre: "Liste d'achat"
             }
           );
+          this.state.items.map(x => {
+            this.setState({ idListeAchat: x.id });
+          });
+          this.afficherBouteilles();
         } else {
           this.fetchBouteilles();
-          this.setState({ titre: "Inventaire des bouteilles" });
+          this.setState(
+            { 
+              titre: "Inventaire des bouteilles",
+              listeAchat: false
+            });
         }
       });
   }
 
   fetchBouteilles() {
-    //Ici on doit mettre le nouveau fetch pour avoir la liste de vinos de tous nos celliers avec la quantite, pour savoir sin on doit acheter
-    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + 1, {
+    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + this.props.id_usager, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -79,7 +87,11 @@ export default class ListeAchat extends React.Component {
       .then((reponse) => reponse.json())
       .then((donnees) => {
         if (donnees.data) {
-          this.setState({ items: donnees.data });
+          this.setState(
+            { items: donnees.data,
+              titre: "Inventaire des bouteilles",
+              listeAchat: false
+            });
           this.afficherBouteilles();
         }
       });
@@ -88,29 +100,23 @@ export default class ListeAchat extends React.Component {
   creerListeAchat() {
     console.log("Colonnes séléctionnées: ", this.state.itemsSelected);
 
-    //Il manque capturer la quntité, comment le faire ??????
-    //Ou, il faut mettre quantité d'achat ? 
-
     if (this.state.itemsSelected.length > 0) {
       console.log("Créer liste d'achat");
 
       this.setState({ bouteilles: [] })
       this.state.itemsSelected
         .map((item) => {
-          const temporal = [{ id: item.bouteille_id, millesime: item.millesime, quantite: item.quantite_achat }];
-          //console.log("temporal: ", temporal);
+          const temporal = { bouteille_id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
           this.state.bouteilles.push(temporal);
         })
 
       console.log("this.state.bouteilles: ", this.state.bouteilles);
 
-      /*
       let donnes = {
           id_usager: this.props.id_usager,
           bouteilles: this.state.bouteilles
       };
-      console.log("Donnes: ", donnes);
-
+      
       const postMethod = {
           method: 'POST',
           headers: {
@@ -123,28 +129,24 @@ export default class ListeAchat extends React.Component {
       fetch('https://rmpdwebservices.ca/webservice/php/listeachat/', postMethod)
           .then((reponse) => reponse.json())
           .then((donnees) => {
-              if (donnees.data) return this.props.history.push("/listeachat");
+              if (donnees.data) {
+                this.fetchListeAchat();
+                this.setState({ titre: "Liste d'achat" });
+              }
           });
-      */
+      
     } else {
       console.log("Il n'y a pas des bouteilles séléectionnées pour liste d'achat");
     }
-
   }
 
   effacerListe() {
-    //Il faut mettre une fenêtre dialogoe pour confirmation
+    //Il faut mettre une fenêtre dialogoe pour confirmation ???
 
     if (this.state.listeAchat) {
-      this.state.items.map(x => {
-        console.log("x: ", x.id);
-        this.setState({ idListeAchat: x.id });
-      });
-
       console.log("Liste d'achat: ", this.state.idListeAchat);
       console.log("Effacer la liste d'achat");
 
-      /*
       const postMethod = {
           method: 'DELETE',
           headers: {
@@ -157,41 +159,13 @@ export default class ListeAchat extends React.Component {
           .then((reponse) => reponse.json())
           .then((donnees) => {
               if (donnees.data) {
-                this.setstate({idListeAchat: false});
+                this.fetchBouteilles();
               }
-                
           });
-      */
+      
     } else {
       console.log("Rien se passe...");
     }
-
-    /*
-    this.setState({ isChecked: !this.state.isChecked });
-    console.log('this.state.isChecked ?: ', this.state.isChecked);
-    if (!this.state.isChecked) {   //effacer la liste d'achat
-      console.log("Effacer la liste d'achat");  */
-    //Il faut mettre une fenêtre dialogoe pour confirmation
-
-    /*
-    const postMethod = {
-        method: 'DELETE',
-        headers: {
-            'Content-type': 'application/json',
-            authorization: 'Basic ' + btoa('vino:vino')
-        },
-    };
-
-    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/' + this.state.idListeAchat, postMethod)
-        .then((reponse) => reponse.json())
-        .then((donnees) => {
-            if (donnees.data) return this.props.history.push("/listeachat");
-        });
-    */
-    /*
-  } else {
-      console.log("Rien se passe...");
-    } */
   }
 
   onModificationQte(e) {
@@ -222,30 +196,55 @@ export default class ListeAchat extends React.Component {
   afficherBouteilles() {
     let arr = [...this.state.mappedItems];
 
-    const map = this.state.items.map(bteObj => {
-      return {
-        id: bteObj.bouteille_id,
-        nom: bteObj.nom,
-        millesime: bteObj.millesime,
-        quantite: bteObj.quantite,
-        quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
-          ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).qte
-      }
-    })
+    if (this.state.listeAchat) {
+      const map = this.state.items.map(bteObj => {
+        return {
+          id: bteObj.bouteille_id,
+          nom: bteObj.nom,
+          millesime: bteObj.millesime,
+          quantite_achat: bteObj.quantite
+        }
+      })
 
-    arr = map;
-
-    this.setState({ mappedItems: arr })
+      arr = map;
+      this.setState({ mappedItems: arr })
+    } else {
+      const map = this.state.items.map(bteObj => {
+        return {
+          id: bteObj.bouteille_id,
+          nom: bteObj.nom,
+          millesime: bteObj.millesime,
+          quantite: bteObj.quantite,
+          quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
+            ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).qte
+        }
+      })
+  
+      arr = map;
+      this.setState({ mappedItems: arr })
+    }  
+    
   }
 
   render() {
-    const colonnes = [
-      { field: 'id', headerName: 'ID', width: 90, type: 'number' },
-      { field: 'nom', headerName: 'Nom', width: 230 },
-      { field: 'millesime', headerName: 'Millesime', width: 150 },
-      { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
-      { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number' },
-    ];
+    if (this.state.listeAchat) {
+      var lesColonnes = [
+        { field: 'id', headerName: 'ID', width: 90, type: 'number' },
+        { field: 'nom', headerName: 'Nom', width: 230 },
+        { field: 'millesime', headerName: 'Millesime', width: 150 },
+        { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number',  shrink: true , min: 1 },
+      ];  
+    } else {
+      var lesColonnes = [
+        { field: 'id', headerName: 'ID', width: 90, type: 'number' },
+        { field: 'nom', headerName: 'Nom', width: 230 },
+        { field: 'millesime', headerName: 'Millesime', width: 150 },
+        { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
+        { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number',  shrink: true , min: 1 },
+      ];  
+    }
+
+    const colonnes = lesColonnes;
 
     return (
       <Box className="liste_achat_container" sx={{
@@ -270,17 +269,22 @@ export default class ListeAchat extends React.Component {
           />
         </div>
 
-        {/* <label id='effacer' className="liste_achat_check">Effacer liste d'achat <input type="checkbox"  onChange ={(e) => this.effacerListe()} 
-          disabled={ !this.state.listeAchat } /> </label> */}
+        <Button 
+          className="liste_achat_effacer" 
+          variant="outlined" 
+          startIcon={<DeleteIcon />}
+          onClick={(e) => this.effacerListe()}
+          disabled={!this.state.listeAchat} > 
+          Effacer liste d'achat
+        </Button>
 
-        <TextField className="liste_achat_check" label="Effacer liste d'achat" variant="outlined" value="0" type="checkbox" style={{ color: 'white', width: '20%' }}
-          onChange={(e) => this.effacerListe()}
-          disabled={!this.state.listeAchat} />
-
-        {/* PAS EFFACER!!!!!
-          disabled={ !this.state.listeAchat } */}
-        <Button className="button" type="button" onClick={(e) => this.creerListeAchat()}
-          disabled={this.state.listeAchat}> Créer Liste </Button>
+        <Button 
+          className="button" 
+          type="button" 
+          onClick={(e) => this.creerListeAchat()}
+          disabled={this.state.listeAchat}> 
+          Créer Liste 
+        </Button>
       </Box>
     );
   }
