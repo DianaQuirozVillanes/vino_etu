@@ -123,6 +123,7 @@ export default class AjoutBouteille extends React.Component {
 	 * 
 	 */
 	validation() {
+		let estValide = true;
 		this.setState({
 			erreurCellier: false,
 			erreurNom: false,
@@ -136,25 +137,33 @@ export default class AjoutBouteille extends React.Component {
 
 		if (this.state.id_cellier === '') {
 			this.setState({ erreurCellier: true });
+			estValide = false;
 		}
 		if (this.state.nom === '') {
 			this.setState({ erreurNom: true });
+			estValide = false;
 		}
 		if (this.state.pays === '') {
 			this.setState({ erreurPays: true });
+			estValide = false;
 		}
 		if (this.state.quantite === '') {
 			this.setState({ erreurQuantite: true });
+			estValide = false;
 		}
 		if (this.state.millesime === '') {
 			this.setState({ erreurMillesime: true });
+			estValide = false;
 		}
 		if (this.state.date_achat === '') {
 			this.setState({ erreurDate: true });
+			estValide = false;
 		}
 		if (this.state.prix === '') {
 			this.setState({ erreurPrix: true });
+			estValide = false;
 		}
+		return estValide;
 	}
 
 	// Ajouter une bouteille au cellier en POST.
@@ -214,7 +223,7 @@ export default class AjoutBouteille extends React.Component {
 					width: '85vw',
 					flexDirection: 'column',
 					borderRadius: '1rem',
-					margin: '0 auto',
+					margin: '0 auto'
 				}}
 			>
 				<Box
@@ -242,6 +251,22 @@ export default class AjoutBouteille extends React.Component {
 								className: 'ajout_bouteille_input'
 							}}
 							onChange={(event) => this.fetchBouteillesSAQ(event)}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
 						{bouteilles}
 
@@ -267,7 +292,6 @@ export default class AjoutBouteille extends React.Component {
 
 						<TextField
 							error={this.state.erreurNom}
-							required
 							id="outlined-error"
 							label="Nom"
 							variant="outlined"
@@ -278,12 +302,25 @@ export default class AjoutBouteille extends React.Component {
 								className: 'ajout_bouteille_input'
 							}}
 							className="ajout_bouteille_input"
-							sx={{ 
-								color: 'white' 
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
 							}}
 						/>
 
-						<FormControl error={this.state.erreurType} required>
+						<FormControl required error={this.state.erreurType}>
 							<InputLabel id="type-label">Type de vin</InputLabel>
 							<Select
 								label="Type de vin"
@@ -304,7 +341,6 @@ export default class AjoutBouteille extends React.Component {
 
 						<TextField
 							error={this.state.erreurPays}
-							required
 							label="Origine"
 							variant="outlined"
 							value={this.state.pays}
@@ -312,14 +348,28 @@ export default class AjoutBouteille extends React.Component {
 							name="pays"
 							onChange={(e) => this.setState({ pays: e.target.value })}
 							InputLabelProps={{
-								className: 'ajout_bouteille_input',
-								shrink: true
+								className: 'ajout_bouteille_input'
+							}}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
 							}}
 						/>
 
 						<TextField
 							error={this.state.erreurQuantite}
-							required
 							label="Quantité"
 							variant="outlined"
 							type="number"
@@ -329,11 +379,26 @@ export default class AjoutBouteille extends React.Component {
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
 
 						<TextField
 							error={this.state.erreurMillesime}
-							required
 							label="Millesime"
 							variant="outlined"
 							value={this.state.millesime}
@@ -342,11 +407,26 @@ export default class AjoutBouteille extends React.Component {
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
 
 						<TextField
 							error={this.state.erreurDate}
-							required
 							label="Date d'achat"
 							variant="outlined"
 							type="date"
@@ -356,11 +436,26 @@ export default class AjoutBouteille extends React.Component {
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
 
 						<TextField
 							error={this.state.erreurPrix}
-							required
 							label="Prix"
 							variant="outlined"
 							value={this.state.prix}
@@ -368,6 +463,22 @@ export default class AjoutBouteille extends React.Component {
 							onChange={(e) => this.setState({ prix: e.target.value })}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
+							}}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
 							}}
 						/>
 
@@ -380,6 +491,22 @@ export default class AjoutBouteille extends React.Component {
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
 
 						<TextField
@@ -390,6 +517,22 @@ export default class AjoutBouteille extends React.Component {
 							onChange={(e) => this.setState({ commentaires: e.target.value })}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
+							}}
+							sx={{
+								color: 'white',
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
 							}}
 						/>
 					</Box>
