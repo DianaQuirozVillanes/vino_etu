@@ -160,18 +160,19 @@ export default class DetailsBouteille extends React.Component {
         />
 
         <TextField
-          label="Note dégustation"
+          label="Commentaire de dégustation"
           variant="outlined"
           onChange={(evt) => this.setState({ note: evt.target.value })}
           value={this.state.note}
         />
 
         <TextField
-          label="Date ajout"
+          label="Date d'ajout"
           variant="outlined"
           onChange={(evt) => this.setState({ date_ajout: evt.target.value })}
           value={this.state.date_ajout}
           type="date"
+          InputLabelProps={{ shrink: true }}
         />
         <Fab
           variant="extended"
