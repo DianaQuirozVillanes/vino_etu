@@ -47,7 +47,7 @@ export default class ListeBouteilleCellier extends React.Component {
 		if (!this.props.estConnecte) {
             return this.props.history.push('/connexion');
         }
-		
+
 		this.fetchBouteilles();
 		document.title = this.props.title;
 	}
@@ -69,9 +69,6 @@ export default class ListeBouteilleCellier extends React.Component {
 			const sortedItems = this.state.items.sort((a, b) => b[key].localeCompare(a[key]));
 			this.setState({ items: sortedItems });
 		}
-	}
-
-	triBouteilles(order) {
 	}
 
 	fetchBouteilles() {
@@ -197,7 +194,6 @@ export default class ListeBouteilleCellier extends React.Component {
 				.then((data) => {
 					if (data.data) {
 						this.fetchBouteilles();
-					} else {
 					}
 				});
 			this.setState({ message: '' });
