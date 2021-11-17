@@ -86,7 +86,7 @@ export default class AjoutBouteille extends React.Component {
 				this.setState({ celliers: donnees.data });
 			});
 	}
-	
+
 	fetchBouteillesSAQ(event) {
 		if (event.target.value === '') {
 			this.setState({ bouteillesSAQ: [] });
@@ -269,7 +269,13 @@ export default class AjoutBouteille extends React.Component {
 						/>
 						{bouteilles}
 
-						<FormControl error={this.state.erreurCellier} required>
+						<FormControl
+							sx={{
+								'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+									borderColor: 'white'
+								}
+							}}
+						>
 							<InputLabel id="cellier-label">Choisir le cellier</InputLabel>
 							<Select
 								label="Choisir le cellier"
@@ -319,7 +325,13 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 
-						<FormControl required error={this.state.erreurType}>
+						<FormControl
+							sx={{
+								'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+									borderColor: 'white'
+								}
+							}}
+						>
 							<InputLabel id="type-label">Type de vin</InputLabel>
 							<Select
 								label="Type de vin"
@@ -344,7 +356,6 @@ export default class AjoutBouteille extends React.Component {
 							variant="outlined"
 							value={this.state.pays}
 							type="text"
-							name="pays"
 							onChange={(e) => this.setState({ pays: e.target.value })}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
