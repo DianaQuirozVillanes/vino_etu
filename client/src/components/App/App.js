@@ -161,7 +161,7 @@ export default class App extends React.Component {
                 estConnecte={this.state.estConnecte}
                 id_usager={this.state.id_usager}
                 estAdmin={this.state.estAdmin}
-                title="Cellier"
+                title="Liste des bouteilles"
               />
             )}
           />
