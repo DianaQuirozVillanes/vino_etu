@@ -30,10 +30,10 @@
 }
 
 .nouvelle_cellier_container fieldset {
-   border-color: white !important;
+   border-color: white;
 }
 
 .nouvelle_cellier_container label, 
 .nouvelle_cellier_container input {
-    color: white !important;
+    color: white;
 }

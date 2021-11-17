@@ -7,7 +7,7 @@
 }
 
 .MuiInputLabel-root.Mui-focused {
-	color: black !important;
+	/*color: black !important;*/
 }
 
 .MuiInput-root:after {

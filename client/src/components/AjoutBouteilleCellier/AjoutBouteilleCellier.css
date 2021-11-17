@@ -13,6 +13,7 @@
 
 .formulaire_ajout_bouteille_cellier input:focus {
     outline: unset;
+    border-color: white;
 }
 
 .formulaire_ajout_bouteille_cellier button {
@@ -29,7 +30,15 @@
 }
 
 .formulaire_ajout_bouteille_cellier fieldset {
-   border-color: white !important;
+   border-color: white ;
+}
+.MuiOutlinedInput.Mui-error
+.MuiOutlinedInput-notchedOutline  {
+    border-color: red ;
+}
+
+.formulaire_ajout_bouteille_cellier legend {
+    color: white;
 }
 
 .formulaire_ajout_bouteille_cellier label, .formulaire_ajout_bouteille_cellier input {
@@ -42,4 +51,8 @@
 
 .champs_recherche {
     color: black;
+}
+
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+    color: white;
 }
