@@ -13,44 +13,52 @@ export default class Connexion extends React.Component {
 		this.state = {
 			courriel: '',
 			mot_passe: '',
-			id_usager: undefined
+			id_usager: undefined,
+			messageErreur: undefined,
+			erreurCourriel: false,
+			erreurMot_passe: false
 		};
 
 		this.validation = this.validation.bind(this);
 		this.seConnecter = this.seConnecter.bind(this);
-
 	}
 
 	componentDidMount() {
-        if (this.props.estConnecte) {
-            return this.props.history.push('/connexion');
-        }
-    }
+		if (this.props.estConnecte) {
+			return this.props.history.push('/connexion');
+		}
+	}
 
 	validation() {
-		let bValidation = false;
+		let estValide = false;
+		this.setState({
+			erreurCourriel: true,
+			erreurMot_passe: true
+		});
 
-		if (
-			this.state.courriel &&
-			this.state.courriel.trim() !== '' &&
-			(this.state.mot_passe && this.state.mot_passe.trim() !== '')
-		) {
-			// Validation selon la forme minimale [a-Z]@[a-Z]
-			let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-			let bRegex = expRegex.test(this.state.courriel);
+		// Validation selon la forme minimale [a-Z]@[a-Z]
+		let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+		let bRegex = expRegex.test(this.state.courriel);
 
-			if (bRegex) {
-				bValidation = true;
-			} else {
-			}
+		if (this.state.courriel &&
+			this.state.courriel.trim() !== '' && bRegex) {
+			this.setState({ erreurCourriel: false });
 		}
 
-		return bValidation;
+		if (this.state.mot_passe && this.state.mot_passe.trim() !== '') {
+			this.setState({ erreurMot_passe: false });
+		}
+		
+		if (this.state.courriel &&
+			this.state.courriel.trim() !== '' && bRegex && (this.state.mot_passe && this.state.mot_passe.trim() !== '')) {
+			estValide = true;
+		}
+		return estValide;
 	}
 
 	seConnecter() {
 		if (this.validation()) {
-			const donnes = {
+			const donnees = {
 				courriel: this.state.courriel,
 				mot_passe: this.state.mot_passe
 			};
@@ -61,7 +69,7 @@ export default class Connexion extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/usagers/login/', putMethod)
@@ -70,14 +78,18 @@ export default class Connexion extends React.Component {
 					if (data.data) {
 						this.props.login(data.data);
 						this.props.history.push('/celliers/liste');
+						console.log(this.state.erreurCourriel);
 					} else {
+						this.setState({ messageErreur: 'Le courriel ou le mot de passe ne correspondent pas.' });
+						console.log(this.state.erreurCourriel);
 					}
 				});
+		} else {
 		}
 	}
 
 	render() {
-
+		const messageErreur = this.state.messageErreur || '';
 		return (
 			<Box
 				className="login_container"
@@ -112,25 +124,68 @@ export default class Connexion extends React.Component {
 						}}
 					>
 						<TextField
+							error={this.state.erreurCourriel}
 							label="Courriel"
 							variant="outlined"
 							onBlur={(evt) => this.setState({ courriel: evt.target.value })}
 							placeholder="bobus@gmail.com"
+							sx={{
+								color: 'white',
+								'& label.Mui-focused': {
+									color: 'white'
+								},
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red',
+									color: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
 						<TextField
+							error={this.state.erreurMot_passe}
 							label="Mot de passe"
 							type="password"
 							variant="outlined"
 							onBlur={(evt) => this.setState({ mot_passe: evt.target.value })}
 							placeholder="12345"
+							sx={{
+								color: 'white',
+								'& label.Mui-focused': {
+									color: 'white'
+								},
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red',
+									color: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
 					</Box>
-					<Fab 
-						variant="extended" 
+					<span className="message_erreur">{messageErreur}</span>
+					<Fab
+						variant="extended"
 						onClick={() => this.seConnecter()}
-						sx={{backgroundColor: "#641b30", color: "white"}}
+						sx={{ backgroundColor: '#641b30', color: 'white' }}
 					>
-						<LoginOutlinedIcon sx={{marginRight: '1rem'}}/>
+						<LoginOutlinedIcon sx={{ marginRight: '1rem' }} />
 						Se connecter
 					</Fab>
 				</Box>
