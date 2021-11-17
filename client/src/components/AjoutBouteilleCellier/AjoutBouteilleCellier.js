@@ -86,7 +86,7 @@ export default class AjoutBouteille extends React.Component {
 				this.setState({ celliers: donnees.data });
 			});
 	}
-
+	
 	fetchBouteillesSAQ(event) {
 		if (event.target.value === '') {
 			this.setState({ bouteillesSAQ: [] });
