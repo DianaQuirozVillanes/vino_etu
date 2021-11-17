@@ -48,7 +48,7 @@ export default class Connexion extends React.Component {
 		if (this.state.mot_passe && this.state.mot_passe.trim() !== '') {
 			this.setState({ erreurMot_passe: false });
 		}
-		
+
 		if (this.state.courriel &&
 			this.state.courriel.trim() !== '' && bRegex && (this.state.mot_passe && this.state.mot_passe.trim() !== '')) {
 			estValide = true;
@@ -90,6 +90,7 @@ export default class Connexion extends React.Component {
 
 	render() {
 		const messageErreur = this.state.messageErreur || '';
+		const msgErreurCourriel = <span className="message_erreur">{(this.state.erreurCourriel ? "Le format du courriel n'est pas valide." : "")}</span>
 		return (
 			<Box
 				className="login_container"
@@ -150,6 +151,7 @@ export default class Connexion extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurCourriel}
 						<TextField
 							error={this.state.erreurMot_passe}
 							label="Mot de passe"
