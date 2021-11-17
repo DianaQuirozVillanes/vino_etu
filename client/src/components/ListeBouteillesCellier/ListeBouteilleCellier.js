@@ -50,6 +50,7 @@ export default class ListeBouteilleCellier extends React.Component {
         }
 
 		this.fetchBouteilles();
+		document.title = this.props.title;
 	}
 
 	componentDidUpdate() {
@@ -235,7 +236,7 @@ export default class ListeBouteilleCellier extends React.Component {
 			<Box>
 				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
 				<Typography color="text.primary">Mon Cellier</Typography>
-					<Link underline="hover" color="inherit" to="/celliers/liste">
+					<Link underline="hover" color="inherit" onClick={() => this.props.history.push('/celliers/liste/')}>
 						Celliers
 					</Link>
 					<Typography color="text.primary">{this.state.nomCellier}</Typography>

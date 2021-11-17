@@ -29,11 +29,11 @@
 }
 
 .formulaire_ajout_bouteille_cellier fieldset {
-   border-color: white;
+   border-color: white !important;
 }
 
 .formulaire_ajout_bouteille_cellier label, .formulaire_ajout_bouteille_cellier input {
-    color: white;
+    color: white !important;
 }
 
 .recherche_saq {

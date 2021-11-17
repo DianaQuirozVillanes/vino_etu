@@ -18,9 +18,10 @@ export default class AjoutCellier extends React.Component {
 
 		this.state = {
 			emplacement: '',
-			temperature: 10,
+			temperature: null,
 			usager_id: 0,
-			titreBoutton: ''
+			titreBoutton: '',
+			erreurEmplacement: false
 		};
 
 		this.validation = this.validation.bind(this);
@@ -38,22 +39,27 @@ export default class AjoutCellier extends React.Component {
 		this.setState({ titreBoutton: 'Nouveau cellier' });
 	}
 
-    componentDidUpdate() {
-        if (!this.props.estConnecte) {
-            return this.props.history.push('/connexion');
-        }
-    }
+	componentDidUpdate() {
+		if (!this.props.estConnecte) {
+			return this.props.history.push('/connexion');
+		}
+	}
 	/** 
 	 * Fonction de validation des inputs
 	 * 
 	 */
 	validation() {
-		let bValidation = false;
+		let estValide = false;
 
-		if (this.state.emplacement && this.state.emplacement.trim() !== '' && this.state.temperature) {
-			bValidation = true;
+		this.setState({
+			erreurEmplacement: true
+		});
+
+		if (this.state.emplacement && this.state.emplacement.trim() !== '') {
+			estValide = true;
+			this.setState({ erreurEmplacement: false });
 		}
-		return bValidation;
+		return estValide;
 	}
 
 	/** 
@@ -65,7 +71,7 @@ export default class AjoutCellier extends React.Component {
 			let donnes = {
 				emplacement: this.state.emplacement,
 				usager_id: this.props.id_usager,
-                temperature: this.state.temperature
+				temperature: this.state.temperature
 			};
 
 			const postMethod = {
@@ -107,16 +113,33 @@ export default class AjoutCellier extends React.Component {
 						flexDirection: 'column',
 						borderRadius: '1rem',
 						margin: '0 auto',
-						marginTop: '20vh'
+						marginTop: '15vh'
 					}}
 				>
 					<span className="nouvelle_cellier_title"> {this.state.titreBoutton} </span>
 
 					<TextField
 						autoFocus
+						error={this.state.erreurEmplacement}
 						label="Emplacement"
 						variant="outlined"
 						onBlur={(evt) => this.setState({ emplacement: evt.target.value })}
+						sx={{
+							color: 'white',
+							'& input:valid + fieldset': {
+								borderColor: 'white'
+							},
+							'& input:invalid + fieldset': {
+								borderColor: 'red'
+							},
+							'& input:invalid:focus + fieldset': {
+								borderColor: 'white',
+								padding: '4px !important'
+							},
+							'& input:valid:focus + fieldset': {
+								borderColor: 'white'
+							}
+						}}
 					/>
 					<TextField
 						margin="dense"
@@ -136,7 +159,6 @@ export default class AjoutCellier extends React.Component {
 						<AddOutlinedIcon sx={{ marginRight: '1rem' }} />
 						Nouveau cellier
 					</Fab>
-
 				</Box>
 			</Box>
 		);
