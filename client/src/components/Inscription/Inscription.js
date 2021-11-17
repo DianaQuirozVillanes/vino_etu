@@ -110,7 +110,7 @@ export default class Inscription extends React.Component {
           flexDirection: "column",
           borderRadius: "1rem",
           margin: "0 auto",
-          marginTop: "10vh",
+          marginTop: "15vh",
         }}
       >
         <Box
