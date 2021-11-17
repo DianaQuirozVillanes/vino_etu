@@ -25,10 +25,14 @@
 }
 
 .login_container fieldset {
-	border-color: white !important;
+	border-color: white;
 }
 
 .login_container label,
 .login_container input {
-	color: white !important;
+	color: white;
+}
+
+.message_erreur {
+	color: red;
 }
