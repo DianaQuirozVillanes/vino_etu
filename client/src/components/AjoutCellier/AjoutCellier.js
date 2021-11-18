@@ -94,7 +94,9 @@ export default class AjoutCellier extends React.Component {
 	}
 
 	render() {
-		const messageErreurEmplacement = <span className="message_erreur">{(this.state.erreurEmplacement ? "* Ce champ est obligatoire." : "")}</span>
+		const messageErreurEmplacement = (
+			<span className="message_erreur">{this.state.erreurEmplacement ? '* Ce champ est obligatoire.' : ''}</span>
+		);
 		return (
 			<Box>
 				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem' }}>
