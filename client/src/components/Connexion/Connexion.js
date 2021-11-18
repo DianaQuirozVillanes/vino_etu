@@ -90,7 +90,8 @@ export default class Connexion extends React.Component {
 
 	render() {
 		const messageErreur = this.state.messageErreur || '';
-		const msgErreurCourriel = <span className="message_erreur">{(this.state.erreurCourriel ? "Le format du courriel n'est pas valide." : "")}</span>
+		const msgErreurCourriel = <span className="message_erreur">{(this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : "")}</span>
+		const msgErreurMotPasse = <span className="message_erreur">{(this.state.erreurMot_passe ? "* Ce champ est obligatoire." : "")}</span>
 		return (
 			<Box
 				className="login_container"
@@ -180,6 +181,7 @@ export default class Connexion extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurMotPasse}
 					</Box>
 					<span className="message_erreur">{messageErreur}</span>
 					<Fab

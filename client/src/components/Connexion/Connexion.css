@@ -34,5 +34,6 @@
 }
 
 .message_erreur {
+	font-size: 0.9em;
 	color: red;
 }
