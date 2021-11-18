@@ -68,7 +68,7 @@ export default class AjoutCellier extends React.Component {
 	 */
 	creerCellier() {
 		if (this.validation()) {
-			let donnes = {
+			let donnees = {
 				emplacement: this.state.emplacement,
 				usager_id: this.props.id_usager,
 				temperature: this.state.temperature
@@ -80,7 +80,7 @@ export default class AjoutCellier extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/celliers/', postMethod)
@@ -94,6 +94,7 @@ export default class AjoutCellier extends React.Component {
 	}
 
 	render() {
+		const messageErreurEmplacement = <span className="message_erreur">{(this.state.erreurEmplacement ? "* Ce champ est obligatoire." : "")}</span>
 		return (
 			<Box>
 				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem' }}>
@@ -141,6 +142,7 @@ export default class AjoutCellier extends React.Component {
 							}
 						}}
 					/>
+					{messageErreurEmplacement}
 					<TextField
 						margin="dense"
 						id="temperature"
