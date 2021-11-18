@@ -40,8 +40,7 @@ export default class Connexion extends React.Component {
 		let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 		let bRegex = expRegex.test(this.state.courriel);
 
-		if (this.state.courriel &&
-			this.state.courriel.trim() !== '' && bRegex) {
+		if (this.state.courriel && this.state.courriel.trim() !== '' && bRegex) {
 			this.setState({ erreurCourriel: false });
 		}
 
@@ -49,8 +48,12 @@ export default class Connexion extends React.Component {
 			this.setState({ erreurMot_passe: false });
 		}
 
-		if (this.state.courriel &&
-			this.state.courriel.trim() !== '' && bRegex && (this.state.mot_passe && this.state.mot_passe.trim() !== '')) {
+		if (
+			this.state.courriel &&
+			this.state.courriel.trim() !== '' &&
+			bRegex &&
+			(this.state.mot_passe && this.state.mot_passe.trim() !== '')
+		) {
 			estValide = true;
 		}
 		return estValide;
@@ -90,8 +93,14 @@ export default class Connexion extends React.Component {
 
 	render() {
 		const messageErreur = this.state.messageErreur || '';
-		const msgErreurCourriel = <span className="message_erreur">{(this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : "")}</span>
-		const msgErreurMotPasse = <span className="message_erreur">{(this.state.erreurMot_passe ? "* Ce champ est obligatoire." : "")}</span>
+		const msgErreurCourriel = (
+			<span className="message_erreur">
+				{this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : ''}
+			</span>
+		);
+		const msgErreurMotPasse = (
+			<span className="message_erreur">{this.state.erreurMot_passe ? '* Ce champ est obligatoire.' : ''}</span>
+		);
 		return (
 			<Box
 				className="login_container"
