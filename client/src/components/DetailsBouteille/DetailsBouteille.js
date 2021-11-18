@@ -3,6 +3,11 @@ import { Box } from '@mui/system';
 import { Fab, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 import './DetailsBouteille.css';
 
 export default class DetailsBouteille extends React.Component {
@@ -45,6 +50,11 @@ export default class DetailsBouteille extends React.Component {
 		}
 	}
 
+	/**
+	 * Fonction de validation des inputs
+	 * 
+	 * @returns {boolean} estValide
+	 */
 	validation() {
 		let estValide = false;
 		this.setState({
@@ -82,7 +92,9 @@ export default class DetailsBouteille extends React.Component {
 		}
 		return estValide;
 	}
-
+	/**
+	 * Fetch de la bouteille à modifier
+	 */
 	recupereBouteille() {
 		const getMethod = {
 			method: 'GET',
@@ -109,7 +121,9 @@ export default class DetailsBouteille extends React.Component {
 				});
 			});
 	}
-
+	/**
+	 * Fetch du PUT pour modifier la bouteille
+	 */
 	modifier() {
 		if (this.validation()) {
 			let donnees = {
@@ -141,8 +155,16 @@ export default class DetailsBouteille extends React.Component {
 			console.log('validation incorrecte');
 		}
 	}
-
+	/**
+	 * Affichage de la page
+	 * 
+	 * @returns JSX
+	 */
 	render() {
+		// Inclus la liste des pays en JSON
+		const listePays = require('../../pays.json');
+
+		// Affichage des messages d'erreurs selon la validation
 		const msgErreurNom = this.state.erreurNom ? (
 			<span className="message_erreur">* Ce champ est obligatoire</span>
 		) : (
@@ -229,32 +251,29 @@ export default class DetailsBouteille extends React.Component {
 					}}
 				/>
 
-				<TextField
-					error={this.state.erreurPays}
-					label="Pays"
-					variant="outlined"
-					onChange={(evt) => this.setState({ pays: evt.target.value })}
-					value={this.state.pays}
+				<FormControl
 					sx={{
-						color: 'white',
-						'& label.Mui-focused': {
-							color: 'white'
-						},
-						'& input:valid + fieldset': {
-							borderColor: 'white'
-						},
-						'& input:invalid + fieldset': {
-							borderColor: 'red'
-						},
-						'& input:invalid:focus + fieldset': {
-							borderColor: 'white',
-							padding: '4px !important'
-						},
-						'& input:valid:focus + fieldset': {
+						'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
 							borderColor: 'white'
 						}
 					}}
-				/>
+				>
+					<InputLabel id="cellier-label">Origine</InputLabel>
+					<Select
+						label="Origine"
+						labelId="origine-label"
+						sx={{
+							color: 'white',
+							'& .MuiSelect-icon': {
+								color: 'white'
+							}
+						}}
+						value={this.state.pays}
+						onChange={(e) => this.setState({ pays: e.target.value })}
+					>
+						{listePays.map((item) => <MenuItem value={item.name}>{item.name}</MenuItem>)}
+					</Select>
+				</FormControl>
 				{msgErreurPays}
 				<TextField
 					autoFocus

@@ -26,7 +26,8 @@ export default class AjoutBouteille extends React.Component {
 			nom: '',
 			millesime: moment().format('YYYY'),
 			quantite: '1',
-			pays: undefined,
+			format: '',
+			pays: 'Canada',
 			date_achat: moment().format('YYYY-MM-DD'),
 			prix: '',
 			garde: '',
@@ -43,7 +44,8 @@ export default class AjoutBouteille extends React.Component {
 			erreurQuantite: false,
 			erreurMillesime: false,
 			erreurDate: false,
-			erreurPrix: false
+			erreurPrix: false,
+			erreurFormat: false
 		};
 
 		// Binder le contexte 'this' aux fonctions.
@@ -105,13 +107,18 @@ export default class AjoutBouteille extends React.Component {
 			});
 	}
 
-	// Choisir la bouteille.
+	/**
+	 * Choisir la bouteille.
+	 * 
+	 * @param {array} info La bouteille choisie dans la liste de la recherche
+	 */
 	choixBouteille(info) {
 		this.setState({
 			bouteillesSAQ: [],
 			nom: info.nom,
 			prix: info.prix_saq,
 			pays: info.pays,
+			format: info.format,
 			vino__type_id: info.type,
 			url_img: info.url_img,
 			url_saq: info.url_saq
@@ -123,50 +130,62 @@ export default class AjoutBouteille extends React.Component {
 	 * 
 	 */
 	validation() {
-		let estValide = true;
+		let estValide = false;
 		this.setState({
-			erreurCellier: false,
-			erreurNom: false,
-			erreurType: false,
-			erreurPays: false,
-			erreurQuantite: false,
-			erreurMillesime: false,
-			erreurDate: false,
-			erreurPrix: false
+			erreurCellier: true,
+			erreurNom: true,
+			erreurType: true,
+			erreurPays: true,
+			erreurQuantite: true,
+			erreurMillesime: true,
+			erreurDate: true,
+			erreurPrix: true,
+			erreurFormat: true
 		});
 
-		if (this.state.id_cellier === '') {
-			this.setState({ erreurCellier: true });
-			estValide = false;
+		if (this.state.id_cellier !== '') {
+			this.setState({ erreurCellier: false });
 		}
-		if (this.state.nom === '') {
-			this.setState({ erreurNom: true });
-			estValide = false;
+		if (this.state.nom !== '') {
+			this.setState({ erreurNom: false });
 		}
-		if (this.state.pays === '') {
-			this.setState({ erreurPays: true });
-			estValide = false;
+		if (this.state.format !== '') {
+			this.setState({ erreurFormat: false });
 		}
-		if (this.state.quantite === '') {
-			this.setState({ erreurQuantite: true });
-			estValide = false;
+		if (this.state.pays !== '') {
+			this.setState({ erreurPays: false });
 		}
-		if (this.state.millesime === '') {
-			this.setState({ erreurMillesime: true });
-			estValide = false;
+		if (this.state.quantite !== '') {
+			this.setState({ erreurQuantite: false });
 		}
-		if (this.state.date_achat === '') {
-			this.setState({ erreurDate: true });
-			estValide = false;
+		if (this.state.millesime !== '') {
+			this.setState({ erreurMillesime: false });
 		}
-		if (this.state.prix === '') {
-			this.setState({ erreurPrix: true });
-			estValide = false;
+		if (this.state.date_achat !== '') {
+			this.setState({ erreurDate: false });
+		}
+		if (this.state.prix !== '') {
+			this.setState({ erreurPrix: false });
+		}
+
+		if (
+			this.state.id_cellier &&
+			this.state.id_cellier !== '' &&
+			(this.state.nom && this.state.nom.trim() !== '') &&
+			(this.state.format && this.state.format.trim() !== '') &&
+			(this.state.quantite && this.state.quantite.trim() !== '') &&
+			(this.state.millesime && this.state.millesime.trim() !== '') &&
+			(this.state.date_achat && this.state.date_achat.trim() !== '') &&
+			(this.state.prix && this.state.prix.trim() !== '')
+		) {
+			estValide = true;
 		}
 		return estValide;
 	}
 
-	// Ajouter une bouteille au cellier en POST.
+	/**
+	 * Ajouter une bouteille au cellier en POST.
+	 */
 	ajouterBouteilleCellier() {
 		if (this.validation()) {
 			const entete = new Headers();
@@ -204,12 +223,61 @@ export default class AjoutBouteille extends React.Component {
 		}
 	}
 
+	/**
+	 * Affichage de la page
+	 * 
+	 * @returns JSX
+	 */
 	render() {
+		// Map des bouteilles dans le cellier
 		const bouteilles = this.state.bouteillesSAQ.map((bouteille, index) => {
 			return <BouteilleSAQ info={bouteille} choixBouteille={this.choixBouteille} key={index} />;
 		});
+		// Inclus la liste des pays en JSON
+		const listePays = require('../../pays.json');
 
-		// Affichage.
+		// Affichage des messages d'erreurs
+		const msgErreurCellier = this.state.erreurCellier ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurNom = this.state.erreurNom ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurFormat = this.state.erreurFormat ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurPays = this.state.erreurPays ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurQuantite = this.state.erreurQuantite ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurMillesime = this.state.erreurMillesime ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurDate = this.state.erreurDate ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurPrix = this.state.erreurPrix ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+
 		return (
 			<Box
 				className="formulaire_ajout_bouteille_cellier"
@@ -268,7 +336,6 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 						{bouteilles}
-
 						<FormControl
 							sx={{
 								'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -294,7 +361,7 @@ export default class AjoutBouteille extends React.Component {
 								))}
 							</Select>
 						</FormControl>
-
+						{msgErreurCellier}
 						<TextField
 							error={this.state.erreurNom}
 							id="outlined-error"
@@ -324,7 +391,7 @@ export default class AjoutBouteille extends React.Component {
 								}
 							}}
 						/>
-
+						{msgErreurNom}
 						<FormControl
 							sx={{
 								'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -351,17 +418,17 @@ export default class AjoutBouteille extends React.Component {
 						</FormControl>
 
 						<TextField
-							error={this.state.erreurPays}
-							label="Origine"
+							autoFocus
+							error={this.state.erreurFormat}
+							label="Format"
 							variant="outlined"
-							value={this.state.pays}
-							type="text"
-							onChange={(e) => this.setState({ pays: e.target.value })}
-							InputLabelProps={{
-								className: 'ajout_bouteille_input'
-							}}
+							onChange={(evt) => this.setState({ format: evt.target.value })}
+							value={this.state.format}
 							sx={{
 								color: 'white',
+								'& label.Mui-focused': {
+									color: 'white'
+								},
 								'& input:valid + fieldset': {
 									borderColor: 'white'
 								},
@@ -369,7 +436,7 @@ export default class AjoutBouteille extends React.Component {
 									borderColor: 'red'
 								},
 								'& input:invalid:focus + fieldset': {
-									borderColor: 'white',
+									borderColor: 'red',
 									padding: '4px !important'
 								},
 								'& input:valid:focus + fieldset': {
@@ -377,7 +444,26 @@ export default class AjoutBouteille extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurFormat}
+						<FormControl>
+							<InputLabel id="cellier-label">Origine</InputLabel>
+							<Select
+								label="Origine"
+								labelId="origine-label"
+								sx={{
+									color: 'white',
+									'& .MuiSelect-icon': {
+										color: 'white'
+									}
+								}}
+								value={this.state.pays}
+								onChange={(e) => this.setState({ pays: e.target.value })}
+							>
+								{listePays.map((item) => <MenuItem value={item.name}>{item.name}</MenuItem>)}
+							</Select>
+						</FormControl>
 
+						{msgErreurPays}
 						<TextField
 							error={this.state.erreurQuantite}
 							label="Quantité"
@@ -406,7 +492,7 @@ export default class AjoutBouteille extends React.Component {
 								}
 							}}
 						/>
-
+						{msgErreurQuantite}
 						<TextField
 							error={this.state.erreurMillesime}
 							label="Millesime"
@@ -434,7 +520,7 @@ export default class AjoutBouteille extends React.Component {
 								}
 							}}
 						/>
-
+						{msgErreurMillesime}
 						<TextField
 							error={this.state.erreurDate}
 							label="Date d'achat"
@@ -463,7 +549,7 @@ export default class AjoutBouteille extends React.Component {
 								}
 							}}
 						/>
-
+						{msgErreurDate}
 						<TextField
 							error={this.state.erreurPrix}
 							label="Prix"
@@ -491,7 +577,7 @@ export default class AjoutBouteille extends React.Component {
 								}
 							}}
 						/>
-
+						{msgErreurPrix}
 						<TextField
 							label="À conserver?"
 							variant="outlined"
