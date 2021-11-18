@@ -31,7 +31,7 @@ export default class DetailsBouteille extends React.Component {
 		this.modifier = this.modifier.bind(this);
 		this.validation = this.validation.bind(this);
 	}
-  
+
 	componentDidMount() {
 		if (!this.props.estConnecte) {
 			return this.props.history.push('/connexion');
@@ -46,34 +46,39 @@ export default class DetailsBouteille extends React.Component {
 	}
 
 	validation() {
-		let estValide = true;
+		let estValide = false;
 		this.setState({
-			erreurNom: false,
-			erreurPays: false,
-			erreurMillesime: false,
-			erreurFormat: false,
-			erreurDate: false
+			erreurNom: true,
+			erreurPays: true,
+			erreurMillesime: true,
+			erreurFormat: true,
+			erreurDate: true
 		});
 
-		if (this.state.nom === '') {
-			this.setState({ erreurNom: true });
-			estValide = false;
+		if (this.state.nom !== '') {
+			this.setState({ erreurNom: false });
 		}
-		if (this.state.pays === '') {
-			this.setState({ erreurPays: true });
-			estValide = false;
+		if (this.state.pays !== '') {
+			this.setState({ erreurPays: false });
 		}
-		if (this.state.millesime === '') {
-			this.setState({ erreurMillesime: true });
-			estValide = false;
+		if (this.state.millesime !== '') {
+			this.setState({ erreurMillesime: false });
 		}
-		if (this.state.format === '') {
-			this.setState({ erreurformat: true });
-			estValide = false;
+		if (this.state.format !== '') {
+			this.setState({ erreurformat: false });
 		}
-		if (this.state.date_achat === '') {
-			this.setState({ erreurDate: true });
-			estValide = false;
+		if (this.state.date_achat !== '') {
+			this.setState({ erreurDate: false });
+		}
+		if (
+			this.state.nom &&
+			this.state.nom.trim() !== '' &&
+			(this.state.pays && this.state.pays.trim() !== '') &&
+			(this.state.millesime && this.state.millesime.trim() !== '') &&
+			(this.state.format && this.state.format.trim() !== '') &&
+			(this.state.date_ajout && this.state.date_ajout.trim() !== '')
+		) {
+			estValide = true;
 		}
 		return estValide;
 	}
@@ -138,6 +143,31 @@ export default class DetailsBouteille extends React.Component {
 	}
 
 	render() {
+		const msgErreurNom = this.state.erreurNom ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurPays = this.state.erreurPays ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurMillesime = this.state.erreurMillesime ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurFormat = this.state.erreurFormat ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+		const msgErreurDate = this.state.erreurDate ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
 		return (
 			<Box
 				className="modif_bouteille_container"
@@ -163,13 +193,40 @@ export default class DetailsBouteille extends React.Component {
 					variant="outlined"
 					onChange={(evt) => this.setState({ nom: evt.target.value })}
 					value={this.state.nom}
+					sx={{
+						color: 'white',
+						'& label.Mui-focused': {
+							color: 'white'
+						},
+						'& input:valid + fieldset': {
+							borderColor: 'white'
+						},
+						'& input:invalid + fieldset': {
+							borderColor: 'red'
+						},
+						'& input:invalid:focus + fieldset': {
+							borderColor: 'white',
+							padding: '4px !important'
+						},
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						}
+					}}
 				/>
-
+				{msgErreurNom}
 				<TextField
 					label="Description"
 					variant="outlined"
 					onChange={(evt) => this.setState({ description: evt.target.value })}
 					value={this.state.description}
+					sx={{
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						},
+						'& label.Mui-focused': {
+							color: 'white'
+						}
+					}}
 				/>
 
 				<TextField
@@ -178,8 +235,27 @@ export default class DetailsBouteille extends React.Component {
 					variant="outlined"
 					onChange={(evt) => this.setState({ pays: evt.target.value })}
 					value={this.state.pays}
+					sx={{
+						color: 'white',
+						'& label.Mui-focused': {
+							color: 'white'
+						},
+						'& input:valid + fieldset': {
+							borderColor: 'white'
+						},
+						'& input:invalid + fieldset': {
+							borderColor: 'red'
+						},
+						'& input:invalid:focus + fieldset': {
+							borderColor: 'white',
+							padding: '4px !important'
+						},
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						}
+					}}
 				/>
-
+				{msgErreurPays}
 				<TextField
 					autoFocus
 					error={this.state.erreurMillesime}
@@ -187,21 +263,67 @@ export default class DetailsBouteille extends React.Component {
 					variant="outlined"
 					onChange={(evt) => this.setState({ millesime: evt.target.value })}
 					value={this.state.millesime}
+					sx={{
+						color: 'white',
+						'& label.Mui-focused': {
+							color: 'white'
+						},
+						'& input:valid + fieldset': {
+							borderColor: 'white'
+						},
+						'& input:invalid + fieldset': {
+							borderColor: 'red'
+						},
+						'& input:invalid:focus + fieldset': {
+							borderColor: 'red',
+							padding: '4px !important'
+						},
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						}
+					}}
 				/>
-
+				{msgErreurMillesime}
 				<TextField
 					error={this.state.erreurFormat}
 					label="Format"
 					variant="outlined"
 					onChange={(evt) => this.setState({ format: evt.target.value })}
 					value={this.state.format}
+					sx={{
+						color: 'white',
+						'& label.Mui-focused': {
+							color: 'white'
+						},
+						'& input:valid + fieldset': {
+							borderColor: 'white'
+						},
+						'& input:invalid + fieldset': {
+							borderColor: 'red'
+						},
+						'& input:invalid:focus + fieldset': {
+							borderColor: 'white',
+							padding: '4px !important'
+						},
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						}
+					}}
 				/>
-
+				{msgErreurFormat}
 				<TextField
 					label="Garde jusqu'à"
 					variant="outlined"
 					onChange={(evt) => this.setState({ garde_jusqua: evt.target.value })}
 					value={this.state.garde_jusqua}
+					sx={{
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						},
+						'& label.Mui-focused': {
+							color: 'white'
+						}
+					}}
 				/>
 
 				<TextField
@@ -209,6 +331,14 @@ export default class DetailsBouteille extends React.Component {
 					variant="outlined"
 					onChange={(evt) => this.setState({ note: evt.target.value })}
 					value={this.state.note}
+					sx={{
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						},
+						'& label.Mui-focused': {
+							color: 'white'
+						}
+					}}
 				/>
 
 				<TextField
@@ -219,14 +349,34 @@ export default class DetailsBouteille extends React.Component {
 					value={this.state.date_ajout}
 					type="date"
 					InputLabelProps={{ shrink: true }}
+					sx={{
+						color: 'white',
+						'& label.Mui-focused': {
+							color: 'white'
+						},
+						'& input:valid + fieldset': {
+							borderColor: 'white'
+						},
+						'& input:invalid + fieldset': {
+							borderColor: 'red'
+						},
+						'& input:invalid:focus + fieldset': {
+							borderColor: 'white',
+							padding: '4px !important'
+						},
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						}
+					}}
 				/>
+				{msgErreurDate}
 				<Fab
 					variant="extended"
 					onClick={() => this.modifier()}
 					sx={{ backgroundColor: '#641b30', color: 'white' }}
 				>
 					<AutoFixHighOutlinedIcon sx={{ marginRight: '1rem' }} />
-					Modifier la bouteille
+					Modifier
 				</Fab>
 			</Box>
 		);

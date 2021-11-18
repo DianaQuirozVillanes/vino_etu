@@ -31,10 +31,10 @@
 }
 
 .modif_bouteille_container fieldset {
-    border-color: white !important;
+    border-color: white ;
 }
 
 .modif_bouteille_container label,
 .modif_bouteille_container input {
-    color: white !important;
+    color: white ;
 }
