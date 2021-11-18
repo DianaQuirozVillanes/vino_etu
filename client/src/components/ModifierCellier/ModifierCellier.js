@@ -15,7 +15,8 @@ export default class ModifierCellier extends React.Component {
 			temperature: 10,
 			usager_id: 0,
 			titreBoutton: '',
-			id: undefined
+			id: undefined,
+			erreurEmplacement: false
 		};
 
 		this.validation = this.validation.bind(this);
@@ -24,19 +25,19 @@ export default class ModifierCellier extends React.Component {
 	}
 
 	componentDidMount() {
-        if (!this.props.estConnecte) {
-            return this.props.history.push("/connexion");
-        }
+		if (!this.props.estConnecte) {
+			return this.props.history.push('/connexion');
+		}
 
-        this.setState({ titreBoutton: "Modifier cellier" })
-        this.chercherCellier();
-    }
+		this.setState({ titreBoutton: 'Modifier cellier' });
+		this.chercherCellier();
+	}
 
-    componentDidUpdate() {
-        if (!this.props.estConnecte) {
-            return this.props.history.push('/connexion');
-        }
-    }
+	componentDidUpdate() {
+		if (!this.props.estConnecte) {
+			return this.props.history.push('/connexion');
+		}
+	}
 
 	chercherCellier() {
 		const getMethod = {
@@ -61,13 +62,17 @@ export default class ModifierCellier extends React.Component {
 	}
 
 	validation() {
-		let bValidation = false;
+		let estValide = false;
 
-		if (this.state.emplacement && this.state.emplacement.trim() !== '' && this.state.temperature) {
-			bValidation = true;
+		this.setState({
+			erreurEmplacement: true
+		});
+
+		if (this.state.emplacement && this.state.emplacement.trim() !== '') {
+			estValide = true;
+			this.setState({ erreurEmplacement: false });
 		}
-
-		return bValidation;
+		return estValide;
 	}
 
 	modifierCellier() {
@@ -99,6 +104,9 @@ export default class ModifierCellier extends React.Component {
 	}
 
 	render() {
+		const messageErreurEmplacement = (
+			<span className="message_erreur">{this.state.erreurEmplacement ? '* Ce champ est obligatoire.' : ''}</span>
+		);
 		return (
 			<Box
 				className="modifier_cellier_container"
@@ -119,11 +127,30 @@ export default class ModifierCellier extends React.Component {
 
 				<TextField
 					autoFocus
+					error={this.state.erreurEmplacement}
 					label="Emplacement"
 					variant="outlined"
 					value={this.state.emplacement}
 					onChange={(evt) => this.setState({ emplacement: evt.target.value })}
+					sx={{
+						color: 'white',
+						'& input:valid + fieldset': {
+							borderColor: 'white'
+						},
+						'& input:invalid + fieldset': {
+							borderColor: 'red'
+						},
+						'& input:invalid:focus + fieldset': {
+							borderColor: 'white',
+							padding: '4px !important'
+						},
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						}
+					}}
+
 				/>
+				{messageErreurEmplacement}
 				<TextField
 					variant="outlined"
 					label="Température"
