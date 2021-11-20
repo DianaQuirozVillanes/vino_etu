@@ -22,13 +22,19 @@
     background-color: #641B30;
 }
 
-.liste_achat_check  {
+.liste_achat_container > .liste_achat_effacer  {
     align-self: end;
-    color: white;
+    color: #641B30;
+    outline: unset;
+    border:none;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.liste_achat_check input:focus {
-    outline: unset;
+.liste_achat_container > .liste_achat_effacer:hover {
+    color: white;
+    background-color: #641B30;
+    border:none;
 }
 
 .MuiTextField-root {

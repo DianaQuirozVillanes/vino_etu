@@ -66,7 +66,10 @@ export default class App extends React.Component {
   render() {
     return (
       <Router>
-        <Entete />
+        <Route
+          component={(props) =>
+            (<Entete {...props} />)}
+        />
         <Switch>
           <Route
             exact
@@ -164,7 +167,7 @@ export default class App extends React.Component {
                 estConnecte={this.state.estConnecte}
                 id_usager={this.state.id_usager}
                 estAdmin={this.state.estAdmin}
-                title="Cellier"
+                title="Liste des bouteilles"
               />
             )}
           />

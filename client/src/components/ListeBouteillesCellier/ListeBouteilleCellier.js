@@ -8,7 +8,7 @@ import './ListeBouteilleCellier.css';
 
 //import { circularProgressClasses } from '@mui/material';
 import { Box } from '@mui/system';
-import { Breadcrumbs, Link, Typography } from '@mui/material';
+import { Breadcrumbs, Link, touchRippleClasses, Typography } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 //import MenuItem from '@mui/material/MenuItem';
 //import ListSubheader from '@mui/material/ListSubheader';
@@ -41,6 +41,7 @@ export default class ListeBouteilleCellier extends React.Component {
 		this.ajouterAction = this.ajouterAction.bind(this);
 		this.retirerAction = this.retirerAction.bind(this);
 		this.sortBouteilles = this.sortBouteilles.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentDidMount() {
@@ -49,6 +50,7 @@ export default class ListeBouteilleCellier extends React.Component {
         }
 
 		this.fetchBouteilles();
+		document.title = this.props.title;
 	}
 
 	componentDidUpdate() {
@@ -57,6 +59,9 @@ export default class ListeBouteilleCellier extends React.Component {
         }
     }
 
+	handleClose() {
+		this.setState({open : false});
+	}
 	sortBouteilles(obj) {
 		const parsedObj = JSON.parse(obj);
 		const key = parsedObj.key;
@@ -231,7 +236,7 @@ export default class ListeBouteilleCellier extends React.Component {
 			<Box>
 				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
 				<Typography color="text.primary">Mon Cellier</Typography>
-					<Link underline="hover" color="inherit" to="/celliers/liste">
+					<Link underline="hover" color="inherit" onClick={() => this.props.history.push('/celliers/liste/')}>
 						Celliers
 					</Link>
 					<Typography color="text.primary">{this.state.nomCellier}</Typography>
@@ -271,6 +276,7 @@ export default class ListeBouteilleCellier extends React.Component {
 						action={this.state.action}
 						changerQuantite={this.changerQuantite}
 						getQuantite={this.state.qteModif}
+						handleClose={this.handleClose}
 					/>
 
 					<div className="liste_bouteilles">{bouteilles}</div>
