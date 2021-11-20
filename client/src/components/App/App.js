@@ -45,18 +45,22 @@ export default class App extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.data[0].est_admin === "1") {
-          this.setState({ estAdmin: true })
+          window.sessionStorage.setItem('estAdmin', true);
         }
       });
   }
 
   seConnecter(id) {
     this.fetchUsager(id);
-    this.setState({ id_usager: id, estConnecte: true });
+
+    window.sessionStorage.setItem('estConnecte', true)
+    window.sessionStorage.setItem('id_usager', id)
   }
 
   logout() {
-    this.setState({ id_usager: undefined, estConnecte: false });
+    window.sessionStorage.clear();
+
+    //this.props.history.push('/');
   }
 
   render() {

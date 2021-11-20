@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+
 import moment from 'moment';
 
 export default class AjoutBouteille extends React.Component {
@@ -43,7 +44,7 @@ export default class AjoutBouteille extends React.Component {
 		this.choixBouteille = this.choixBouteille.bind(this);
 		this.fetchCelliers = this.fetchCelliers.bind(this);
 	}
-	
+
 	componentDidMount() {
 		// Vérifie la connexion et redirige au besoin.
 		if (!this.props.estConnecte) {
@@ -58,10 +59,10 @@ export default class AjoutBouteille extends React.Component {
 	}
 
 	componentDidUpdate() {
-        if (!this.props.estConnecte) {
-            return this.props.history.push('/connexion');
-        }
-    }
+		if (!this.props.estConnecte) {
+			return this.props.history.push('/connexion');
+		}
+	}
 
 	fetchCelliers() {
 		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + this.props.id_usager, {
@@ -174,7 +175,7 @@ export default class AjoutBouteille extends React.Component {
 					}}
 				>
 					<span className="ajout_bouteille_cellier_titre">Ajouter une bouteille au cellier</span>
-					
+
 					<Box
 						sx={{
 							display: 'flex',
@@ -191,7 +192,7 @@ export default class AjoutBouteille extends React.Component {
 							onChange={(event) => this.fetchBouteillesSAQ(event)}
 						/>
 						{bouteilles}
-						
+
 						<FormControl>
 							<InputLabel>Choisir le cellier</InputLabel>
 							<Select
