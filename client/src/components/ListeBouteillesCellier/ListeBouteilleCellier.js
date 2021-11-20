@@ -45,7 +45,7 @@ export default class ListeBouteilleCellier extends React.Component {
 	}
 
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
 
@@ -54,7 +54,7 @@ export default class ListeBouteilleCellier extends React.Component {
 	}
 
 	componentDidUpdate() {
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
     }

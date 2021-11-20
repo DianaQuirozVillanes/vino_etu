@@ -52,7 +52,7 @@ export default class Pied extends React.Component {
 
 	render() {
 
-		if (!window.sessionStorage.getItem('estAdmin')) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return (
 				<>
 					<BottomNavigation showLabels sx={{ width: '100vw', position: 'fixed', bottom: 19, left: 0, right: 0, zIndex: 1, paddingTop: .5, backgroundColor: '#641B30' }}>

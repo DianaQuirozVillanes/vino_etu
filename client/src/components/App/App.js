@@ -60,7 +60,7 @@ export default class App extends React.Component {
   logout() {
     window.sessionStorage.clear();
 
-    //this.props.history.push('/');
+    window.location.reload();
   }
 
   render() {
@@ -76,10 +76,7 @@ export default class App extends React.Component {
             path="/bouteille/ajout"
             component={(props) => (
               <AjoutBouteille
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
                 title="Ajouter bouteille"
-                estAdmin={this.state.estAdmin}
                 {...props}
               />
             )}
@@ -90,9 +87,6 @@ export default class App extends React.Component {
             path="/"
             component={(props) => (
               <ListeCelliers
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 title="Liste celliers"
                 {...props}
               />
@@ -105,9 +99,6 @@ export default class App extends React.Component {
             component={(props) => (
               <Inscription
                 title="S'inscrire"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 {...props}
               />
             )}
@@ -118,9 +109,6 @@ export default class App extends React.Component {
             path="/compte/modifier"
             component={(props) => (
               <ModifierCompte
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 title="Modifier son compte"
                 {...props}
               />
@@ -132,11 +120,8 @@ export default class App extends React.Component {
             path="/connexion"
             component={(props) => (
               <Connexion
-                login={this.seConnecter}
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 title="Se connecter"
+                login={this.seConnecter}
                 {...props}
               />
             )}
@@ -147,9 +132,6 @@ export default class App extends React.Component {
             path="/celliers/liste"
             component={(props) => (
               <ListeCelliers
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 title="Liste celliers"
                 {...props}
               />
@@ -161,13 +143,10 @@ export default class App extends React.Component {
             path="/cellier/:id"
             render={(param_route) => (
               <ListeBouteilles
-                {...param_route}
+                title="Liste des bouteilles"
                 id={param_route?.match?.params?.id}
                 param={param_route}
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Liste des bouteilles"
+                {...param_route}
               />
             )}
           />
@@ -177,13 +156,10 @@ export default class App extends React.Component {
             path="/cellier/bouteilles/:id"
             render={(param_route) => (
               <DetailsBouteille
+                title="Détails bouteille"
                 {...param_route}
                 bouteille_id={param_route?.match?.params?.bouteille_id}
                 param={param_route}
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Détails bouteille"
               />
             )}
           />
@@ -193,9 +169,6 @@ export default class App extends React.Component {
             path="/admin"
             component={(props) => (
               <Admin
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 title="Admin"
                 {...props}
               />
@@ -208,9 +181,6 @@ export default class App extends React.Component {
             component={(props) => (
               <AjoutCellier
                 title="Ajouter cellier"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 {...props}
               />
             )}
@@ -222,9 +192,6 @@ export default class App extends React.Component {
             component={(props) => (
               <ModifierCellier
                 title="Modifier cellier"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 {...props}
               />
             )}
@@ -236,9 +203,6 @@ export default class App extends React.Component {
             component={(props) => (
               <ListeAchat
                 title="Liste d'achat"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
                 {...props}
               />
             )}
@@ -250,9 +214,6 @@ export default class App extends React.Component {
         <Route
           component={(props) => (
             <Pied
-              estConnecte={this.state.estConnecte}
-              id_usager={this.state.id_usager}
-              estAdmin={this.state.estAdmin}
               logout={this.logout}
               {...props}
             />
