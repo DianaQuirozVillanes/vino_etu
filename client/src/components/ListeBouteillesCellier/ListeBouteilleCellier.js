@@ -108,10 +108,8 @@ export default class ListeBouteilleCellier extends React.Component {
 			.map((data) => {
 				flag = 'https://flagcdn.com/' + data.alpha2 + '.svg';
 			});
-
 		return flag;
 	}
-
 
 	changerQuantite(valeur) {
 		this.setState({ qteModif: valeur, open: false });
