@@ -20,7 +20,6 @@ export default class Dialogue extends React.Component {
 			action: ''
 		};
 
-		this.handleClose = this.handleClose.bind(this);
 	}
 	/**
 	 * @param  {} previousProps
@@ -36,14 +35,10 @@ export default class Dialogue extends React.Component {
 		}
 	}
 
-	handleClose() {
-		this.setState({ open: false });
-	}
-
 	render() {
 		return (
 			<div>
-				<Dialog open={this.state.open} onClose={this.handleClose}>
+				<Dialog open={this.props.open} onClose={this.handleClose}>
 					<DialogTitle>{this.state.titre}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>Veuillez indiquer la quantité à {this.state.action}</DialogContentText>

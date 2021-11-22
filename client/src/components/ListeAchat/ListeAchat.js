@@ -38,7 +38,7 @@ export default class ListeAchat extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.estConnecte) {
+    if (!window.sessionStorage.getItem('estConnecte')) {
       return this.props.history.push("/connexion");
     }
 
@@ -50,7 +50,7 @@ export default class ListeAchat extends React.Component {
   }
 
   fetchListeAchat() {
-    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + this.props.id_usager, {
+    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + window.sessionStorage.getItem('id_usager'), {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export default class ListeAchat extends React.Component {
   }
 
   fetchBouteilles() {
-    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + this.props.id_usager, {
+    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + window.sessionStorage.getItem('id_usager'), {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',

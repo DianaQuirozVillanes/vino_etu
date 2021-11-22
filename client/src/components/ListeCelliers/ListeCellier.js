@@ -21,14 +21,15 @@ export default class ListeCellier extends React.Component {
 	}
 
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
+
 		this.fetchCelliers();
 	}
 
 	componentDidUpdate() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 	}
@@ -47,7 +48,7 @@ export default class ListeCellier extends React.Component {
 			}
 		};
 
-		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + this.props.id_usager, getMethod)
+		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + window.sessionStorage.getItem('id_usager'), getMethod)
 			.then((reponse) => reponse.json())
 			.then((donnees) => {
 				this.setState({ items: donnees.data });
