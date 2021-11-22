@@ -16,15 +16,17 @@ export default class DetailsBouteille extends React.Component {
 
 		this.state = {
 			items: [],
-			nom: '',
-			description: '',
-			pays: '',
-			millesime: '',
-			code_saq: '',
-			format: '',
-			garde_jusqua: '',
-			note: '',
+			nom: undefined,
+			description: undefined,
+			pays: undefined,
+			millesime: undefined,
+			code_saq: undefined,
+			format: undefined,
+			garde_jusqua: undefined,
+			note: undefined,
 			date_ajout: undefined,
+			quantite: undefined,
+			id_cellier: undefined,
 			erreurNom: false,
 			erreurPays: false,
 			erreurMillesime: false,
@@ -117,7 +119,9 @@ export default class DetailsBouteille extends React.Component {
 					format: donnees.data[0].format,
 					garde_jusqua: donnees.data[0].garde_jusqua,
 					note: donnees.data[0].note_degustation,
-					date_ajout: donnees.data[0].date_ajout
+					date_ajout: donnees.data[0].date_ajout,
+					quantite: donnees.data[0].quantite,
+					id_cellier: donnees.data[0].id_cellier
 				});
 			});
 	}
@@ -135,7 +139,8 @@ export default class DetailsBouteille extends React.Component {
 				format: this.state.format,
 				garde_jusqua: this.state.garde_jusqua,
 				note: this.state.note,
-				date_ajout: this.state.date_ajout
+				date_ajout: this.state.date_ajout,
+				quantite: this.state.quantite
 			};
 			const putMethod = {
 				method: 'PUT',
@@ -149,7 +154,7 @@ export default class DetailsBouteille extends React.Component {
 			fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/', putMethod)
 				.then((reponse) => reponse.json())
 				.then((donnees) => {
-					if (donnees.data) return this.props.history.push('/celliers/liste');
+					if (donnees.data) return this.props.history.push('/cellier/' + this.state.id_cellier);
 				});
 		} else {
 			console.log('validation incorrecte');
