@@ -64,10 +64,20 @@ export default class AjoutCellier extends React.Component {
 		return estValide;
 	}
 
+	/**
+	 * Saisir l'emplacement du nouveau cellier
+	 * 
+	 * @param {string} e Valeur du champs Emplacement
+	 */
 	saisirEmplacement(e) {
 		this.setState({ emplacement: e.target.value });
 	}
 
+	/**
+	 * Saisir la température du nouveau cellier
+	 * 
+	 * @param {string} e Valeur du champs Température
+	 */
 	saisirTemperature(e) {
 		this.setState({ temperature: e.target.value });
 	}
