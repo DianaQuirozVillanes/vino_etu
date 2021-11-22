@@ -81,7 +81,8 @@ export default class Pied extends React.Component {
 							label="Celliers"
 							value="recents"
 							icon={<FormatListBulletedIcon />}
-							onClick={(e) => this.openCelliersMenu(e)}
+							//onClick={(e) => this.openCelliersMenu(e)}
+							onClick={() => this.props.history.push("/celliers/liste")}
 						/>
 
 						<AddCircleOutlineOutlinedIcon sx={{ transform: 'translateX(550%)', width: 15, color: 'white' }} />
