@@ -52,6 +52,17 @@ export default class AjoutBouteille extends React.Component {
 		this.fetchBouteillesSAQ = this.fetchBouteillesSAQ.bind(this);
 		this.ajouterBouteilleCellier = this.ajouterBouteilleCellier.bind(this);
 		this.choixBouteille = this.choixBouteille.bind(this);
+		this.saisirCellier = this.saisirCellier.bind(this);
+		this.saisirNom = this.saisirNom.bind(this);
+		this.saisirTypeVin = this.saisirTypeVin.bind(this);
+		this.saisirFormat = this.saisirFormat.bind(this);
+		this.saisirOrigine = this.saisirOrigine.bind(this);
+		this.saisirQuantite = this.saisirQuantite.bind(this);
+		this.saisirMillesime = this.saisirMillesime.bind(this);
+		this.saisirDateAchat = this.saisirDateAchat.bind(this);
+		this.saisirPrix = this.saisirPrix.bind(this);
+		this.saisirConserver = this.saisirConserver.bind(this);
+		this.saisirCommentaires = this.saisirCommentaires.bind(this);
 		this.fetchCelliers = this.fetchCelliers.bind(this);
 		this.validation = this.validation.bind(this);
 	}
@@ -110,7 +121,7 @@ export default class AjoutBouteille extends React.Component {
 	/**
 	 * Choisir la bouteille.
 	 * 
-	 * @param {array} info La bouteille choisie dans la liste de la recherche
+	 * @param {array} info La bouteille choisie dans la liste de recherche
 	 */
 	choixBouteille(info) {
 		this.setState({
@@ -123,6 +134,104 @@ export default class AjoutBouteille extends React.Component {
 			url_img: info.url_img,
 			url_saq: info.url_saq
 		});
+	}
+	/**
+	 * Saisir le cellier
+	 * 
+	 * @param {string} e Valeur du Select Cellier
+	 */
+	saisirCellier(e) {
+		this.setState({ id_cellier: e.target.value });
+	}
+
+	/**
+	 * Saisir le nom de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Nom
+	 */
+	saisirNom(e) {
+		this.setState({ nom: e.target.value });
+	}
+
+	/**
+	 * Saisir le type de vin
+	 * 
+	 * @param {string} e Valeur du Select Type de vin
+	 */
+	saisirTypeVin(e) {
+		this.setState({ vino__type_id: e.target.value });
+	}
+
+	/**
+	 * Saisir le format de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Format
+	 */
+	saisirFormat(e) {
+		this.setState({ format: e.target.value });
+	}
+
+	/**
+	 * Saisir le pays d'origine de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Origine
+	 */
+	saisirOrigine(e) {
+		this.setState({ pays: e.target.value });
+	}
+
+	/**
+	 * Saisir la quantité de bouteille à ajouter
+	 * 
+	 * @param {string} e Valeur du champs Quantité
+	 */
+	saisirQuantite(e) {
+		this.setState({ quantite: e.target.value });
+	}
+
+	/**
+	 * Saisir le millesime de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Millesime
+	 */
+	saisirMillesime(e) {
+		this.setState({ millesime: e.target.value });
+	}
+	
+	/**
+	 * Saisir la date d'achat de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Date d'achat
+	 */
+	saisirDateAchat(e) {
+		this.setState({ date_achat: e.target.value });
+	}
+
+	/**
+	 * Saisir le prix d'achat de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs prix
+	 */
+	saisirPrix(e) {
+		this.setState({ prix: e.target.value });
+	}
+
+	/**
+	 * Saisir la conservation de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs À conserver
+	 */
+	saisirConserver(e) {
+		this.setState({ garde: e.target.value });
+	}
+
+	/**
+	 * Saisir les commentaires de l'usager sur la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Commentaires
+	 */
+	saisirCommentaires(e) {
+		this.setState({ commentaires: e.target.value });
 	}
 
 	/** 
@@ -354,7 +463,7 @@ export default class AjoutBouteille extends React.Component {
 									}
 								}}
 								value={this.state.id_cellier}
-								onChange={(e) => this.setState({ id_cellier: e.target.value })}
+								onChange={(e) => this.saisirCellier(e)}
 							>
 								{this.state.celliers.map((cellier) => (
 									<MenuItem value={cellier.id_cellier}>{cellier.emplacement}</MenuItem>
@@ -369,7 +478,7 @@ export default class AjoutBouteille extends React.Component {
 							variant="outlined"
 							value={this.state.nom}
 							type="text"
-							onChange={(e) => this.setState({ nom: e.target.value })}
+							onChange={(e) => this.saisirNom(e)}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
@@ -410,7 +519,7 @@ export default class AjoutBouteille extends React.Component {
 									}
 								}}
 								value={this.state.vino__type_id}
-								onChange={(e) => this.setState({ vino__type_id: e.target.value })}
+								onChange={(e) => this.saisirTypeVin(e)}
 							>
 								<MenuItem value="1">Vin Rouge</MenuItem>
 								<MenuItem value="2">Vin Blanc</MenuItem>
@@ -422,7 +531,7 @@ export default class AjoutBouteille extends React.Component {
 							error={this.state.erreurFormat}
 							label="Format"
 							variant="outlined"
-							onChange={(evt) => this.setState({ format: evt.target.value })}
+							onChange={(e) => this.saisirFormat(e)}
 							value={this.state.format}
 							sx={{
 								color: 'white',
@@ -457,7 +566,7 @@ export default class AjoutBouteille extends React.Component {
 									}
 								}}
 								value={this.state.pays}
-								onChange={(e) => this.setState({ pays: e.target.value })}
+								onChange={(e) => this.saisirOrigine(e)}
 							>
 								{listePays.map((item) => <MenuItem value={item.name}>{item.name}</MenuItem>)}
 							</Select>
@@ -471,7 +580,7 @@ export default class AjoutBouteille extends React.Component {
 							type="number"
 							value={this.state.quantite}
 							name="quantite"
-							onChange={(e) => this.setState({ quantite: e.target.value })}
+							onChange={(e) => this.saisirQuantite(e)}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
@@ -499,7 +608,7 @@ export default class AjoutBouteille extends React.Component {
 							variant="outlined"
 							value={this.state.millesime}
 							name="millesime"
-							onChange={(e) => this.setState({ millesime: e.target.value })}
+							onChange={(e) => this.saisirMillesime(e)}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
@@ -528,7 +637,7 @@ export default class AjoutBouteille extends React.Component {
 							type="date"
 							value={this.state.date_achat}
 							name="date_achat"
-							onChange={(e) => this.setState({ date_achat: e.target.value })}
+							onChange={(e) => this.saisirDateAchat(e)}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
@@ -556,7 +665,7 @@ export default class AjoutBouteille extends React.Component {
 							variant="outlined"
 							value={this.state.prix}
 							name="prix"
-							onChange={(e) => this.setState({ prix: e.target.value })}
+							onChange={(e) => this.saisirPrix(e)}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
@@ -583,7 +692,7 @@ export default class AjoutBouteille extends React.Component {
 							variant="outlined"
 							value={this.state.garde}
 							name="garde_jusqua"
-							onChange={(e) => this.setState({ garde: e.target.value })}
+							onChange={(e) => this.saisirConserver(e)}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
@@ -610,7 +719,7 @@ export default class AjoutBouteille extends React.Component {
 							variant="outlined"
 							value={this.state.commentaires}
 							name="notes"
-							onChange={(e) => this.setState({ commentaires: e.target.value })}
+							onChange={(e) => this.saisirCommentaires(e)}
 							InputLabelProps={{
 								className: 'ajout_bouteille_input'
 							}}
