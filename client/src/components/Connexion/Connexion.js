@@ -20,6 +20,7 @@ export default class Connexion extends React.Component {
 		};
 
 		this.validation = this.validation.bind(this);
+		this.peseEntree = this.peseEntree.bind(this);
 		this.seConnecter = this.seConnecter.bind(this);
 	}
 
@@ -57,6 +58,12 @@ export default class Connexion extends React.Component {
 			estValide = true;
 		}
 		return estValide;
+	}
+
+	peseEntree(e) {
+		if (e.keyCode === 13) {
+			this.seConnecter();
+		}
 	}
 
 	seConnecter() {
@@ -135,6 +142,7 @@ export default class Connexion extends React.Component {
 						}}
 					>
 						<TextField
+							autoComplete
 							error={this.state.erreurCourriel}
 							label="Courriel"
 							variant="outlined"
@@ -163,11 +171,13 @@ export default class Connexion extends React.Component {
 						/>
 						{msgErreurCourriel}
 						<TextField
+							autoComplete
 							error={this.state.erreurMot_passe}
 							label="Mot de passe"
 							type="password"
 							variant="outlined"
-							onBlur={(evt) => this.setState({ mot_passe: evt.target.value })}
+							onChange={(evt) => this.setState({ mot_passe: evt.target.value })}
+							onKeyDown={(e) => this.peseEntree(e)}
 							placeholder="12345"
 							sx={{
 								color: 'white',
