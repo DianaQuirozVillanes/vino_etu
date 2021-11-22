@@ -31,7 +31,7 @@ export default class Admin extends React.Component {
             return this.props.history.push('/connexion');
         }
     }
-    
+
     getUsagers() {
         const options = {
             method: 'GET',

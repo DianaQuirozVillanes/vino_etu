@@ -80,7 +80,7 @@ class ListeAchatModele extends Modele
 
                 $requete = "INSERT INTO vino__liste_achat_vino(liste_achat_id, bouteille_id, millesime, quantite) VALUES (" .
                     "'" . $id . "'," .
-                    "'" . $bte->bouteille_id . "'," .
+                    "'" . $bte->id . "'," .
                     "'" . $bte->millesime . "'," .
                     "'" . $bte->quantite . "');";
 
@@ -119,7 +119,7 @@ class ListeAchatModele extends Modele
             $bouteilles .= $bte->id . ',';
 
             $requete = "INSERT INTO vino__liste_achat_vino (liste_achat_id, bouteille_id, millesime, quantite)"
-                . " VALUES ($body->listeAchatId, $bte->id, '$bte->millesime', $bte->quantite)"
+                . " VALUES ('$body->listeAchatId', '$bte->id', '$bte->millesime', '$bte->quantite')"
                 . " ON DUPLICATE KEY UPDATE"
                 . " quantite = $bte->quantite";
 
