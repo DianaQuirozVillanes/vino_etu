@@ -25,6 +25,8 @@ export default class AjoutCellier extends React.Component {
 		};
 
 		this.validation = this.validation.bind(this);
+		this.saisirEmplacement = this.saisirEmplacement.bind(this);
+		this.saisirTemperature = this.saisirTemperature.bind(this);
 		this.creerCellier = this.creerCellier.bind(this);
 	}
 
@@ -60,6 +62,14 @@ export default class AjoutCellier extends React.Component {
 			this.setState({ erreurEmplacement: false });
 		}
 		return estValide;
+	}
+
+	saisirEmplacement(e) {
+		this.setState({ emplacement: e.target.value });
+	}
+
+	saisirTemperature(e) {
+		this.setState({ temperature: e.target.value });
 	}
 
 	/** 
@@ -126,9 +136,12 @@ export default class AjoutCellier extends React.Component {
 						error={this.state.erreurEmplacement}
 						label="Emplacement"
 						variant="outlined"
-						onBlur={(evt) => this.setState({ emplacement: evt.target.value })}
+						onBlur={(e) => this.saisirEmplacement(e)}
 						sx={{
 							color: 'white',
+							'& label.Mui-focused': {
+								color: 'white'
+							},
 							'& input:valid + fieldset': {
 								borderColor: 'white'
 							},
@@ -152,7 +165,16 @@ export default class AjoutCellier extends React.Component {
 						type="number"
 						variant="outlined"
 						inputProps={{ step: '0.5' }}
-						onBlur={(e) => this.setState({ temperature: e.target.value })}
+						onBlur={(e) => this.saisirTemperature(e)}
+						sx={{
+							color: 'white',
+							'& label.Mui-focused': {
+								color: 'white'
+							},
+							'& input:valid:focus + fieldset': {
+								borderColor: 'white'
+							}
+						}}
 					/>
 
 					<Fab
