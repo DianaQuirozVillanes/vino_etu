@@ -65,7 +65,7 @@ export default class ListeAchat extends React.Component {
               itemsListeAchat: donnees.data,
               listeAchat: true,
               titre: "Liste d'achat",
-              titreBouton: "MODIFIER LISTE"
+              titreBouton: "Modifier"
             }
           );
           this.state.itemsListeAchat.map(x => {
@@ -80,7 +80,7 @@ export default class ListeAchat extends React.Component {
             {
               titre: "Inventaire des bouteilles",
               listeAchat: false,
-              titreBouton: "CRÉER LISTE"
+              titreBouton: "Créer"
             });
         }
       });
@@ -95,7 +95,7 @@ export default class ListeAchat extends React.Component {
       .map((item) => {
         console.log("bouteille_id: ", item.bouteille_id);
         console.log("quantite: ", item.quantite);
-        bouteillesListeAchat.push(item.bouteille_id);
+        bouteillesListeAchat = [...bouteillesListeAchat, item.bouteille_id]
 
         this.setState(function (state, props) {
           //let quantiteListe = state.mappedItems.find(x => x.id === item.bouteille_id);
@@ -110,7 +110,7 @@ export default class ListeAchat extends React.Component {
           };
         })
       })
-      console.log("bouteillesSelectionnes: ", this.state.bouteillesSelectionnes);
+    console.log("bouteillesSelectionnes: ", this.state.bouteillesSelectionnes);
   }
 
   fetchBouteilles() {
@@ -146,18 +146,18 @@ export default class ListeAchat extends React.Component {
       this.setState({ bouteilles: [] })
       this.state.itemsSelected
         .map((item) => {
-          const temporal = { bouteille_id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
-         /* this.setState(function (state, props) {
-            let nouveauTableau = state.mappedItems.slice();
-
-            nouveauTableau[index].quantite_achat = item.quantite;
-
-            return {
-              mappedItems: nouveauTableau,
-              bouteillesSelectionnes: bouteillesListeAchat
-
-            };
-          })*/
+          const temporal = { id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
+          /* this.setState(function (state, props) {
+             let nouveauTableau = state.mappedItems.slice();
+ 
+             nouveauTableau[index].quantite_achat = item.quantite;
+ 
+             return {
+               mappedItems: nouveauTableau,
+               bouteillesSelectionnes: bouteillesListeAchat
+ 
+             };
+           })*/
           this.state.bouteilles.push(temporal); //changer
         })
 
@@ -171,10 +171,10 @@ export default class ListeAchat extends React.Component {
 
         const putMethod = {
           method: 'PUT',
-          headers: {
+          headers: new Headers({
             'Content-type': 'application/json',
             authorization: 'Basic ' + btoa('vino:vino')
-          },
+          }),
           body: JSON.stringify(donnes)
         };
         console.log("putMethod: ", putMethod);
@@ -189,17 +189,17 @@ export default class ListeAchat extends React.Component {
           });
       } else {  //Créer liste d'achat
         let donnes = {
-          id_usager: this.props.id_usager,
+          id_usager: window.sessionStorage.getItem('id_usager'),
           bouteilles: this.state.bouteilles
         };
         console.log("donnes: ", donnes);
 
         const postMethod = {
           method: 'POST',
-          headers: {
+          headers: new Headers({
             'Content-type': 'application/json',
             authorization: 'Basic ' + btoa('vino:vino')
-          },
+          }),
           body: JSON.stringify(donnes)
         };
 
@@ -237,6 +237,7 @@ export default class ListeAchat extends React.Component {
         .then((reponse) => reponse.json())
         .then((donnees) => {
           if (donnees.data) {
+            this.setState({ bouteillesSelectionnes: [] });
             this.fetchBouteilles();
           }
         });
@@ -254,14 +255,15 @@ export default class ListeAchat extends React.Component {
       nouveauTableau[index].quantite_achat = e.value;
 
       return {
-        mappedItems: nouveauTableau
+        mappedItems: nouveauTableau,
+        itemsSelected: [nouveauTableau[index]]
       };
     });
   }
 
   /**
    * 
-   * @param {*} ids 
+   * @param {Set} ids 
    */
   onCheckbox(ids) {
     const selectedIDs = new Set(ids)
@@ -272,7 +274,10 @@ export default class ListeAchat extends React.Component {
       }
     })
 
-    this.setState({ itemsSelected: selectedRowData })
+    this.setState({
+      itemsSelected: selectedRowData,
+      bouteillesSelectionnes: ids
+    });
   }
 
   afficherBouteilles() {
@@ -298,7 +303,7 @@ export default class ListeAchat extends React.Component {
         millesime: bteObj.millesime,
         quantite: bteObj.quantite,
         quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
-          ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).qte
+          ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).quantite_achat
       }
     })
 
@@ -317,17 +322,16 @@ export default class ListeAchat extends React.Component {
       { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
       { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
     ];
-    //console.log("mappedItems: ", this.state.mappedItems);
+
+    console.log('TEST', this.state.bouteillesSelectionnes)
     return (
       <Box className="liste_achat_container" sx={{
         display: "flex", justfyContent: "center", alignItems: "center",
         width: "85vw", flexDirection: "column", borderRadius: "1rem",
-        margin: "0 auto", marginTop: "20vh", color: "white",
+        margin: "0 auto", marginTop: "10vh", color: "white",
       }} >
 
-        <span> {this.state.titre} </span>
-
-        <div className="liste_achat_rows" style={{ height: 400, width: '100%' }}>
+        <Box className="liste_achat_rows" style={{ height: 400, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: 0 }}>
           <DataGrid
             rows={this.state.mappedItems}
             columns={colonnes}
@@ -338,9 +342,10 @@ export default class ListeAchat extends React.Component {
             disableSelectionOnClick={true}
             checkboxSelection
             onSelectionModelChange={(ids) => this.onCheckbox(ids)}
+
             selectionModel={this.state.bouteillesSelectionnes}
           />
-        </div>
+        </Box>
         {/*
         <Button
           className="liste_achat_effacer"
@@ -351,25 +356,45 @@ export default class ListeAchat extends React.Component {
           Effacer liste d'achat
         </Button>*/}
 
-        <Fab
-          className="liste_achat_effacer"
-          variant="outlined"
-          onClick={(e) => this.effacerListe()}
-          disabled={!this.state.listeAchat}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '1rem',
+            justifyContent: 'space-between'
+          }}
         >
-          {<DeleteIcon />}
-          Liste d'achat
-        </Fab>
-
-        <Fab
-          className="button"
-          variant="extended"
-          onClick={() => this.creerListeAchat()}
-          sx={{ backgroundColor: '#641b30', color: 'white' }}
-        >
-          <AutoFixHighOutlinedIcon />
-          {this.state.titreBouton}
-        </Fab>
+          <Fab
+            className="button"
+            variant="extended"
+            onClick={() => this.creerListeAchat()}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '.5rem',
+              backgroundColor: '#641b30', color: 'white'
+            }}
+          >
+            <AutoFixHighOutlinedIcon />
+            {this.state.titreBouton}
+          </Fab>
+          <Fab
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '.5rem',
+              backgroundColor: '#641b30', color: 'white'
+            }}
+            className="button"
+            variant="extended"
+            onClick={(e) => this.effacerListe()}
+            disabled={!this.state.listeAchat}
+          >
+            {<DeleteIcon />}
+            Supprimer
+          </Fab>
+        </Box>
       </Box>
     );
   }

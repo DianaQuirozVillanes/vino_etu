@@ -22,19 +22,6 @@
     background-color: #641B30;
 }
 
-.liste_achat_container > .liste_achat_effacer  {
-    width: 22%;
-    align-self: end;
-    color: white;
-    outline: unset;
-    border:none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: #641B30;
-    border-radius: .5rem;
-    /*padding: .5rem 1rem;*/
-}
-
 .liste_achat_container > .liste_achat_effacer:hover {
     color: white;
     background-color: white;
@@ -51,4 +38,8 @@
 
 .liste_achat_rows .MuiCheckbox-root {
     color: white;
+}
+
+.liste_achat_rows .MuiDataGrid-root {
+    border: none;
 }
