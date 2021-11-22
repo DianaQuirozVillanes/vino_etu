@@ -35,14 +35,14 @@ export default class AjoutCellier extends React.Component {
 	 * 
 	 */
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 		this.setState({ titreBoutton: 'Nouveau cellier' });
 	}
 
 	componentDidUpdate() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 	}
@@ -90,7 +90,7 @@ export default class AjoutCellier extends React.Component {
 		if (this.validation()) {
 			let donnees = {
 				emplacement: this.state.emplacement,
-				usager_id: this.props.id_usager,
+				usager_id: window.sessionStorage.getItem('id_usager'),
 				temperature: this.state.temperature
 			};
 

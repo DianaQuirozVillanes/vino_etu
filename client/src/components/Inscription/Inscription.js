@@ -36,7 +36,7 @@ export default class Inscription extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.props.estConnecte) {
+		if (window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 	}

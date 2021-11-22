@@ -8,7 +8,7 @@ import './ListeBouteilleCellier.css';
 
 //import { circularProgressClasses } from '@mui/material';
 import { Box } from '@mui/system';
-import { Breadcrumbs, Link, Typography } from '@mui/material';
+import { Breadcrumbs, Link, touchRippleClasses, Typography } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 //import MenuItem from '@mui/material/MenuItem';
 //import ListSubheader from '@mui/material/ListSubheader';
@@ -41,10 +41,11 @@ export default class ListeBouteilleCellier extends React.Component {
 		this.ajouterAction = this.ajouterAction.bind(this);
 		this.retirerAction = this.retirerAction.bind(this);
 		this.sortBouteilles = this.sortBouteilles.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
 
@@ -53,11 +54,14 @@ export default class ListeBouteilleCellier extends React.Component {
 	}
 
 	componentDidUpdate() {
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
     }
 
+	handleClose() {
+		this.setState({open : false});
+	}
 	sortBouteilles(obj) {
 		const parsedObj = JSON.parse(obj);
 		const key = parsedObj.key;
@@ -270,6 +274,7 @@ export default class ListeBouteilleCellier extends React.Component {
 						action={this.state.action}
 						changerQuantite={this.changerQuantite}
 						getQuantite={this.state.qteModif}
+						handleClose={this.handleClose}
 					/>
 
 					<div className="liste_bouteilles">{bouteilles}</div>

@@ -25,10 +25,10 @@ export default class Connexion extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.props.estConnecte) {
-			return this.props.history.push('/connexion');
-		}
-	}
+        if (window.sessionStorage.getItem('estConnecte')) {
+            return this.props.history.push('/connexion');
+        }
+    }
 
 	validation() {
 		let estValide = false;

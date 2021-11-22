@@ -15,7 +15,7 @@ export default class Admin extends React.Component {
 
     componentDidMount() {
         // Vérifie la connexion et redirige au besoin.
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
 
@@ -27,11 +27,11 @@ export default class Admin extends React.Component {
     }
 
     componentDidUpdate() {
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
     }
-    
+
     getUsagers() {
         const options = {
             method: 'GET',
