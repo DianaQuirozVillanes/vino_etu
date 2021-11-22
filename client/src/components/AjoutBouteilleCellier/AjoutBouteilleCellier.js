@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+
 import moment from 'moment';
 
 export default class AjoutBouteille extends React.Component {
@@ -56,7 +57,7 @@ export default class AjoutBouteille extends React.Component {
 
 	componentDidMount() {
 		// Vérifie la connexion et redirige au besoin.
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 
@@ -68,13 +69,13 @@ export default class AjoutBouteille extends React.Component {
 	}
 
 	componentDidUpdate() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 	}
 
 	fetchCelliers() {
-		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + this.props.id_usager, {
+		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + window.sessionStorage.getItem('id_usager'), {
 			method: 'GET',
 			headers: new Headers({
 				'Content-Type': 'application/json',
@@ -172,7 +173,7 @@ export default class AjoutBouteille extends React.Component {
 			const entete = new Headers();
 			const nouvelleBouteille = {
 				prixBouteilleSAQ: this.state.prix,
-				usager_id: this.props.id_usager,
+				usager_id: window.sessionStorage.getItem('id_usager'),
 				nom: this.state.nom,
 				pays: this.state.pays,
 				millesime: this.state.millesime,

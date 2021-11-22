@@ -30,7 +30,7 @@ export default class ModifierCompte extends React.Component {
 
     componentDidMount() {
         // Vérifie la connexion et redirige au besoin.
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
 
@@ -38,7 +38,7 @@ export default class ModifierCompte extends React.Component {
     }
 
     componentDidUpdate() {
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
     }
@@ -89,7 +89,7 @@ export default class ModifierCompte extends React.Component {
             }
         }
 
-        fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + this.props.id_usager, options)
+        fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + window.sessionStorage.getItem('id_usager'), options)
             .then(reponse => reponse.json())
             .then((donnees) => {
                 this.setState({
@@ -121,7 +121,7 @@ export default class ModifierCompte extends React.Component {
                 body: JSON.stringify(donnes)
             };
 
-            fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + this.props.id_usager, options)
+            fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + window.sessionStorage.getItem('id_usager'), options)
                 .then(res => res.json())
                 .then((data) => {
                     if (data.data === true) {

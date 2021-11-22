@@ -20,7 +20,10 @@ class BouteilleModele extends Modele
 	{
 		$rows = array();
 
-		$res = $this->_db->query("SELECT * FROM vino__bouteille LEFT JOIN vino__type ON vino__type_id = vino__type.id WHERE vino__bouteille.id = $id");
+		$res = $this->_db->query("SELECT vino__bouteille.*, vino__cellier_inventaire.id_cellier, vino__cellier_inventaire.quantite FROM vino__bouteille"
+		. " LEFT JOIN vino__type ON vino__type_id = vino__type.id"
+		. " INNER join vino__cellier_inventaire ON vino__bouteille.id = vino__cellier_inventaire.bouteille_id"
+		. " WHERE vino__bouteille.id = $id");
 
 		if ($res) {
 			if ($res->num_rows) {
