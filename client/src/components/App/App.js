@@ -81,6 +81,7 @@ export default class App extends React.Component {
           (
             <Entete
               title={this.state.title}
+              logout={this.logout}
               {...props}
             />
           )}
