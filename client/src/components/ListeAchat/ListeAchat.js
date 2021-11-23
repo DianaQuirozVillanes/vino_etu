@@ -94,7 +94,7 @@ export default class ListeAchat extends React.Component {
 
     this.state.itemsListeAchat
       .map((item) => {
-        bouteillesListeAchat = [...bouteillesListeAchat, item.bouteille_id]
+        bouteillesListeAchat = [...bouteillesListeAchat, parseInt(item.bouteille_id)]
 
         this.setState(function (state, props) {
           let index = state.mappedItems.findIndex(x => x.id == item.bouteille_id);
@@ -258,22 +258,41 @@ export default class ListeAchat extends React.Component {
    */
   onCheckbox(ids) {
     const selectedIDs = new Set(ids)
+    console.log("selectedIDs: ", selectedIDs);
 
     const selectedRowData = this.state.mappedItems.filter((row) => {
       if (selectedIDs.has(row.id)) {
+        console.log('row', row);
         return row;
       }
     })
 
-
+    console.log("selectedRowData: ", selectedRowData);
     this.setState(function (state, props) {
       console.log(state.bouteillesSelectionnes);
+      let arr = [];
+      Array.from(selectedIDs).map((x) => arr.push(x));
 
       return {
         itemsSelected: selectedRowData,
-        bouteillesSelectionnes: ids
+        //bouteillesSelectionnes: selectedIDs //No pero si
+        bouteillesSelectionnes: arr
+        //bouteillesSelectionnes: ids//si
+        //bouteillesSelectionnes: selectedRowData
       }
+
+      /*
+      if () { //Si this.state.itemsSelected está en bouteillesSelectionnes, quitarlo sino agregarlo
+        
+      }
+      */
+     
     });
+    //console.log("id de itemsSelected: ", this.state.itemsSelected[0]);
+    console.log("itemsSelected: ", this.state.itemsSelected);
+    //console.log("selectedRowData: ", selectedRowData);
+    console.log("selectedIDs 2: ", selectedIDs);
+    console.log("bouteillesSelectionnes: ", this.state.bouteillesSelectionnes);
   }
 
   afficherBouteilles() {
@@ -319,7 +338,7 @@ export default class ListeAchat extends React.Component {
       { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
     ];
 
-    console.log('bouteillesSelectionnes', this.state.bouteillesSelectionnes)
+    //console.log('bouteillesSelectionnes', this.state.bouteillesSelectionnes)
     return (
       <Box className="liste_achat_container" sx={{
         display: "flex", justfyContent: "center", alignItems: "center",
@@ -337,8 +356,8 @@ export default class ListeAchat extends React.Component {
             rowsPerPageOptions={[5]}
             disableSelectionOnClick={true}
             checkboxSelection
-            onSelectionModelChange={(ids) => this.onCheckbox(ids)}
-
+            onSelectionModelChange={(ids) => this.onCheckbox(ids) }
+            // console.log("ids: ", ids)
             selectionModel={this.state.bouteillesSelectionnes}
           />
         </Box>
