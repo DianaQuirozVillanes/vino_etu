@@ -146,23 +146,23 @@ export default class Pied extends React.Component {
 							}}
 						>
 							{this.props.estAdmin ? (
-								
-									<MenuItem onClick={() => this.props.history.push("/admin")} sx={{ display: 'flex', gap: '.5rem' }}>
-										<AdminPanelSettingsIcon onClick={() => this.props.history.push("/admin")} /> Panneau admin
-									</MenuItem>
-								
-									) : ('')}
-									<MenuItem onClick={() => this.props.history.push("/compte/modifier")} sx={{ display: 'flex', gap: '.5rem' }}>
-										<AccountCircleIcon onClick={() => this.props.history.push("/compte/modifier")} /> Mon profil
-									</MenuItem>
 
-									{/* <MenuItem onClick={() => this.props.history.push("/listeachat")} sx={{ display: 'flex', gap: '.5rem' }}>
+								<MenuItem onClick={() => this.props.history.push("/admin")} sx={{ display: 'flex', gap: '.5rem' }}>
+									<AdminPanelSettingsIcon onClick={() => this.props.history.push("/admin")} /> Panneau admin
+								</MenuItem>
+
+							) : ('')}
+							<MenuItem onClick={() => this.props.history.push("/compte/modifier")} sx={{ display: 'flex', gap: '.5rem' }}>
+								<AccountCircleIcon onClick={() => this.props.history.push("/compte/modifier")} /> Mon profil
+							</MenuItem>
+
+							{/* <MenuItem onClick={() => this.props.history.push("/listeachat")} sx={{ display: 'flex', gap: '.5rem' }}>
 										<AddShoppingCartOutlinedIcon onClick={() => this.props.history.push("/listeachat")} /> Liste d'achat
 									</MenuItem> */}
 
-									<MenuItem onClick={() => this.props.logout()} sx={{ display: 'flex', gap: '.5rem' }}>
-										<LogoutIcon onClick={() => this.props.logout()} /> Se déconnecter
-									</MenuItem>
+							<MenuItem onClick={() => this.props.logout()} sx={{ display: 'flex', gap: '.5rem' }}>
+								<LogoutIcon onClick={() => this.props.logout()} /> Se déconnecter
+							</MenuItem>
 						</Menu>
 					</BottomNavigation>
 					<Box sx={{ width: '100vw', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1, height: '20px', backgroundColor: '#641B30' }}>
