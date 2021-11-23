@@ -33,14 +33,14 @@ export default class DetailsBouteille extends React.Component {
 	}
   
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 		this.recupereBouteille();
 	}
 
 	componentDidUpdate() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 	}

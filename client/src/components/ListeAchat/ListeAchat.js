@@ -6,6 +6,8 @@ import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 //import { DataGrid } from '@mui/x-data-grid/index-cjs';
+import { Fab } from '@mui/material';
+import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
 
 export default class ListeAchat extends React.Component {
   constructor(props) {
@@ -14,12 +16,15 @@ export default class ListeAchat extends React.Component {
     this.state = {
       items: [],
       itemsSelected: [],
+      itemsListeAchat: [],
       bouteilles: [],
       listeAchat: false,
       titre: "",
       idListeAchat: undefined,
       isChecked: false,
-      mappedItems: []
+      mappedItems: [],
+      titreBouton: "",
+      bouteillesSelectionnes: []
     }
 
     this.fetchBouteilles = this.fetchBouteilles.bind(this);
@@ -29,14 +34,15 @@ export default class ListeAchat extends React.Component {
     this.afficherBouteilles = this.afficherBouteilles.bind(this);
     this.onCheckbox = this.onCheckbox.bind(this);
     this.onModificationQte = this.onModificationQte.bind(this);
+    this.cocherListeAchat = this.cocherListeAchat.bind(this);
   }
 
   componentDidMount() {
-    if (!this.props.estConnecte) {
+    if (!window.sessionStorage.getItem('estConnecte')) {
       return this.props.history.push("/connexion");
     }
 
-    this.fetchListeAchat();
+    this.fetchBouteilles(); //this.fetchListeAchat();
   }
 
   componentDidUpdate() {
@@ -44,7 +50,71 @@ export default class ListeAchat extends React.Component {
   }
 
   fetchListeAchat() {
-    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + this.props.id_usager, {
+    fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + window.sessionStorage.getItem('id_usager'), {
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        authorization: 'Basic ' + btoa('vino:vino')
+      })
+    })
+      .then((reponse) => reponse.json())
+      .then((donnees) => {
+        if (donnees.data) {
+          this.setState(
+            {
+              itemsListeAchat: donnees.data,
+              listeAchat: true,
+              titre: "Liste d'achat",
+              titreBouton: "Modifier"
+            }
+          );
+          this.state.itemsListeAchat.map(x => {
+            this.setState({ idListeAchat: x.id });
+          });
+          //this.afficherBouteilles();
+          console.log("Liste d'achat: ", this.state.itemsListeAchat);
+          this.cocherListeAchat();
+        } else {
+          //this.fetchBouteilles();
+          this.setState(
+            {
+              titre: "Inventaire des bouteilles",
+              listeAchat: false,
+              titreBouton: "Créer"
+            });
+        }
+      });
+  }
+
+  cocherListeAchat() {
+    //coher les bouteilles et modifier la quantité d'achat
+    console.log("mappedItems: ", this.state.mappedItems);
+    let bouteillesListeAchat = [];
+
+    this.state.itemsListeAchat
+      .map((item) => {
+        console.log("bouteille_id: ", item.bouteille_id);
+        console.log("quantite: ", item.quantite);
+        bouteillesListeAchat = [...bouteillesListeAchat, item.bouteille_id]
+
+        this.setState(function (state, props) {
+          //let quantiteListe = state.mappedItems.find(x => x.id === item.bouteille_id);
+          let index = state.mappedItems.findIndex(x => x.id === item.bouteille_id);
+          let nouveauTableau = state.mappedItems.slice();
+
+          nouveauTableau[index].quantite_achat = item.quantite;
+
+          return {
+            mappedItems: nouveauTableau,
+            bouteillesSelectionnes: bouteillesListeAchat
+          };
+        })
+      })
+    console.log("bouteillesSelectionnes: ", this.state.bouteillesSelectionnes);
+  }
+
+  fetchBouteilles() {
+    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + window.sessionStorage.getItem('id_usager'), {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -57,42 +127,12 @@ export default class ListeAchat extends React.Component {
           this.setState(
             {
               items: donnees.data,
-              listeAchat: true,
-              titre: "Liste d'achat"
-            }
-          );
-          this.state.items.map(x => {
-            this.setState({ idListeAchat: x.id });
-          });
-          this.afficherBouteilles();
-        } else {
-          this.fetchBouteilles();
-          this.setState(
-            { 
               titre: "Inventaire des bouteilles",
-              listeAchat: false
-            });
-        }
-      });
-  }
-
-  fetchBouteilles() {
-    fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + this.props.id_usager, {
-      method: 'GET',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        authorization: 'Basic ' + btoa('vino:vino')
-      })
-    })
-      .then((reponse) => reponse.json())
-      .then((donnees) => {
-        if (donnees.data) {
-          this.setState(
-            { items: donnees.data,
-              titre: "Inventaire des bouteilles",
-              listeAchat: false
+              listeAchat: false,
+              titreBouton: "CRÉER LISTE"
             });
           this.afficherBouteilles();
+          this.fetchListeAchat();
         }
       });
   }
@@ -106,35 +146,73 @@ export default class ListeAchat extends React.Component {
       this.setState({ bouteilles: [] })
       this.state.itemsSelected
         .map((item) => {
-          const temporal = { bouteille_id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
-          this.state.bouteilles.push(temporal);
+          const temporal = { id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
+          /* this.setState(function (state, props) {
+             let nouveauTableau = state.mappedItems.slice();
+ 
+             nouveauTableau[index].quantite_achat = item.quantite;
+ 
+             return {
+               mappedItems: nouveauTableau,
+               bouteillesSelectionnes: bouteillesListeAchat
+ 
+             };
+           })*/
+          this.state.bouteilles.push(temporal); //changer
         })
 
       console.log("this.state.bouteilles: ", this.state.bouteilles);
 
-      let donnes = {
-          id_usager: this.props.id_usager,
+      if (this.state.listeAchat) { //Modifier liste d'achat
+        let donnes = {
           bouteilles: this.state.bouteilles
-      };
-      
-      const postMethod = {
-          method: 'POST',
-          headers: {
-              'Content-type': 'application/json',
-              authorization: 'Basic ' + btoa('vino:vino')
-          },
-          body: JSON.stringify(donnes)
-      };
+        };
+        console.log("donnes: ", donnes);
 
-      fetch('https://rmpdwebservices.ca/webservice/php/listeachat/', postMethod)
+        const putMethod = {
+          method: 'PUT',
+          headers: new Headers({
+            'Content-type': 'application/json',
+            authorization: 'Basic ' + btoa('vino:vino')
+          }),
+          body: JSON.stringify(donnes)
+        };
+        console.log("putMethod: ", putMethod);
+
+        fetch('https://rmpdwebservices.ca/webservice/php/listeachat/' + this.state.idListeAchat, putMethod)
           .then((reponse) => reponse.json())
           .then((donnees) => {
-              if (donnees.data) {
-                this.fetchListeAchat();
-                this.setState({ titre: "Liste d'achat" });
-              }
+            if (donnees.data) {
+              this.fetchBouteilles();
+              this.setState({ titre: "Liste d'achat" });
+            }
           });
-      
+      } else {  //Créer liste d'achat
+        let donnes = {
+          id_usager: window.sessionStorage.getItem('id_usager'),
+          bouteilles: this.state.bouteilles
+        };
+        console.log("donnes: ", donnes);
+
+        const postMethod = {
+          method: 'POST',
+          headers: new Headers({
+            'Content-type': 'application/json',
+            authorization: 'Basic ' + btoa('vino:vino')
+          }),
+          body: JSON.stringify(donnes)
+        };
+
+        fetch('https://rmpdwebservices.ca/webservice/php/listeachat/', postMethod)
+          .then((reponse) => reponse.json())
+          .then((donnees) => {
+            if (donnees.data) {
+              this.fetchBouteilles();
+              this.setState({ titre: "Liste d'achat" });
+            }
+          });
+      }
+
     } else {
       console.log("Il n'y a pas des bouteilles séléectionnées pour liste d'achat");
     }
@@ -148,21 +226,22 @@ export default class ListeAchat extends React.Component {
       console.log("Effacer la liste d'achat");
 
       const postMethod = {
-          method: 'DELETE',
-          headers: {
-              'Content-type': 'application/json',
-              authorization: 'Basic ' + btoa('vino:vino')
-          },
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json',
+          authorization: 'Basic ' + btoa('vino:vino')
+        },
       };
 
       fetch('https://rmpdwebservices.ca/webservice/php/listeachat/' + this.state.idListeAchat, postMethod)
-          .then((reponse) => reponse.json())
-          .then((donnees) => {
-              if (donnees.data) {
-                this.fetchBouteilles();
-              }
-          });
-      
+        .then((reponse) => reponse.json())
+        .then((donnees) => {
+          if (donnees.data) {
+            this.setState({ bouteillesSelectionnes: [] });
+            this.fetchBouteilles();
+          }
+        });
+
     } else {
       console.log("Rien se passe...");
     }
@@ -176,14 +255,15 @@ export default class ListeAchat extends React.Component {
       nouveauTableau[index].quantite_achat = e.value;
 
       return {
-        mappedItems: nouveauTableau
+        mappedItems: nouveauTableau,
+        itemsSelected: [nouveauTableau[index]]
       };
     });
   }
 
   /**
    * 
-   * @param {*} ids 
+   * @param {Set} ids 
    */
   onCheckbox(ids) {
     const selectedIDs = new Set(ids)
@@ -194,13 +274,16 @@ export default class ListeAchat extends React.Component {
       }
     })
 
-    this.setState({ itemsSelected: selectedRowData })
+    this.setState({
+      itemsSelected: selectedRowData,
+      bouteillesSelectionnes: ids
+    });
   }
-  
+
   afficherBouteilles() {
     let arr = [...this.state.mappedItems];
 
-    if (this.state.listeAchat) {
+    /*if (this.state.listeAchat) {
       const map = this.state.items.map(bteObj => {
         return {
           id: bteObj.bouteille_id,
@@ -212,54 +295,43 @@ export default class ListeAchat extends React.Component {
 
       arr = map;
       this.setState({ mappedItems: arr })
-    } else {
-      const map = this.state.items.map(bteObj => {
-        return {
-          id: bteObj.bouteille_id,
-          nom: bteObj.nom,
-          millesime: bteObj.millesime,
-          quantite: bteObj.quantite,
-          quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
-            ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).qte
-        }
-      })
-  
-      arr = map;
-      this.setState({ mappedItems: arr })
-    }  
-    
+    } else { */
+    const map = this.state.items.map(bteObj => {
+      return {
+        id: bteObj.bouteille_id,
+        nom: bteObj.nom,
+        millesime: bteObj.millesime,
+        quantite: bteObj.quantite,
+        quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
+          ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).quantite_achat
+      }
+    })
+
+    arr = map;
+    this.setState({ mappedItems: arr })
+    //}
+
   }
 
   render() {
-    if (this.state.listeAchat) {
-      var lesColonnes = [
-        { field: 'id', headerName: 'ID', width: 90, type: 'number' },
-        { field: 'nom', headerName: 'Nom', width: 230 },
-        { field: 'millesime', headerName: 'Millesime', width: 150 },
-        { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number',  shrink: true , min: 1 },
-      ];  
-    } else {
-      var lesColonnes = [
-        { field: 'id', headerName: 'ID', width: 90, type: 'number' },
-        { field: 'nom', headerName: 'Nom', width: 230 },
-        { field: 'millesime', headerName: 'Millesime', width: 150 },
-        { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
-        { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number',  shrink: true , min: 1 },
-      ];  
-    }
 
-    const colonnes = lesColonnes;
+    const colonnes = [
+      { field: 'nom', headerName: 'Nom', width: 230 },
+      { field: 'millesime', headerName: 'Millesime', width: 150 },
+      //(!this.state.listeAchat ? { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' } : "") ,
+      { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
+      { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
+    ];
 
+    console.log('TEST', this.state.bouteillesSelectionnes)
     return (
       <Box className="liste_achat_container" sx={{
         display: "flex", justfyContent: "center", alignItems: "center",
         width: "85vw", flexDirection: "column", borderRadius: "1rem",
-        margin: "0 auto", marginTop: "20vh", color: "white",
+        margin: "0 auto", marginTop: "10vh", color: "white",
       }} >
 
-        <span> {this.state.titre} </span>
-
-        <div className="liste_achat_rows" style={{ height: 400, width: '100%' }}>
+        <Box className="liste_achat_rows" style={{ height: 400, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: 0 }}>
           <DataGrid
             rows={this.state.mappedItems}
             columns={colonnes}
@@ -270,25 +342,59 @@ export default class ListeAchat extends React.Component {
             disableSelectionOnClick={true}
             checkboxSelection
             onSelectionModelChange={(ids) => this.onCheckbox(ids)}
-          />
-        </div>
 
-        <Button 
-          className="liste_achat_effacer" 
-          variant="outlined" 
+            selectionModel={this.state.bouteillesSelectionnes}
+          />
+        </Box>
+        {/*
+        <Button
+          className="liste_achat_effacer"
+          variant="outlined"
           startIcon={<DeleteIcon />}
           onClick={(e) => this.effacerListe()}
-          disabled={!this.state.listeAchat} > 
+          disabled={!this.state.listeAchat} >
           Effacer liste d'achat
-        </Button>
+        </Button>*/}
 
-        <Button 
-          className="button" 
-          type="button" 
-          onClick={(e) => this.creerListeAchat()}
-          disabled={this.state.listeAchat}> 
-          Créer Liste 
-        </Button>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '1rem',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Fab
+            className="button"
+            variant="extended"
+            onClick={() => this.creerListeAchat()}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '.5rem',
+              backgroundColor: '#641b30', color: 'white'
+            }}
+          >
+            <AutoFixHighOutlinedIcon />
+            {this.state.titreBouton}
+          </Fab>
+          <Fab
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '.5rem',
+              backgroundColor: '#641b30', color: 'white'
+            }}
+            className="button"
+            variant="extended"
+            onClick={(e) => this.effacerListe()}
+            disabled={!this.state.listeAchat}
+          >
+            {<DeleteIcon />}
+            Supprimer
+          </Fab>
+        </Box>
       </Box>
     );
   }

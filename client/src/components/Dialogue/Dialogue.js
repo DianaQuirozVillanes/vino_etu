@@ -20,7 +20,6 @@ export default class Dialogue extends React.Component {
 			action: ''
 		};
 
-		this.handleClose = this.handleClose.bind(this);
 	}
 	/**
 	 * @param  {} previousProps

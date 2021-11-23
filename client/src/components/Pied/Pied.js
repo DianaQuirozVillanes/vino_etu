@@ -25,7 +25,7 @@ export default class Pied extends React.Component {
 			isAccMenuOpen: false,
 			anchorElAccMenu: null,
 			isCelliersMenuOpen: false,
-			anchorElCelliersMenu: null
+			anchorElCelliersMenu: null,
 		}
 
 		this.openAccMenu = this.openAccMenu.bind(this);
@@ -52,7 +52,7 @@ export default class Pied extends React.Component {
 
 	render() {
 
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return (
 				<>
 					<BottomNavigation showLabels sx={{ width: '100vw', position: 'fixed', bottom: 19, left: 0, right: 0, zIndex: 1, paddingTop: .5, backgroundColor: '#641B30' }}>
@@ -145,7 +145,7 @@ export default class Pied extends React.Component {
 								horizontal: 'center',
 							}}
 						>
-							{this.props.estAdmin ? (
+							{window.sessionStorage.getItem('estAdmin') ? (
 								
 									<MenuItem onClick={() => {this.closeAccMenu(); this.props.history.push("/admin")}} sx={{ display: 'flex', gap: '.5rem' }}>
 										<AdminPanelSettingsIcon onClick={() => this.props.history.push("/admin")} /> Panneau admin
@@ -161,9 +161,9 @@ export default class Pied extends React.Component {
 										<AddShoppingCartOutlinedIcon onClick={() => this.props.history.push("/listeachat")} /> Liste d'achat
 									</MenuItem>
 
-									<MenuItem onClick={() => this.props.logout()} sx={{ display: 'flex', gap: '.5rem' }}>
-										<LogoutIcon onClick={() => this.props.logout()} /> Se déconnecter
-									</MenuItem>
+							<MenuItem onClick={() => this.props.logout()} sx={{ display: 'flex', gap: '.5rem' }}>
+								<LogoutIcon onClick={() => this.props.logout()} /> Se déconnecter
+							</MenuItem>
 						</Menu>
 					</BottomNavigation>
 					<Box sx={{ width: '100vw', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1, height: '20px', backgroundColor: '#641B30' }}>
