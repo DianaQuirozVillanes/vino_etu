@@ -7,13 +7,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-<<<<<<< HEAD
+
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 
 
-=======
->>>>>>> cce00ee4cd537e063bfe585ca239fe50db46710b
+
+
 import moment from 'moment';
 
 export default class AjoutBouteille extends React.Component {
@@ -766,7 +766,7 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 					</Box>
-<<<<<<< HEAD
+
 					<Fab
 						variant="extended"
 						onClick={() => this.ajouterBouteilleCellier()}
@@ -782,9 +782,6 @@ export default class AjoutBouteille extends React.Component {
 						<AddOutlinedIcon />
 						Nouvelle bouteille
 					</Fab>
-=======
-					<button onClick={this.ajouterBouteilleCellier}>Ajouter une bouteille au cellier</button>
->>>>>>> cce00ee4cd537e063bfe585ca239fe50db46710b
 				</Box>
 			</Box>
 		);
