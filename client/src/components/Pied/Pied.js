@@ -135,7 +135,6 @@ export default class Pied extends React.Component {
 								<PlaylistAddIcon onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter") }} /> Ajouter un cellier
 							</MenuItem>
 						</Menu>
-
 					</BottomNavigation>
 					<Box sx={{ width: '100vw', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1, height: '20px', backgroundColor: '#641B30' }}>
 					</Box>
