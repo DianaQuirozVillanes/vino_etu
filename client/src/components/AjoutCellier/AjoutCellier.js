@@ -39,7 +39,7 @@ export default class AjoutCellier extends React.Component {
 			return this.props.history.push('/connexion');
 		}
 
-		this.props.title("Ajout cellier");
+		this.props.title('Ajout cellier');
 
 		this.setState({ titreBoutton: 'Nouveau cellier' });
 	}
@@ -117,8 +117,10 @@ export default class AjoutCellier extends React.Component {
 	}
 
 	render() {
-		const messageErreurEmplacement = (
-			<span className="message_erreur">{this.state.erreurEmplacement ? '* Ce champ est obligatoire.' : ''}</span>
+		const messageErreurEmplacement = this.state.erreurEmplacement ? (
+			<span className="message_erreur">* Ce champ est obligatoire.</span>
+		) : (
+			''
 		);
 		return (
 			<Box>
@@ -188,9 +190,16 @@ export default class AjoutCellier extends React.Component {
 					<Fab
 						variant="extended"
 						onClick={() => this.creerCellier()}
-						sx={{ backgroundColor: '#641b30', color: 'white' }}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: '.5rem',
+							backgroundColor: '#641b30',
+							color: 'white'
+						}}
 					>
-						<AddOutlinedIcon sx={{ marginRight: '1rem' }} />
+						<AddOutlinedIcon />
 						Nouveau cellier
 					</Fab>
 				</Box>
