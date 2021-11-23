@@ -25,6 +25,8 @@ export default class Connexion extends React.Component {
         if (window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
+
+		this.props.title("Connexion");
     }
 
 	validation() {

@@ -49,8 +49,9 @@ export default class ListeBouteilleCellier extends React.Component {
             return this.props.history.push('/connexion');
         }
 
+        this.props.title("Bouteilles");
+		
 		this.fetchBouteilles();
-		document.title = this.props.title;
 	}
 
 	componentDidUpdate() {
@@ -234,14 +235,6 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
-				<Typography color="text.primary">Mon Cellier</Typography>
-					<Link underline="hover" color="inherit" onClick={() => this.props.history.push('/celliers/liste/')}>
-						Celliers
-					</Link>
-					<Typography color="text.primary">{this.state.nomCellier}</Typography>
-					<Typography color="text.primary">Liste des bouteilles</Typography>
-				</Breadcrumbs>
 				<FormControl sx={{ m: 1, minWidth: 120, color: 'white', borderRadius: '0.5rem', marginLeft: '1.8rem' }}>
 					<InputLabel htmlFor="grouped-native-select" sx={{color: 'white'}}>Trier par</InputLabel>
 					<Select

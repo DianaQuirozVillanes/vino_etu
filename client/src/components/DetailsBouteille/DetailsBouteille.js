@@ -36,6 +36,9 @@ export default class DetailsBouteille extends React.Component {
 		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
+
+		this.props.title("Détails bouteille");
+
 		this.recupereBouteille();
 	}
 
