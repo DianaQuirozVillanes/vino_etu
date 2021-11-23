@@ -90,18 +90,14 @@ export default class ListeAchat extends React.Component {
 
   cocherListeAchat() {
     //coher les bouteilles et modifier la quantité d'achat
-    console.log("mappedItems: ", this.state.mappedItems);
     let bouteillesListeAchat = [];
 
     this.state.itemsListeAchat
       .map((item) => {
-        console.log("bouteille_id: ", item.bouteille_id);
-        console.log("quantite: ", item.quantite);
         bouteillesListeAchat = [...bouteillesListeAchat, item.bouteille_id]
 
         this.setState(function (state, props) {
-          //let quantiteListe = state.mappedItems.find(x => x.id === item.bouteille_id);
-          let index = state.mappedItems.findIndex(x => x.id === item.bouteille_id);
+          let index = state.mappedItems.findIndex(x => x.id == item.bouteille_id);
           let nouveauTableau = state.mappedItems.slice();
 
           nouveauTableau[index].quantite_achat = item.quantite;
@@ -112,7 +108,6 @@ export default class ListeAchat extends React.Component {
           };
         })
       })
-    console.log("bouteillesSelectionnes: ", this.state.bouteillesSelectionnes);
   }
 
   fetchBouteilles() {
@@ -133,20 +128,20 @@ export default class ListeAchat extends React.Component {
               listeAchat: false,
               titreBouton: "CRÉER LISTE"
             });
-          this.afficherBouteilles();
+          this.afficherBouteilles()
           this.fetchListeAchat();
         }
       });
   }
 
   creerListeAchat() {
-    console.log("Colonnes séléctionnées: ", this.state.itemsSelected);
+    console.log("Colonnes séléctionnées: ", this.state.bouteillesSelectionnes);
 
-    if (this.state.itemsSelected.length > 0) {
+    if (this.state.bouteillesSelectionnes.length > 0) {
       console.log("Créer liste d'achat");
 
       this.setState({ bouteilles: [] })
-      this.state.itemsSelected
+      this.state.bouteillesSelectionnes
         .map((item) => {
           const temporal = { id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
           /* this.setState(function (state, props) {
@@ -276,9 +271,14 @@ export default class ListeAchat extends React.Component {
       }
     })
 
-    this.setState({
-      itemsSelected: selectedRowData,
-      bouteillesSelectionnes: ids
+    
+    this.setState(function (state, props) {
+      console.log(state.bouteillesSelectionnes);
+
+      return {
+        itemsSelected: selectedRowData,
+        bouteillesSelectionnes: ids
+      }
     });
   }
 
