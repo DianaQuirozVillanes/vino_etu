@@ -230,7 +230,6 @@ export default class App extends React.Component {
         <Route
           component={(props) => (
             <Pied
-              logout={this.logout}
               {...props}
             />
           )}

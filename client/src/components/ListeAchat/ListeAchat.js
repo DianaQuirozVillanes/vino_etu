@@ -90,18 +90,14 @@ export default class ListeAchat extends React.Component {
 
   cocherListeAchat() {
     //coher les bouteilles et modifier la quantité d'achat
-    console.log("mappedItems: ", this.state.mappedItems);
     let bouteillesListeAchat = [];
 
     this.state.itemsListeAchat
       .map((item) => {
-        console.log("bouteille_id: ", item.bouteille_id);
-        console.log("quantite: ", item.quantite);
-        bouteillesListeAchat = [...bouteillesListeAchat, item.bouteille_id]
+        bouteillesListeAchat = [...bouteillesListeAchat, parseInt(item.bouteille_id)]
 
         this.setState(function (state, props) {
-          //let quantiteListe = state.mappedItems.find(x => x.id === item.bouteille_id);
-          let index = state.mappedItems.findIndex(x => x.id === item.bouteille_id);
+          let index = state.mappedItems.findIndex(x => x.id == item.bouteille_id);
           let nouveauTableau = state.mappedItems.slice();
 
           nouveauTableau[index].quantite_achat = item.quantite;
@@ -112,7 +108,6 @@ export default class ListeAchat extends React.Component {
           };
         })
       })
-    console.log("bouteillesSelectionnes: ", this.state.bouteillesSelectionnes);
   }
 
   fetchBouteilles() {
@@ -130,41 +125,35 @@ export default class ListeAchat extends React.Component {
             {
               items: donnees.data,
               titre: "Inventaire des bouteilles",
-              listeAchat: false,
+              //listeAchat: false,
               titreBouton: "CRÉER LISTE"
             });
-          this.afficherBouteilles();
+          this.afficherBouteilles()
           this.fetchListeAchat();
         }
       });
   }
 
   creerListeAchat() {
-    console.log("Colonnes séléctionnées: ", this.state.itemsSelected);
-
-    if (this.state.itemsSelected.length > 0) {
+    console.log("Colonnes séléctionnées: ", this.state.bouteillesSelectionnes);
+    console.log("mappedItems: ", this.state.mappedItems);
+    if (this.state.bouteillesSelectionnes.length > 0) {
       console.log("Créer liste d'achat");
 
       this.setState({ bouteilles: [] })
-      this.state.itemsSelected
+      this.state.bouteillesSelectionnes
         .map((item) => {
-          const temporal = { id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
-          /* this.setState(function (state, props) {
-             let nouveauTableau = state.mappedItems.slice();
- 
-             nouveauTableau[index].quantite_achat = item.quantite;
- 
-             return {
-               mappedItems: nouveauTableau,
-               bouteillesSelectionnes: bouteillesListeAchat
- 
-             };
-           })*/
+          let index = this.state.mappedItems.findIndex(x => x.id == item);
+          //let nouveauTableau = this.state.mappedItems.slice();
+          console.log("Dato: ", this.state.mappedItems[index].nom);
+          //nouveauTableau[index].quantite_achat = item.quantite;
+
+          const temporal = { id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat };
           this.state.bouteilles.push(temporal); //changer
         })
 
       console.log("this.state.bouteilles: ", this.state.bouteilles);
-
+      console.log("this.state.listeAchat ", this.state.listeAchat);
       if (this.state.listeAchat) { //Modifier liste d'achat
         let donnes = {
           bouteilles: this.state.bouteilles
@@ -186,7 +175,7 @@ export default class ListeAchat extends React.Component {
           .then((donnees) => {
             if (donnees.data) {
               this.fetchBouteilles();
-              this.setState({ titre: "Liste d'achat" });
+              this.setState({ titre: "Liste d'achat", listeAchat: true });
             }
           });
       } else {  //Créer liste d'achat
@@ -210,7 +199,7 @@ export default class ListeAchat extends React.Component {
           .then((donnees) => {
             if (donnees.data) {
               this.fetchBouteilles();
-              this.setState({ titre: "Liste d'achat" });
+              this.setState({ titre: "Liste d'achat", listeAchat: true });
             }
           });
       }
@@ -239,7 +228,7 @@ export default class ListeAchat extends React.Component {
         .then((reponse) => reponse.json())
         .then((donnees) => {
           if (donnees.data) {
-            this.setState({ bouteillesSelectionnes: [] });
+            this.setState({ bouteillesSelectionnes: [], listeAchat: false });
             this.fetchBouteilles();
           }
         });
@@ -268,6 +257,7 @@ export default class ListeAchat extends React.Component {
    * @param {Set} ids 
    */
   onCheckbox(ids) {
+    console.log(ids)
     const selectedIDs = new Set(ids)
 
     const selectedRowData = this.state.mappedItems.filter((row) => {
@@ -276,28 +266,23 @@ export default class ListeAchat extends React.Component {
       }
     })
 
-    this.setState({
-      itemsSelected: selectedRowData,
-      bouteillesSelectionnes: ids
+    this.setState(function (state, props) {
+
+      let arr = [];
+      Array.from(selectedIDs).map((x) => arr.push(x));
+
+      console.log(arr)
+
+      return {
+        itemsSelected: selectedRowData,
+        bouteillesSelectionnes: arr
+      }
     });
   }
 
   afficherBouteilles() {
     let arr = [...this.state.mappedItems];
 
-    /*if (this.state.listeAchat) {
-      const map = this.state.items.map(bteObj => {
-        return {
-          id: bteObj.bouteille_id,
-          nom: bteObj.nom,
-          millesime: bteObj.millesime,
-          quantite_achat: bteObj.quantite
-        }
-      })
-
-      arr = map;
-      this.setState({ mappedItems: arr })
-    } else { */
     const map = this.state.items.map(bteObj => {
       return {
         id: bteObj.bouteille_id,
@@ -310,22 +295,22 @@ export default class ListeAchat extends React.Component {
     })
 
     arr = map;
-    this.setState({ mappedItems: arr })
-    //}
 
+    this.setState({ mappedItems: arr })
   }
+
+
 
   render() {
 
     const colonnes = [
       { field: 'nom', headerName: 'Nom', width: 230 },
       { field: 'millesime', headerName: 'Millesime', width: 150 },
-      //(!this.state.listeAchat ? { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' } : "") ,
       { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
       { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
     ];
 
-    console.log('TEST', this.state.bouteillesSelectionnes)
+    console.log('bouteillesSelectionnes', this.state.bouteillesSelectionnes)
     return (
       <Box className="liste_achat_container" sx={{
         display: "flex", justfyContent: "center", alignItems: "center",
@@ -344,19 +329,10 @@ export default class ListeAchat extends React.Component {
             disableSelectionOnClick={true}
             checkboxSelection
             onSelectionModelChange={(ids) => this.onCheckbox(ids)}
-
             selectionModel={this.state.bouteillesSelectionnes}
+
           />
         </Box>
-        {/*
-        <Button
-          className="liste_achat_effacer"
-          variant="outlined"
-          startIcon={<DeleteIcon />}
-          onClick={(e) => this.effacerListe()}
-          disabled={!this.state.listeAchat} >
-          Effacer liste d'achat
-        </Button>*/}
 
         <Box
           sx={{

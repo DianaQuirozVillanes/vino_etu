@@ -43,3 +43,7 @@
 .liste_achat_rows .MuiDataGrid-root {
     border: none;
 }
+
+.MuiTablePagination-root {
+    color: #ffffff;
+}
