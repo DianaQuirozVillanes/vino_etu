@@ -39,6 +39,8 @@ export default class Inscription extends React.Component {
 		if (window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
+
+		this.props.title("S'enregistrer");
 	}
 
 	validation() {

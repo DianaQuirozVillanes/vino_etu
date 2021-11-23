@@ -23,13 +23,18 @@ export default class App extends React.Component {
     this.state = {
       estConnecte: false,
       id_usager: undefined,
-      estAdmin: false
+      estAdmin: false,
+      title: undefined
     };
 
     this.seConnecter = this.seConnecter.bind(this);
     this.logout = this.logout.bind(this);
     this.fetchUsager = this.fetchUsager.bind(this);
+    this.setTitre = this.setTitre.bind(this);
+  }
 
+  componentDidUpdate() {
+    console.log('trig')
   }
 
   fetchUsager(id) {
@@ -50,6 +55,11 @@ export default class App extends React.Component {
       });
   }
 
+  setTitre(titre) {
+    if (this.state.title !== titre)
+      this.setState({ title: titre });
+  }
+
   seConnecter(id) {
     this.fetchUsager(id);
 
@@ -68,7 +78,12 @@ export default class App extends React.Component {
       <Router>
         <Route
           component={(props) =>
-            (<Entete {...props} />)}
+          (
+            <Entete
+              title={this.state.title}
+              {...props}
+            />
+          )}
         />
         <Switch>
           <Route
@@ -76,7 +91,7 @@ export default class App extends React.Component {
             path="/bouteille/ajout"
             component={(props) => (
               <AjoutBouteille
-                title="Ajouter bouteille"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -87,7 +102,7 @@ export default class App extends React.Component {
             path="/"
             component={(props) => (
               <ListeCelliers
-                title="Liste celliers"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -98,7 +113,7 @@ export default class App extends React.Component {
             path="/inscription"
             component={(props) => (
               <Inscription
-                title="S'inscrire"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -109,7 +124,7 @@ export default class App extends React.Component {
             path="/compte/modifier"
             component={(props) => (
               <ModifierCompte
-                title="Modifier son compte"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -120,7 +135,7 @@ export default class App extends React.Component {
             path="/connexion"
             component={(props) => (
               <Connexion
-                title="Se connecter"
+                title={this.setTitre}
                 login={this.seConnecter}
                 {...props}
               />
@@ -132,7 +147,7 @@ export default class App extends React.Component {
             path="/celliers/liste"
             component={(props) => (
               <ListeCelliers
-                title="Liste celliers"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -143,7 +158,7 @@ export default class App extends React.Component {
             path="/cellier/:id"
             render={(param_route) => (
               <ListeBouteilles
-                title="Liste des bouteilles"
+                title={this.setTitre}
                 id={param_route?.match?.params?.id}
                 param={param_route}
                 {...param_route}
@@ -156,7 +171,7 @@ export default class App extends React.Component {
             path="/cellier/bouteilles/:id"
             render={(param_route) => (
               <DetailsBouteille
-                title="Détails bouteille"
+                title={this.setTitre}
                 {...param_route}
                 bouteille_id={param_route?.match?.params?.bouteille_id}
                 param={param_route}
@@ -169,7 +184,7 @@ export default class App extends React.Component {
             path="/admin"
             component={(props) => (
               <Admin
-                title="Admin"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -180,7 +195,7 @@ export default class App extends React.Component {
             path="/celliers/ajouter"
             component={(props) => (
               <AjoutCellier
-                title="Ajouter cellier"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -191,7 +206,7 @@ export default class App extends React.Component {
             path="/cellier/modifier/:id"
             component={(props) => (
               <ModifierCellier
-                title="Modifier cellier"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -202,7 +217,7 @@ export default class App extends React.Component {
             path="/listeachat"
             component={(props) => (
               <ListeAchat
-                title="Liste d'achat"
+                title={this.setTitre}
                 {...props}
               />
             )}

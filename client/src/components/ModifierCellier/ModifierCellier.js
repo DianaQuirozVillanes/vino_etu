@@ -29,9 +29,11 @@ export default class ModifierCellier extends React.Component {
             return this.props.history.push("/connexion");
         }
 
-		this.setState({ titreBoutton: 'Modifier cellier' });
-		this.chercherCellier();
-	}
+		this.props.title("Modifier cellier");
+
+        this.setState({ titreBoutton: "Modifier cellier" })
+        this.chercherCellier();
+    }
 
     componentDidUpdate() {
         if (!window.sessionStorage.getItem('estConnecte')) {

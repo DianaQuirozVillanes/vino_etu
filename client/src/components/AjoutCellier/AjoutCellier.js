@@ -38,6 +38,9 @@ export default class AjoutCellier extends React.Component {
 		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
+
+		this.props.title("Ajout cellier");
+
 		this.setState({ titreBoutton: 'Nouveau cellier' });
 	}
 
@@ -119,11 +122,6 @@ export default class AjoutCellier extends React.Component {
 		);
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem' }}>
-					<Typography color="text.primary">Mon Cellier</Typography>
-					<Typography color="text.primary">Nouveau cellier</Typography>
-				</Breadcrumbs>
-
 				<Box
 					className="nouvelle_cellier_container"
 					sx={{
