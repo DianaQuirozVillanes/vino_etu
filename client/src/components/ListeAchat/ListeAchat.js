@@ -257,6 +257,7 @@ export default class ListeAchat extends React.Component {
    * @param {Set} ids 
    */
   onCheckbox(ids) {
+    console.log(ids)
     const selectedIDs = new Set(ids)
     console.log("selectedIDs: ", selectedIDs);
 
@@ -267,23 +268,16 @@ export default class ListeAchat extends React.Component {
       }
     })
 
-    console.log("selectedRowData: ", selectedRowData);
     this.setState(function (state, props) {
-      console.log(state.bouteillesSelectionnes);
+
       let arr = [];
       Array.from(selectedIDs).map((x) => arr.push(x));
 
+      console.log(arr)
+
       return {
         itemsSelected: selectedRowData,
-        //bouteillesSelectionnes: selectedIDs //No pero si
         bouteillesSelectionnes: arr
-        //bouteillesSelectionnes: ids//si
-        //bouteillesSelectionnes: selectedRowData
-      }
-
-      /*
-      if () { //Si this.state.itemsSelected está en bouteillesSelectionnes, quitarlo sino agregarlo
-        
       }
       */
      
@@ -297,43 +291,30 @@ export default class ListeAchat extends React.Component {
 
   afficherBouteilles() {
     let arr = [...this.state.mappedItems];
-    console.log("Existe listeAchat? ", this.state.listeAchat);
-    if (this.state.listeAchat) {
-      const mapa = this.state.items.map(bteObj => {
-        return {
-          id: bteObj.bouteille_id,
-          nom: bteObj.nom,
-          millesime: bteObj.millesime,
-          quantite: bteObj.quantite,
-          quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
-            ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).quantite_achat
-        }
-      })
-      arr = mapa;
-      this.setState({ mappedItems: arr })
 
-    } else {
-      const mapa = this.state.items.map(bteObj => {
-        return {
-          id: bteObj.bouteille_id,
-          nom: bteObj.nom,
-          millesime: bteObj.millesime,
-          quantite: bteObj.quantite,
-          quantite_achat: 1
-        }
-      })
-      arr = mapa;
-      this.setState({ mappedItems: arr })
-    }
+    const map = this.state.items.map(bteObj => {
+      return {
+        id: bteObj.bouteille_id,
+        nom: bteObj.nom,
+        millesime: bteObj.millesime,
+        quantite: bteObj.quantite,
+        quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
+          ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).quantite_achat
+      }
+    })
 
+    arr = map;
+
+    this.setState({ mappedItems: arr })
   }
+
+
 
   render() {
 
     const colonnes = [
       { field: 'nom', headerName: 'Nom', width: 230 },
       { field: 'millesime', headerName: 'Millesime', width: 150 },
-      //(!this.state.listeAchat ? { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' } : "") ,
       { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
       { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
     ];
@@ -356,20 +337,11 @@ export default class ListeAchat extends React.Component {
             rowsPerPageOptions={[5]}
             disableSelectionOnClick={true}
             checkboxSelection
-            onSelectionModelChange={(ids) => this.onCheckbox(ids) }
-            // console.log("ids: ", ids)
+            onSelectionModelChange={(ids) => this.onCheckbox(ids)}
             selectionModel={this.state.bouteillesSelectionnes}
+
           />
         </Box>
-        {/*
-        <Button
-          className="liste_achat_effacer"
-          variant="outlined"
-          startIcon={<DeleteIcon />}
-          onClick={(e) => this.effacerListe()}
-          disabled={!this.state.listeAchat} >
-          Effacer liste d'achat
-        </Button>*/}
 
         <Box
           sx={{
