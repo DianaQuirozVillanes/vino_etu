@@ -25,6 +25,8 @@ export default class AjoutCellier extends React.Component {
 		};
 
 		this.validation = this.validation.bind(this);
+		this.saisirEmplacement = this.saisirEmplacement.bind(this);
+		this.saisirTemperature = this.saisirTemperature.bind(this);
 		this.creerCellier = this.creerCellier.bind(this);
 	}
 
@@ -65,13 +67,31 @@ export default class AjoutCellier extends React.Component {
 		return estValide;
 	}
 
+	/**
+	 * Saisir l'emplacement du nouveau cellier
+	 * 
+	 * @param {string} e Valeur du champs Emplacement
+	 */
+	saisirEmplacement(e) {
+		this.setState({ emplacement: e.target.value });
+	}
+
+	/**
+	 * Saisir la température du nouveau cellier
+	 * 
+	 * @param {string} e Valeur du champs Température
+	 */
+	saisirTemperature(e) {
+		this.setState({ temperature: e.target.value });
+	}
+
 	/** 
 	 * Fonction de la création d'un cellier
 	 * 
 	 */
 	creerCellier() {
 		if (this.validation()) {
-			let donnes = {
+			let donnees = {
 				emplacement: this.state.emplacement,
 				usager_id: window.sessionStorage.getItem('id_usager'),
 				temperature: this.state.temperature
@@ -83,7 +103,7 @@ export default class AjoutCellier extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/celliers/', postMethod)
@@ -97,6 +117,9 @@ export default class AjoutCellier extends React.Component {
 	}
 
 	render() {
+		const messageErreurEmplacement = (
+			<span className="message_erreur">{this.state.erreurEmplacement ? '* Ce champ est obligatoire.' : ''}</span>
+		);
 		return (
 			<Box>
 				<Box
@@ -121,9 +144,12 @@ export default class AjoutCellier extends React.Component {
 						error={this.state.erreurEmplacement}
 						label="Emplacement"
 						variant="outlined"
-						onBlur={(evt) => this.setState({ emplacement: evt.target.value })}
+						onBlur={(e) => this.saisirEmplacement(e)}
 						sx={{
 							color: 'white',
+							'& label.Mui-focused': {
+								color: 'white'
+							},
 							'& input:valid + fieldset': {
 								borderColor: 'white'
 							},
@@ -139,6 +165,7 @@ export default class AjoutCellier extends React.Component {
 							}
 						}}
 					/>
+					{messageErreurEmplacement}
 					<TextField
 						margin="dense"
 						id="temperature"
@@ -146,7 +173,16 @@ export default class AjoutCellier extends React.Component {
 						type="number"
 						variant="outlined"
 						inputProps={{ step: '0.5' }}
-						onBlur={(e) => this.setState({ temperature: e.target.value })}
+						onBlur={(e) => this.saisirTemperature(e)}
+						sx={{
+							color: 'white',
+							'& label.Mui-focused': {
+								color: 'white'
+							},
+							'& input:valid:focus + fieldset': {
+								borderColor: 'white'
+							}
+						}}
 					/>
 
 					<Fab

@@ -25,8 +25,10 @@ export default class Inscription extends React.Component {
 			erreurPrenom: false,
 			erreurNom: false,
 			erreurCourriel: false,
+			erreurCourrielVide: false,
 			erreurMot_passe: false,
-			erreurMot_passe_verif: false
+			erreurMot_passe_verif: false,
+			erreurMot_passe_verif_vide: false
 		};
 
 		this.validation = this.validation.bind(this);
@@ -46,49 +48,59 @@ export default class Inscription extends React.Component {
 		let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 		let bRegex = expRegex.test(this.state.courriel);
 
-		let estValide = true;
+		let estValide = false;
 
 		this.setState({
-			erreurPrenom: false,
 			erreurNom: false,
+			erreurPrenom: false,
 			erreurCourriel: false,
+			erreurCourrielVide: false,
 			erreurMot_passe: false,
-			erreurMot_passe_verif: false
-		});
+			erreurMot_passe_verif: false,
+			erreurMot_passe_verif_vide: false
+		})
 
 		if (this.state.prenom === '') {
 			this.setState({ erreurPrenom: true });
-			estValide = false;
 		}
 		if (this.state.nom === '') {
 			this.setState({ erreurNom: true });
-			estValide = false;
 		}
-		if (this.state.courriel.trim() === '' && !bRegex) {
+		if (this.state.courriel === '') {
+			this.setState({ erreurCourrielVide: true });
+		}
+		if (this.state.courriel !== '' && !bRegex) {
 			this.setState({ erreurCourriel: true });
-			estValide = false;
 		}
 		if (this.state.mot_passe === '') {
 			this.setState({ erreurMot_passe: true });
-			estValide = false;
 		}
 		if (this.state.mot_passe_verif === '') {
-			this.setState({ erreurMot_passe_verif: true });
-			estValide = false;
+			this.setState({ erreurMot_passe_verif_vide: true });
 		}
 		if (this.state.mot_passe_verif !== this.state.mot_passe) {
 			this.setState({ erreurMot_passe_verif: true });
-			estValide = false;
 		}
-    return estValide;
+
+		if (
+			this.state.nom &&
+			this.state.nom.trim() !== '' &&
+			(this.state.prenom && this.state.prenom.trim() !== '') &&
+			(this.state.courriel && this.state.courriel.trim() !== '' && bRegex) &&
+			(this.state.mot_passe && this.state.mot_passe.trim() !== '')
+		) {
+			estValide = true;
+		}
+
+		return estValide;
 	}
 
 	sinscrire() {
-    console.log(this.validation());
+		console.log(this.validation());
 		if (this.validation()) {
 			let mot_chiffre = Bcryptjs.hashSync(this.state.mot_passe).toString();
 
-			const donnes = {
+			const donnees = {
 				nom: this.state.nom,
 				prenom: this.state.prenom,
 				courriel: this.state.courriel,
@@ -100,7 +112,7 @@ export default class Inscription extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/usagers/', postMethod)
@@ -115,6 +127,16 @@ export default class Inscription extends React.Component {
 	}
 
 	render() {
+		const msgErreurPrenom = <span className="message_erreur">{(this.state.erreurPrenom ? "* Ce champ est obligatoire." : "")}</span>
+		
+		const msgErreurNom = <span className="message_erreur">{(this.state.erreurNom ? "* Ce champ est obligatoire." : "")}</span>
+		
+		const msgErreurCourriel = <span className="message_erreur">{(this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : "" || this.state.erreurCourrielVide ? "* Ce champ est obligatoire." : "")}</span>
+
+		const msgErreurMotPasse = <span className="message_erreur">{(this.state.erreurMot_passe ? "* Ce champ est obligatoire." : "")}</span>
+		
+		const msgErreurMotPasseVerif = <span className="message_erreur">{(this.state.erreurMot_passe_verif ? "* Les mots de passe ne sont pas identiques." : "" || this.state.erreurMot_passe_verif_vide ? "* Ce champ est obligatoire" : "")}</span>
+		
 		return (
 			<Box
 				className="register_container"
@@ -174,6 +196,7 @@ export default class Inscription extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurNom}
 						<TextField
 							error={this.state.erreurPrenom}
 							label="Prénom"
@@ -199,8 +222,9 @@ export default class Inscription extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurPrenom}
 						<TextField
-							error={this.state.erreurCourriel}
+							error={this.state.erreurCourriel || this.state.erreurCourrielVide}
 							label="Courriel"
 							variant="outlined"
 							type="email"
@@ -225,6 +249,7 @@ export default class Inscription extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurCourriel}
 						<TextField
 							error={this.state.erreurMot_passe}
 							label="Mot de passe"
@@ -252,8 +277,9 @@ export default class Inscription extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurMotPasse}
 						<TextField
-							error={this.state.erreurMot_passe_verif}
+							error={this.state.erreurMot_passe_verif || this.state.erreurMot_passe_verif_vide}
 							label="Confirmer mot de passe"
 							variant="outlined"
 							type="password"
@@ -278,6 +304,7 @@ export default class Inscription extends React.Component {
 								}
 							}}
 						/>
+						{msgErreurMotPasseVerif}
 					</Box>
 
 					<Fab

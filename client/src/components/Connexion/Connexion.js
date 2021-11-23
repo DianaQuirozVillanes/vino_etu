@@ -13,12 +13,15 @@ export default class Connexion extends React.Component {
 		this.state = {
 			courriel: '',
 			mot_passe: '',
-			id_usager: undefined
+			id_usager: undefined,
+			messageErreur: undefined,
+			erreurCourriel: false,
+			erreurMot_passe: false
 		};
 
 		this.validation = this.validation.bind(this);
+		this.peseEntree = this.peseEntree.bind(this);
 		this.seConnecter = this.seConnecter.bind(this);
-
 	}
 
 	componentDidMount() {
@@ -30,29 +33,44 @@ export default class Connexion extends React.Component {
     }
 
 	validation() {
-		let bValidation = false;
+		let estValide = false;
+		this.setState({
+			erreurCourriel: true,
+			erreurMot_passe: true
+		});
+
+		// Validation selon la forme minimale [a-Z]@[a-Z]
+		let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+		let bRegex = expRegex.test(this.state.courriel);
+
+		if (this.state.courriel && this.state.courriel.trim() !== '' && bRegex) {
+			this.setState({ erreurCourriel: false });
+		}
+
+		if (this.state.mot_passe && this.state.mot_passe.trim() !== '') {
+			this.setState({ erreurMot_passe: false });
+		}
 
 		if (
 			this.state.courriel &&
 			this.state.courriel.trim() !== '' &&
+			bRegex &&
 			(this.state.mot_passe && this.state.mot_passe.trim() !== '')
 		) {
-			// Validation selon la forme minimale [a-Z]@[a-Z]
-			let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-			let bRegex = expRegex.test(this.state.courriel);
-
-			if (bRegex) {
-				bValidation = true;
-			} else {
-			}
+			estValide = true;
 		}
+		return estValide;
+	}
 
-		return bValidation;
+	peseEntree(e) {
+		if (e.keyCode === 13) {
+			this.seConnecter();
+		}
 	}
 
 	seConnecter() {
 		if (this.validation()) {
-			const donnes = {
+			const donnees = {
 				courriel: this.state.courriel,
 				mot_passe: this.state.mot_passe
 			};
@@ -63,7 +81,7 @@ export default class Connexion extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/usagers/login/', putMethod)
@@ -72,14 +90,26 @@ export default class Connexion extends React.Component {
 					if (data.data) {
 						this.props.login(data.data);
 						this.props.history.push('/celliers/liste');
+						console.log(this.state.erreurCourriel);
 					} else {
+						this.setState({ messageErreur: 'Le courriel ou le mot de passe ne correspondent pas.' });
+						console.log(this.state.erreurCourriel);
 					}
 				});
+		} else {
 		}
 	}
 
 	render() {
-
+		const messageErreur = this.state.messageErreur || '';
+		const msgErreurCourriel = (
+			<span className="message_erreur">
+				{this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : ''}
+			</span>
+		);
+		const msgErreurMotPasse = (
+			<span className="message_erreur">{this.state.erreurMot_passe ? '* Ce champ est obligatoire.' : ''}</span>
+		);
 		return (
 			<Box
 				className="login_container"
@@ -114,25 +144,73 @@ export default class Connexion extends React.Component {
 						}}
 					>
 						<TextField
+							autoComplete
+							error={this.state.erreurCourriel}
 							label="Courriel"
 							variant="outlined"
 							onBlur={(evt) => this.setState({ courriel: evt.target.value })}
 							placeholder="bobus@gmail.com"
+							sx={{
+								color: 'white',
+								'& label.Mui-focused': {
+									color: 'white'
+								},
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red',
+									color: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
+						{msgErreurCourriel}
 						<TextField
+							autoComplete
+							error={this.state.erreurMot_passe}
 							label="Mot de passe"
 							type="password"
 							variant="outlined"
-							onBlur={(evt) => this.setState({ mot_passe: evt.target.value })}
+							onChange={(evt) => this.setState({ mot_passe: evt.target.value })}
+							onKeyDown={(e) => this.peseEntree(e)}
 							placeholder="12345"
+							sx={{
+								color: 'white',
+								'& label.Mui-focused': {
+									color: 'white'
+								},
+								'& input:valid + fieldset': {
+									borderColor: 'white'
+								},
+								'& input:invalid + fieldset': {
+									borderColor: 'red',
+									color: 'red'
+								},
+								'& input:invalid:focus + fieldset': {
+									borderColor: 'white',
+									padding: '4px !important'
+								},
+								'& input:valid:focus + fieldset': {
+									borderColor: 'white'
+								}
+							}}
 						/>
+						{msgErreurMotPasse}
 					</Box>
-					<Fab 
-						variant="extended" 
+					<span className="message_erreur">{messageErreur}</span>
+					<Fab
+						variant="extended"
 						onClick={() => this.seConnecter()}
-						sx={{backgroundColor: "#641b30", color: "white"}}
+						sx={{ backgroundColor: '#641b30', color: 'white' }}
 					>
-						<LoginOutlinedIcon sx={{marginRight: '1rem'}}/>
+						<LoginOutlinedIcon sx={{ marginRight: '1rem' }} />
 						Se connecter
 					</Fab>
 				</Box>
