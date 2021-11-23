@@ -35,6 +35,14 @@ export default class DetailsBouteille extends React.Component {
 		};
 
 		this.recupereBouteille = this.recupereBouteille.bind(this);
+		this.saisirNom = this.saisirNom.bind(this);
+		this.saisirDescription = this.saisirDescription.bind(this);
+		this.saisirOrigine = this.saisirOrigine.bind(this);
+		this.saisirMillesime = this.saisirMillesime.bind(this);
+		this.saisirFormat = this.saisirFormat.bind(this);
+		this.saisirConserver = this.saisirConserver.bind(this);
+		this.saisirCommentaires = this.saisirCommentaires.bind(this);
+		this.saisirDateAchat = this.saisirDateAchat.bind(this);
 		this.modifier = this.modifier.bind(this);
 		this.validation = this.validation.bind(this);
 	}
@@ -50,6 +58,78 @@ export default class DetailsBouteille extends React.Component {
 		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
+	}
+
+	/**
+	 * Saisir le nom de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Nom
+	 */
+	saisirNom(e) {
+		this.setState({ nom: e.target.value });
+	}
+
+	/**
+	 * Saisir la description de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Description
+	 */
+	saisirDescription(e) {
+		this.setState({ description: e.target.value });
+	}
+
+	/**
+	 * Saisir le pays d'origine de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Origine
+	 */
+	saisirOrigine(e) {
+		this.setState({ pays: e.target.value });
+	}
+
+	/**
+	 * Saisir le millesime de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Millesime
+	 */
+	saisirMillesime(e) {
+		this.setState({ millesime: e.target.value });
+	}
+
+	/**
+	 * Saisir le format de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Format
+	 */
+	saisirFormat(e) {
+		this.setState({ format: e.target.value });
+	}
+
+	/**
+	 * Saisir la conservation de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs À Conserver
+	 */
+	saisirConserver(e) {
+		this.setState({ garde_jusqua: e.target.value });
+	}
+
+	/**
+	 * Saisir les commentaires de l'usager sur la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Commentaires
+	 */
+	saisirCommentaires(e) {
+		this.setState({ note: e.target.value });
+	}
+
+	/**
+	 * Saisir la date d'achat de la bouteille
+	 * 
+	 * @param {string} e Valeur du champs Date d'achat
+	 */
+	saisirDateAchat(e) {
+		this.setState({ date_ajout: e.target.value });
 	}
 
 	/**
@@ -214,12 +294,15 @@ export default class DetailsBouteille extends React.Component {
 				<span className="modif_bouteille_title">Modifier une bouteille</span>
 
 				<TextField
-					autoFocus
-					error={this.state.erreurNom}
 					label="Nom"
+					type="text"
+					error={this.state.erreurNom}
 					variant="outlined"
-					onChange={(evt) => this.setState({ nom: evt.target.value })}
+					onChange={(e) => this.saisirNom(e)}
 					value={this.state.nom}
+					InputLabelProps={{
+						className: 'ajout_bouteille_input'
+					}}
 					sx={{
 						color: 'white',
 						'& label.Mui-focused': {
@@ -244,7 +327,7 @@ export default class DetailsBouteille extends React.Component {
 				<TextField
 					label="Description"
 					variant="outlined"
-					onChange={(evt) => this.setState({ description: evt.target.value })}
+					onChange={(e) => this.saisirDescription(e)}
 					value={this.state.description}
 					sx={{
 						'& input:valid:focus + fieldset': {
@@ -274,7 +357,7 @@ export default class DetailsBouteille extends React.Component {
 							}
 						}}
 						value={this.state.pays}
-						onChange={(e) => this.setState({ pays: e.target.value })}
+						onChange={(e) => this.saisirOrigine(e)}
 					>
 						{listePays.map((item) => <MenuItem value={item.name}>{item.name}</MenuItem>)}
 					</Select>
@@ -285,7 +368,7 @@ export default class DetailsBouteille extends React.Component {
 					error={this.state.erreurMillesime}
 					label="Millesime"
 					variant="outlined"
-					onChange={(evt) => this.setState({ millesime: evt.target.value })}
+					onChange={(e) => this.saisirMillesime(e)}
 					value={this.state.millesime}
 					sx={{
 						color: 'white',
@@ -312,7 +395,7 @@ export default class DetailsBouteille extends React.Component {
 					error={this.state.erreurFormat}
 					label="Format"
 					variant="outlined"
-					onChange={(evt) => this.setState({ format: evt.target.value })}
+					onChange={(e) => this.saisirFormat(e)}
 					value={this.state.format}
 					sx={{
 						color: 'white',
@@ -338,7 +421,7 @@ export default class DetailsBouteille extends React.Component {
 				<TextField
 					label="Garde jusqu'à"
 					variant="outlined"
-					onChange={(evt) => this.setState({ garde_jusqua: evt.target.value })}
+					onChange={(e) => this.saisirConserver(e)}
 					value={this.state.garde_jusqua}
 					sx={{
 						'& input:valid:focus + fieldset': {
@@ -353,7 +436,7 @@ export default class DetailsBouteille extends React.Component {
 				<TextField
 					label="Commentaire de dégustation"
 					variant="outlined"
-					onChange={(evt) => this.setState({ note: evt.target.value })}
+					onChange={(e) => this.saisirCommentaires(e)}
 					value={this.state.note}
 					sx={{
 						'& input:valid:focus + fieldset': {
@@ -369,7 +452,7 @@ export default class DetailsBouteille extends React.Component {
 					error={this.state.erreurDate}
 					label="Date d'ajout"
 					variant="outlined"
-					onChange={(evt) => this.setState({ date_ajout: evt.target.value })}
+					onChange={(e) => this.saisirDateAchat(e)}
 					value={this.state.date_ajout}
 					type="date"
 					InputLabelProps={{ shrink: true }}
