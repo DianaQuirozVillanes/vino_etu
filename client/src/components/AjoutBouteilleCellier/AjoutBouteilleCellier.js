@@ -1,16 +1,12 @@
 import React from 'react';
 import BouteilleSAQ from '../BouteilleSAQ/BouteilleSAQ';
-
 import './AjoutBouteilleCellier.css';
-
 import { Box } from '@mui/system';
 import { FormHelperText, TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
-
 import moment from 'moment';
 
 export default class AjoutBouteille extends React.Component {
@@ -79,9 +75,16 @@ export default class AjoutBouteille extends React.Component {
 
 		// Get les informations du cellier.
 		this.fetchCelliers();
+
+		// Titre du document.
+		document.title = this.props.title;
 	}
 
 	componentDidUpdate() {
+	  if (this.state.celliers.length <= 0) {
+			return this.props.history.push('/celliers/ajouter');
+		}
+
 		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
@@ -338,6 +341,7 @@ export default class AjoutBouteille extends React.Component {
 	 * 
 	 * @returns JSX
 	 */
+  
 	render() {
 		// Map des bouteilles dans le cellier
 		const bouteilles = this.state.bouteillesSAQ.map((bouteille, index) => {
@@ -446,6 +450,7 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 						{bouteilles}
+
 						<FormControl
 							sx={{
 								'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -454,6 +459,7 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						>
 							<InputLabel id="cellier-label">Choisir le cellier</InputLabel>
+
 							<Select
 								label="Choisir le cellier"
 								labelId="cellier-label"
@@ -742,7 +748,6 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 					</Box>
-
 					<button onClick={this.ajouterBouteilleCellier}>Ajouter une bouteille au cellier</button>
 				</Box>
 			</Box>
