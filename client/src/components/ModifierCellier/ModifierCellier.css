@@ -36,10 +36,10 @@ p.MuiTypography-root {
 }
 
 .modifier_cellier_container fieldset {
-   border-color: white !important;
+   border-color: white;
 }
 
 .modifier_cellier_container label, 
 .modifier_cellier_container input {
-    color: white !important;
+    color: white;
 }

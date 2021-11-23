@@ -30,15 +30,17 @@ export default class ModifierCompte extends React.Component {
 
     componentDidMount() {
         // Vérifie la connexion et redirige au besoin.
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
+
+        this.props.title("Modifier compte");
 
         this.getUsagers()
     }
 
     componentDidUpdate() {
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
     }
@@ -89,7 +91,7 @@ export default class ModifierCompte extends React.Component {
             }
         }
 
-        fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + this.props.id_usager, options)
+        fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + window.sessionStorage.getItem('id_usager'), options)
             .then(reponse => reponse.json())
             .then((donnees) => {
                 this.setState({
@@ -121,7 +123,7 @@ export default class ModifierCompte extends React.Component {
                 body: JSON.stringify(donnes)
             };
 
-            fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + this.props.id_usager, options)
+            fetch("https://rmpdwebservices.ca/webservice/php/usagers/" + window.sessionStorage.getItem('id_usager'), options)
                 .then(res => res.json())
                 .then((data) => {
                     if (data.data === true) {
@@ -135,14 +137,6 @@ export default class ModifierCompte extends React.Component {
         // Affichage.
         return (
             <>
-                <Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
-                    <Link underline="hover" color="inherit" onClick={() => this.props.history.push('/')}>
-                        Mon Cellier
-                    </Link>
-
-                    <Typography color="text.primary">Modifier compte</Typography>
-                </Breadcrumbs>
-
                 <Box
                     className="modification_contenu"
                     sx={{

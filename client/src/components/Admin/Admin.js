@@ -1,6 +1,6 @@
 import React from "react";
 import "./Admin.css";
-import { DataGrid } from "@mui/x-data-grid/index-cjs";
+import { DataGrid } from '@mui/x-data-grid';
 import { Breadcrumbs, Link, Typography } from '@mui/material';
 
 export default class Admin extends React.Component {
@@ -15,19 +15,19 @@ export default class Admin extends React.Component {
 
     componentDidMount() {
         // Vérifie la connexion et redirige au besoin.
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
 
         // Titre du document
-        document.title = this.props.title;
-
+        this.props.title('Admin');
+        
         // Get les informations de l'usager.
         this.getUsagers()
     }
-
+    
     componentDidUpdate() {
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
     }
@@ -76,14 +76,6 @@ export default class Admin extends React.Component {
         // Affichage.
         return (
             <>
-                <Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
-                    <Link underline="hover" color="inherit" onClick={() => this.props.history.push('/')}>
-                        Mon Cellier
-                    </Link>
-
-                    <Typography color="text.primary">Panneau admin</Typography>
-                </Breadcrumbs>
-
                 <span className="titre" >Liste des usagers</span>
 
                 <div style={{

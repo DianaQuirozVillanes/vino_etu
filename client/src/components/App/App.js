@@ -23,13 +23,18 @@ export default class App extends React.Component {
     this.state = {
       estConnecte: false,
       id_usager: undefined,
-      estAdmin: false
+      estAdmin: false,
+      title: undefined
     };
 
     this.seConnecter = this.seConnecter.bind(this);
     this.logout = this.logout.bind(this);
     this.fetchUsager = this.fetchUsager.bind(this);
+    this.setTitre = this.setTitre.bind(this);
+  }
 
+  componentDidUpdate() {
+    console.log('trig')
   }
 
   fetchUsager(id) {
@@ -45,34 +50,48 @@ export default class App extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.data[0].est_admin === "1") {
-          this.setState({ estAdmin: true })
+          window.sessionStorage.setItem('estAdmin', true);
         }
       });
   }
 
+  setTitre(titre) {
+    if (this.state.title !== titre)
+      this.setState({ title: titre });
+  }
+
   seConnecter(id) {
     this.fetchUsager(id);
-    this.setState({ id_usager: id, estConnecte: true });
+
+    window.sessionStorage.setItem('estConnecte', true)
+    window.sessionStorage.setItem('id_usager', id)
   }
 
   logout() {
-    this.setState({ id_usager: undefined, estConnecte: false });
+    window.sessionStorage.clear();
+
+    window.location.reload();
   }
 
   render() {
     return (
       <Router>
-        <Entete />
+        <Route
+          component={(props) =>
+          (
+            <Entete
+              title={this.state.title}
+              {...props}
+            />
+          )}
+        />
         <Switch>
           <Route
             exact
             path="/bouteille/ajout"
             component={(props) => (
               <AjoutBouteille
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                title="Ajouter bouteille"
-                estAdmin={this.state.estAdmin}
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -83,10 +102,7 @@ export default class App extends React.Component {
             path="/"
             component={(props) => (
               <ListeCelliers
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Liste celliers"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -97,10 +113,7 @@ export default class App extends React.Component {
             path="/inscription"
             component={(props) => (
               <Inscription
-                title="S'inscrire"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -111,10 +124,7 @@ export default class App extends React.Component {
             path="/compte/modifier"
             component={(props) => (
               <ModifierCompte
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Modifier son compte"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -125,11 +135,8 @@ export default class App extends React.Component {
             path="/connexion"
             component={(props) => (
               <Connexion
+                title={this.setTitre}
                 login={this.seConnecter}
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Se connecter"
                 {...props}
               />
             )}
@@ -140,10 +147,7 @@ export default class App extends React.Component {
             path="/celliers/liste"
             component={(props) => (
               <ListeCelliers
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Liste celliers"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -154,13 +158,10 @@ export default class App extends React.Component {
             path="/cellier/:id"
             render={(param_route) => (
               <ListeBouteilles
-                {...param_route}
+                title={this.setTitre}
                 id={param_route?.match?.params?.id}
                 param={param_route}
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Cellier"
+                {...param_route}
               />
             )}
           />
@@ -170,13 +171,10 @@ export default class App extends React.Component {
             path="/cellier/bouteilles/:id"
             render={(param_route) => (
               <DetailsBouteille
+                title={this.setTitre}
                 {...param_route}
                 bouteille_id={param_route?.match?.params?.bouteille_id}
                 param={param_route}
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Détails bouteille"
               />
             )}
           />
@@ -186,10 +184,7 @@ export default class App extends React.Component {
             path="/admin"
             component={(props) => (
               <Admin
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
-                title="Admin"
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -200,10 +195,7 @@ export default class App extends React.Component {
             path="/celliers/ajouter"
             component={(props) => (
               <AjoutCellier
-                title="Ajouter cellier"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -214,10 +206,7 @@ export default class App extends React.Component {
             path="/cellier/modifier/:id"
             component={(props) => (
               <ModifierCellier
-                title="Modifier cellier"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -228,10 +217,7 @@ export default class App extends React.Component {
             path="/listeachat"
             component={(props) => (
               <ListeAchat
-                title="Liste d'achat"
-                estConnecte={this.state.estConnecte}
-                id_usager={this.state.id_usager}
-                estAdmin={this.state.estAdmin}
+                title={this.setTitre}
                 {...props}
               />
             )}
@@ -243,9 +229,6 @@ export default class App extends React.Component {
         <Route
           component={(props) => (
             <Pied
-              estConnecte={this.state.estConnecte}
-              id_usager={this.state.id_usager}
-              estAdmin={this.state.estAdmin}
               logout={this.logout}
               {...props}
             />

@@ -8,7 +8,7 @@ import './ListeBouteilleCellier.css';
 
 //import { circularProgressClasses } from '@mui/material';
 import { Box } from '@mui/system';
-import { Breadcrumbs, Link, Typography } from '@mui/material';
+import { Breadcrumbs, Link, touchRippleClasses, Typography } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 //import MenuItem from '@mui/material/MenuItem';
 //import ListSubheader from '@mui/material/ListSubheader';
@@ -41,22 +41,28 @@ export default class ListeBouteilleCellier extends React.Component {
 		this.ajouterAction = this.ajouterAction.bind(this);
 		this.retirerAction = this.retirerAction.bind(this);
 		this.sortBouteilles = this.sortBouteilles.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
 
+        this.props.title("Bouteilles");
+		
 		this.fetchBouteilles();
 	}
 
 	componentDidUpdate() {
-        if (!this.props.estConnecte) {
+        if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
     }
 
+	handleClose() {
+		this.setState({open : false});
+	}
 	sortBouteilles(obj) {
 		const parsedObj = JSON.parse(obj);
 		const key = parsedObj.key;
@@ -107,10 +113,8 @@ export default class ListeBouteilleCellier extends React.Component {
 			.map((data) => {
 				flag = 'https://flagcdn.com/' + data.alpha2 + '.svg';
 			});
-
 		return flag;
 	}
-
 
 	changerQuantite(valeur) {
 		this.setState({ qteModif: valeur, open: false });
@@ -229,14 +233,6 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
-				<Typography color="text.primary">Mon Cellier</Typography>
-					<Link underline="hover" color="inherit" to="/celliers/liste">
-						Celliers
-					</Link>
-					<Typography color="text.primary">{this.state.nomCellier}</Typography>
-					<Typography color="text.primary">Liste des bouteilles</Typography>
-				</Breadcrumbs>
 				<FormControl sx={{ m: 1, minWidth: 120, color: 'white', borderRadius: '0.5rem', marginLeft: '1.8rem' }}>
 					<InputLabel htmlFor="grouped-native-select" sx={{color: 'white'}}>Trier par</InputLabel>
 					<Select
@@ -271,6 +267,7 @@ export default class ListeBouteilleCellier extends React.Component {
 						action={this.state.action}
 						changerQuantite={this.changerQuantite}
 						getQuantite={this.state.qteModif}
+						handleClose={this.handleClose}
 					/>
 
 					<div className="liste_bouteilles">{bouteilles}</div>

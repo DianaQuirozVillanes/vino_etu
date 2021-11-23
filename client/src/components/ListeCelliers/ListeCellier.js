@@ -21,14 +21,17 @@ export default class ListeCellier extends React.Component {
 	}
 
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
+
+		this.props.title('Celliers');
+
 		this.fetchCelliers();
 	}
 
 	componentDidUpdate() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
 	}
@@ -47,7 +50,7 @@ export default class ListeCellier extends React.Component {
 			}
 		};
 
-		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + this.props.id_usager, getMethod)
+		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + window.sessionStorage.getItem('id_usager'), getMethod)
 			.then((reponse) => reponse.json())
 			.then((donnees) => {
 				this.setState({ items: donnees.data });
@@ -61,16 +64,18 @@ export default class ListeCellier extends React.Component {
 
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem' }}>
-				<Typography color="text.primary">Mon Cellier</Typography>
-					<Link underline="hover" color="inherit" to="/">
-						Celliers
-					</Link>
-					<Typography color="text.primary">Liste des celliers</Typography>
-				</Breadcrumbs>
-				<Box sx={{ justifyContent: 'space-between', alignItems: 'center', gap: "20px" }}>
-					<Fab size="small" margin="10px" > <AddCircleIcon onClick={() => this.props.history.push("/celliers/ajouter")} sx={{ color: '#641B30' }} /> </Fab>
-					{/* <Fab size="small"  > <AddShoppingCartOutlinedIcon  onClick={()=> this.props.history.push("/listeachat")} sx={{ color: '#641B30' }} /> </Fab> */}
+				<Box
+					sx={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						gap: "1rem",
+						margin: "0 auto",
+						width: '90vw'
+					}}
+				>
+					<Fab size="small" margin="10px" sx={{ marginLeft: '.5rem 1.5rem' }} > <AddCircleIcon onClick={() => this.props.history.push("/celliers/ajouter")} sx={{ color: '#641B30' }} /> </Fab>
+					<Fab size="small"> <AddShoppingCartOutlinedIcon onClick={() => this.props.history.push("/listeachat")} sx={{ color: '#641B30' }} /> </Fab>
 				</Box>
 				<section className="liste_celliers">
 					{celliers}

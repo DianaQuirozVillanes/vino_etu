@@ -28,10 +28,10 @@
 }
 
 .register_container fieldset {
-    border-color: white !important;
+    border-color: white ;
 }
 
 .register_container label,
 .register_container input {
-    color: white !important;
+    color: white ;
 }

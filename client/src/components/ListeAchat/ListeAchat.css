@@ -10,25 +10,22 @@
 }
 
 .liste_achat_container > .button {
-    width: 100%;
     color: white;
+    /*width: 100%;
     outline: unset;
     border-radius: .5rem;
     padding: .5rem 1rem;
     border: none;
     margin-bottom: 2rem;
     font-size: 1em;
-    font-weight: 700;
+    font-weight: 700;*/
     background-color: #641B30;
 }
 
-.liste_achat_check  {
-    align-self: end;
+.liste_achat_container > .liste_achat_effacer:hover {
     color: white;
-}
-
-.liste_achat_check input:focus {
-    outline: unset;
+    background-color: white;
+    border:none;
 }
 
 .MuiTextField-root {
@@ -41,4 +38,8 @@
 
 .liste_achat_rows .MuiCheckbox-root {
     color: white;
+}
+
+.liste_achat_rows .MuiDataGrid-root {
+    border: none;
 }

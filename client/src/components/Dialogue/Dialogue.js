@@ -14,12 +14,11 @@ export default class Dialogue extends React.Component {
 
 		this.state = {
 			open: false,
-			valeur: "1",
-			titre: "",
-			action: "",
-		}
+			valeur: '1',
+			titre: '',
+			action: ''
+		};
 
-		this.handleClose = this.handleClose.bind(this);
 	}
 	/**
 	 * @param  {} previousProps
@@ -30,24 +29,18 @@ export default class Dialogue extends React.Component {
 			this.setState({ open: false });
 		} else if (!this.state.open && !previousState.open) {
 			this.setState({ open: true });
-			this.setState({titre: this.props.titre});
-			this.setState({action: this.props.action});
+			this.setState({ titre: this.props.titre });
+			this.setState({ action: this.props.action });
 		}
-	}
-
-	handleClose() {
-		this.setState({ open: false });
 	}
 
 	render() {
 		return (
 			<div>
-				<Dialog open={this.state.open} onClose={this.handleClose}>
+				<Dialog open={this.props.open} onClose={this.handleClose}>
 					<DialogTitle>{this.state.titre}</DialogTitle>
 					<DialogContent>
-						<DialogContentText>
-						Veuillez indiquer la quantité à {this.state.action}
-						</DialogContentText>
+						<DialogContentText>Veuillez indiquer la quantité à {this.state.action}</DialogContentText>
 						<TextField
 							autoFocus
 							id="number"
@@ -56,16 +49,26 @@ export default class Dialogue extends React.Component {
 							fullWidth
 							variant="standard"
 							value={this.state.valeur}
-							onChange={(e) => this.setState({valeur : e.target.value })}
-							inputProps={{ min: "1" }}
+							onChange={(e) => this.setState({ valeur: e.target.value })}
+							inputProps={{ min: '1' }}
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose}>Annuler</Button>
-						<Button onClick={() => {this.props.changerQuantite(this.state.valeur); this.setState({valeur: "1"}); }}>OK</Button>
+						<Button className="dialog_button" onClick={this.handleClose}>
+							Annuler
+						</Button>
+						<Button
+							className="dialog_button"
+							onClick={() => {
+								this.props.changerQuantite(this.state.valeur);
+								this.setState({ valeur: '1' });
+							}}
+						>
+							OK
+						</Button>
 					</DialogActions>
 				</Dialog>
 			</div>
 		);
 	}
-};
+}

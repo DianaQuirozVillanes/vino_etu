@@ -16,12 +16,15 @@ export default class AjoutCellier extends React.Component {
 
 		this.state = {
 			emplacement: '',
-			temperature: 10,
+			temperature: null,
 			usager_id: 0,
-			titreBoutton: ''
+			titreBoutton: '',
+			erreurEmplacement: false
 		};
 
 		this.validation = this.validation.bind(this);
+		this.saisirEmplacement = this.saisirEmplacement.bind(this);
+		this.saisirTemperature = this.saisirTemperature.bind(this);
 		this.creerCellier = this.creerCellier.bind(this);
 	}
 
@@ -30,28 +33,54 @@ export default class AjoutCellier extends React.Component {
 	 * 
 	 */
 	componentDidMount() {
-		if (!this.props.estConnecte) {
+		if (!window.sessionStorage.getItem('estConnecte')) {
 			return this.props.history.push('/connexion');
 		}
+
+		this.props.title("Ajout cellier");
+
 		this.setState({ titreBoutton: 'Nouveau cellier' });
 	}
 
-    componentDidUpdate() {
-        if (!this.props.estConnecte) {
-            return this.props.history.push('/connexion');
-        }
-    }
+	componentDidUpdate() {
+		if (!window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push('/connexion');
+		}
+	}
 	/** 
 	 * Fonction de validation des inputs
 	 * 
 	 */
 	validation() {
-		let bValidation = false;
+		let estValide = false;
 
-		if (this.state.emplacement && this.state.emplacement.trim() !== '' && this.state.temperature) {
-			bValidation = true;
+		this.setState({
+			erreurEmplacement: true
+		});
+
+		if (this.state.emplacement && this.state.emplacement.trim() !== '') {
+			estValide = true;
+			this.setState({ erreurEmplacement: false });
 		}
-		return bValidation;
+		return estValide;
+	}
+
+	/**
+	 * Saisir l'emplacement du nouveau cellier
+	 * 
+	 * @param {string} e Valeur du champs Emplacement
+	 */
+	saisirEmplacement(e) {
+		this.setState({ emplacement: e.target.value });
+	}
+
+	/**
+	 * Saisir la température du nouveau cellier
+	 * 
+	 * @param {string} e Valeur du champs Température
+	 */
+	saisirTemperature(e) {
+		this.setState({ temperature: e.target.value });
 	}
 
 	/** 
@@ -60,10 +89,10 @@ export default class AjoutCellier extends React.Component {
 	 */
 	creerCellier() {
 		if (this.validation()) {
-			let donnes = {
+			let donnees = {
 				emplacement: this.state.emplacement,
-				usager_id: this.props.id_usager,
-                temperature: this.state.temperature
+				usager_id: window.sessionStorage.getItem('id_usager'),
+				temperature: this.state.temperature
 			};
 
 			const postMethod = {
@@ -72,7 +101,7 @@ export default class AjoutCellier extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/celliers/', postMethod)
@@ -86,13 +115,11 @@ export default class AjoutCellier extends React.Component {
 	}
 
 	render() {
+		const messageErreurEmplacement = (
+			<span className="message_erreur">{this.state.erreurEmplacement ? '* Ce champ est obligatoire.' : ''}</span>
+		);
 		return (
 			<Box>
-				<Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem' }}>
-					<Typography color="text.primary">Mon Cellier</Typography>
-					<Typography color="text.primary">Nouveau cellier</Typography>
-				</Breadcrumbs>
-
 				<Box
 					className="nouvelle_cellier_container"
 					sx={{
@@ -105,17 +132,38 @@ export default class AjoutCellier extends React.Component {
 						flexDirection: 'column',
 						borderRadius: '1rem',
 						margin: '0 auto',
-						marginTop: '20vh'
+						marginTop: '15vh'
 					}}
 				>
 					<span className="nouvelle_cellier_title"> {this.state.titreBoutton} </span>
 
 					<TextField
 						autoFocus
+						error={this.state.erreurEmplacement}
 						label="Emplacement"
 						variant="outlined"
-						onBlur={(evt) => this.setState({ emplacement: evt.target.value })}
+						onBlur={(e) => this.saisirEmplacement(e)}
+						sx={{
+							color: 'white',
+							'& label.Mui-focused': {
+								color: 'white'
+							},
+							'& input:valid + fieldset': {
+								borderColor: 'white'
+							},
+							'& input:invalid + fieldset': {
+								borderColor: 'red'
+							},
+							'& input:invalid:focus + fieldset': {
+								borderColor: 'white',
+								padding: '4px !important'
+							},
+							'& input:valid:focus + fieldset': {
+								borderColor: 'white'
+							}
+						}}
 					/>
+					{messageErreurEmplacement}
 					<TextField
 						margin="dense"
 						id="temperature"
@@ -123,7 +171,16 @@ export default class AjoutCellier extends React.Component {
 						type="number"
 						variant="outlined"
 						inputProps={{ step: '0.5' }}
-						onBlur={(e) => this.setState({ temperature: e.target.value })}
+						onBlur={(e) => this.saisirTemperature(e)}
+						sx={{
+							color: 'white',
+							'& label.Mui-focused': {
+								color: 'white'
+							},
+							'& input:valid:focus + fieldset': {
+								borderColor: 'white'
+							}
+						}}
 					/>
 
 					<Fab
@@ -134,7 +191,6 @@ export default class AjoutCellier extends React.Component {
 						<AddOutlinedIcon sx={{ marginRight: '1rem' }} />
 						Nouveau cellier
 					</Fab>
-
 				</Box>
 			</Box>
 		);
