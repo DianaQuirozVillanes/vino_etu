@@ -16,17 +16,17 @@ export default class DetailsBouteille extends React.Component {
 
 		this.state = {
 			items: [],
-			nom: undefined,
-			description: undefined,
-			pays: undefined,
-			millesime: undefined,
-			code_saq: undefined,
-			format: undefined,
-			garde_jusqua: undefined,
-			note: undefined,
-			date_ajout: undefined,
-			quantite: undefined,
-			id_cellier: undefined,
+			nom: "",
+			description: "",
+			pays: "",
+			millesime: "",
+			code_saq: "",
+			format: "",
+			garde_jusqua: "",
+			note: "",
+			date_ajout: "",
+			quantite: "",
+			id_cellier: "",
 			erreurNom: false,
 			erreurPays: false,
 			erreurMillesime: false,
@@ -345,7 +345,10 @@ export default class DetailsBouteille extends React.Component {
 				<FormControl
 					sx={{
 						'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-							borderColor: 'white'
+							borderColor: 'white',
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							color: 'white'
 						}
 					}}
 				>
