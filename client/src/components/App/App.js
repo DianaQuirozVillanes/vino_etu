@@ -81,6 +81,7 @@ export default class App extends React.Component {
           (
             <Entete
               title={this.state.title}
+              logout={this.logout}
               {...props}
             />
           )}
@@ -229,7 +230,6 @@ export default class App extends React.Component {
         <Route
           component={(props) => (
             <Pied
-              logout={this.logout}
               {...props}
             />
           )}
