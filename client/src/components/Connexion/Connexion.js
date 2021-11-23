@@ -14,7 +14,7 @@ export default class Connexion extends React.Component {
 			courriel: '',
 			mot_passe: '',
 			id_usager: undefined,
-			messageErreur: undefined,
+			erreurDB: false,
 			erreurCourriel: false,
 			erreurMot_passe: false
 		};
@@ -25,12 +25,12 @@ export default class Connexion extends React.Component {
 	}
 
 	componentDidMount() {
-        if (window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push('/connexion');
-        }
+		if (window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push('/connexion');
+		}
 
-		this.props.title("Connexion");
-    }
+		this.props.title('Connexion');
+	}
 
 	validation() {
 		let estValide = false;
@@ -90,10 +90,8 @@ export default class Connexion extends React.Component {
 					if (data.data) {
 						this.props.login(data.data);
 						this.props.history.push('/celliers/liste');
-						console.log(this.state.erreurCourriel);
 					} else {
-						this.setState({ messageErreur: 'Le courriel ou le mot de passe ne correspondent pas.' });
-						console.log(this.state.erreurCourriel);
+						this.setState({ erreurDB: true });
 					}
 				});
 		} else {
@@ -101,14 +99,20 @@ export default class Connexion extends React.Component {
 	}
 
 	render() {
-		const messageErreur = this.state.messageErreur || '';
-		const msgErreurCourriel = (
-			<span className="message_erreur">
-				{this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : ''}
-			</span>
+		const messageErreur = this.state.erreurDB ? (
+			<span className="message_erreur"> * Le courriel ou le mot de passe ne correspondent pas.</span>
+		) : (
+			''
 		);
-		const msgErreurMotPasse = (
-			<span className="message_erreur">{this.state.erreurMot_passe ? '* Ce champ est obligatoire.' : ''}</span>
+		const msgErreurCourriel = this.state.erreurCourriel ? (
+			<span className="message_erreur">* L'adresse courriel n'est pas valide.</span>
+		) : (
+			''
+		);
+		const msgErreurMotPasse = this.state.erreurMot_passe ? (
+			<span className="message_erreur">* Ce champ est obligatoire.</span>
+		) : (
+			''
 		);
 		return (
 			<Box
@@ -204,13 +208,20 @@ export default class Connexion extends React.Component {
 						/>
 						{msgErreurMotPasse}
 					</Box>
-					<span className="message_erreur">{messageErreur}</span>
+					{messageErreur}
 					<Fab
 						variant="extended"
 						onClick={() => this.seConnecter()}
-						sx={{ backgroundColor: '#641b30', color: 'white' }}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: '.5rem',
+							backgroundColor: '#641b30', 
+							color: 'white'
+						  }}
 					>
-						<LoginOutlinedIcon sx={{ marginRight: '1rem' }} />
+						<LoginOutlinedIcon />
 						Se connecter
 					</Fab>
 				</Box>
