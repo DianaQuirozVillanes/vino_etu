@@ -84,11 +84,11 @@ class BouteilleModele extends Modele
 		$nom = $this->_db->real_escape_string($nom);
 		$nom = preg_replace("/\*/", "%", $nom);
 
-		$requeteSaq = "SELECT *, 'saq' AS 'table' FROM vino__bouteille_saq WHERE LOWER(nom) LIKE LOWER('%" . $nom . "%') LIMIT 0,10";
+		$requeteSaq = "SELECT *, 'saq' AS 'table' FROM vino__bouteille_saq WHERE (nom) LIKE ('%" . $nom . "%') LIMIT 0,10";
 
 		$requeteCellier = "SELECT vino__bouteille.*, vino__cellier_inventaire.quantite, 'cellier' AS 'table' FROM vino__bouteille"
 			. " LEFT JOIN vino__cellier_inventaire ON vino__bouteille.id = vino__cellier_inventaire.bouteille_id"
-			. " WHERE LOWER(nom) LIKE LOWER('%" . $nom . "%') LIMIT 0,10";
+			. " WHERE (nom) LIKE ('%" . $nom . "%') LIMIT 0,10";
 
 		if (($res = $this->_db->query($requeteSaq)) ==	 true) {
 			if ($res->num_rows) {
