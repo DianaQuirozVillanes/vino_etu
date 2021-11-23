@@ -41,7 +41,7 @@ export default class ListeBouteilleCellier extends React.Component {
 		this.ajouterAction = this.ajouterAction.bind(this);
 		this.retirerAction = this.retirerAction.bind(this);
 		this.sortBouteilles = this.sortBouteilles.bind(this);
-		this.handleClose = this.handleClose.bind(this);
+		this.fermerDialogue = this.fermerDialogue.bind(this);
 	}
 
 	componentDidMount() {
@@ -60,7 +60,7 @@ export default class ListeBouteilleCellier extends React.Component {
         }
     }
 
-	handleClose() {
+	fermerDialogue() {
 		this.setState({open : false});
 	}
 	sortBouteilles(obj) {
@@ -233,14 +233,39 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<FormControl sx={{ m: 1, minWidth: 120, color: 'white', borderRadius: '0.5rem', marginLeft: '1.8rem' }}>
+				<FormControl 
+				sx={{
+					minWidth: 120,
+					borderColor: 'white', 
+					borderRadius: '0.5rem', 
+					marginLeft: '1.8rem',
+					'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+						borderColor: 'white'
+					},
+					'& .MuiOutlinedInput-root': {
+						borderColor: 'white'
+					},
+					'& .MuiFormLabel-root.Mui-focused': {
+						color: 'white'
+					}
+					}}
+				>
 					<InputLabel htmlFor="grouped-native-select" sx={{color: 'white'}}>Trier par</InputLabel>
 					<Select
 						native
 						defaultValue=""
 						id="grouped-native-select"
-						label="Grouping"
+						label="Trier par"
 						onChange={(e) => this.sortBouteilles(e.target.value)}
+						sx={{
+							borderColor: 'white',
+							'& label.Mui-focused': {
+								color: 'white'
+							},
+							'& .MuiSelect-icon': {
+								color: 'white'
+							}
+						}}
 					>
 						<optgroup label="Nom">
 							<option value={JSON.stringify({ key: 'nom', order: 'asc' })}>Nom (A-Z)</option>
@@ -267,7 +292,7 @@ export default class ListeBouteilleCellier extends React.Component {
 						action={this.state.action}
 						changerQuantite={this.changerQuantite}
 						getQuantite={this.state.qteModif}
-						handleClose={this.handleClose}
+						fermerDialogue={this.fermerDialogue}
 					/>
 
 					<div className="liste_bouteilles">{bouteilles}</div>
