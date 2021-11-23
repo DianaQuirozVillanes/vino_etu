@@ -34,6 +34,8 @@ export default class ModifierCompte extends React.Component {
             return this.props.history.push('/connexion');
         }
 
+        this.props.title("Modifier compte");
+
         this.getUsagers()
     }
 
@@ -135,14 +137,6 @@ export default class ModifierCompte extends React.Component {
         // Affichage.
         return (
             <>
-                <Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
-                    <Link underline="hover" color="inherit" onClick={() => this.props.history.push('/')}>
-                        Mon Cellier
-                    </Link>
-
-                    <Typography color="text.primary">Modifier compte</Typography>
-                </Breadcrumbs>
-
                 <Box
                     className="modification_contenu"
                     sx={{

@@ -6,3 +6,7 @@
     width: 50px;
     height: 35px;
 }
+
+.MuiToolbar-root>* {
+    flex: 1 0 33%;
+}

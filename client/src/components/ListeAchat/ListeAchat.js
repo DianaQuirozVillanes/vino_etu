@@ -42,7 +42,9 @@ export default class ListeAchat extends React.Component {
       return this.props.history.push("/connexion");
     }
 
-    this.fetchBouteilles(); //this.fetchListeAchat();
+    this.props.title("Liste d'achat");
+
+    this.fetchBouteilles();;
   }
 
   componentDidUpdate() {

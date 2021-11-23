@@ -62,7 +62,7 @@ export default class AjoutBouteille extends React.Component {
 		}
 
 		// Titre du document.
-		document.title = this.props.title;
+        this.props.title("Ajout bouteille");
 
 		// Get les informations du cellier.
 		this.fetchCelliers();

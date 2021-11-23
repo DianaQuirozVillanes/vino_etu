@@ -20,12 +20,12 @@ export default class Admin extends React.Component {
         }
 
         // Titre du document
-        document.title = this.props.title;
-
+        this.props.title('Admin');
+        
         // Get les informations de l'usager.
         this.getUsagers()
     }
-
+    
     componentDidUpdate() {
         if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
@@ -76,14 +76,6 @@ export default class Admin extends React.Component {
         // Affichage.
         return (
             <>
-                <Breadcrumbs aria-label="breadcrumb" sx={{ display: 'flex', margin: '0 1.8rem', marginBottom: '1rem' }}>
-                    <Link underline="hover" color="inherit" onClick={() => this.props.history.push('/')}>
-                        Mon Cellier
-                    </Link>
-
-                    <Typography color="text.primary">Panneau admin</Typography>
-                </Breadcrumbs>
-
                 <span className="titre" >Liste des usagers</span>
 
                 <div style={{
