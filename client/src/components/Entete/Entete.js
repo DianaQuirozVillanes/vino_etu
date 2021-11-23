@@ -71,13 +71,15 @@ export default class Entete extends React.Component {
 						>
 							{this.props.title}
 						</Box>
+
 						<Box
 							sx={{
 								display: 'flex',
 								justifyContent: 'end',
 								alignItems: 'center',
 								gap: '1rem',
-								height: '100%'
+								height: '100%',
+								visibility: !window.sessionStorage.getItem('estConnecte') ? 'hidden' : 'visible'
 							}}
 						>
 							<Fab size="small" color="white" aria-label="add" onClick={(e) => this.openAccMenu(e)}>

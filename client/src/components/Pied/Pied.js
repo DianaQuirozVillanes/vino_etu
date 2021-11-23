@@ -72,7 +72,20 @@ export default class Pied extends React.Component {
 		} else {
 			return (
 				<>
-					<BottomNavigation showLabels sx={{ width: '100vw', position: 'fixed', bottom: 19, left: 0, right: 0, zIndex: 1, paddingTop: .5, backgroundColor: '#641B30' }}>
+					<BottomNavigation showLabels
+						className="bottomnav"
+						sx={{
+							width: '100vw',
+							position: 'fixed',
+							bottom: 19,
+							left: 0,
+							right: 0,
+							zIndex: 1,
+							paddingTop: .5,
+							backgroundColor: '#641B30',
+							display: 'flex',
+						}}
+					>
 						<BottomNavigationAction
 							label="Celliers"
 							value="recents"
@@ -81,7 +94,6 @@ export default class Pied extends React.Component {
 							onClick={() => this.props.history.push("/celliers/liste")}
 						/>
 
-						<AddCircleOutlineOutlinedIcon sx={{ transform: 'translateX(550%)', width: 15, color: 'white' }} />
 						<BottomNavigationAction
 							label="Nouvelle bouteille"
 							value="favorites"
@@ -115,15 +127,15 @@ export default class Pied extends React.Component {
 							}}
 						>
 
-							<MenuItem onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/liste")}} sx={{ display: 'flex', gap: '.5rem' }}>
-								<FormatListNumberedIcon onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/liste")}} /> Liste des celliers
+							<MenuItem onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/liste") }} sx={{ display: 'flex', gap: '.5rem' }}>
+								<FormatListNumberedIcon onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/liste") }} /> Liste des celliers
 							</MenuItem>
 
-							<MenuItem onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter")}} sx={{ display: 'flex', gap: '.5rem' }}>
-								<PlaylistAddIcon onClick={() => {this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter")}} /> Ajouter un cellier
+							<MenuItem onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter") }} sx={{ display: 'flex', gap: '.5rem' }}>
+								<PlaylistAddIcon onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter") }} /> Ajouter un cellier
 							</MenuItem>
 						</Menu>
-				
+
 					</BottomNavigation>
 					<Box sx={{ width: '100vw', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1, height: '20px', backgroundColor: '#641B30' }}>
 					</Box>
