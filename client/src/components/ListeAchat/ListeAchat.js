@@ -125,7 +125,7 @@ export default class ListeAchat extends React.Component {
             {
               items: donnees.data,
               titre: "Inventaire des bouteilles",
-              listeAchat: false,
+              //listeAchat: false,
               titreBouton: "CRÉER LISTE"
             });
           this.afficherBouteilles()
@@ -136,30 +136,24 @@ export default class ListeAchat extends React.Component {
 
   creerListeAchat() {
     console.log("Colonnes séléctionnées: ", this.state.bouteillesSelectionnes);
-
+    console.log("mappedItems: ", this.state.mappedItems);
     if (this.state.bouteillesSelectionnes.length > 0) {
       console.log("Créer liste d'achat");
 
       this.setState({ bouteilles: [] })
       this.state.bouteillesSelectionnes
         .map((item) => {
-          const temporal = { id: item.id, millesime: item.millesime, quantite: item.quantite_achat };
-          /* this.setState(function (state, props) {
-             let nouveauTableau = state.mappedItems.slice();
- 
-             nouveauTableau[index].quantite_achat = item.quantite;
- 
-             return {
-               mappedItems: nouveauTableau,
-               bouteillesSelectionnes: bouteillesListeAchat
- 
-             };
-           })*/
+          let index = this.state.mappedItems.findIndex(x => x.id == item);
+          //let nouveauTableau = this.state.mappedItems.slice();
+          console.log("Dato: ", this.state.mappedItems[index].nom);
+          //nouveauTableau[index].quantite_achat = item.quantite;
+
+          const temporal = { id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat };
           this.state.bouteilles.push(temporal); //changer
         })
 
       console.log("this.state.bouteilles: ", this.state.bouteilles);
-
+      console.log("this.state.listeAchat ", this.state.listeAchat);
       if (this.state.listeAchat) { //Modifier liste d'achat
         let donnes = {
           bouteilles: this.state.bouteilles
@@ -181,7 +175,7 @@ export default class ListeAchat extends React.Component {
           .then((donnees) => {
             if (donnees.data) {
               this.fetchBouteilles();
-              this.setState({ titre: "Liste d'achat" });
+              this.setState({ titre: "Liste d'achat", listeAchat: true });
             }
           });
       } else {  //Créer liste d'achat
@@ -205,7 +199,7 @@ export default class ListeAchat extends React.Component {
           .then((donnees) => {
             if (donnees.data) {
               this.fetchBouteilles();
-              this.setState({ titre: "Liste d'achat" });
+              this.setState({ titre: "Liste d'achat", listeAchat: true });
             }
           });
       }
@@ -234,7 +228,7 @@ export default class ListeAchat extends React.Component {
         .then((reponse) => reponse.json())
         .then((donnees) => {
           if (donnees.data) {
-            this.setState({ bouteillesSelectionnes: [] });
+            this.setState({ bouteillesSelectionnes: [], listeAchat: false });
             this.fetchBouteilles();
           }
         });
@@ -271,7 +265,7 @@ export default class ListeAchat extends React.Component {
       }
     })
 
-    
+
     this.setState(function (state, props) {
       console.log(state.bouteillesSelectionnes);
 
@@ -284,34 +278,34 @@ export default class ListeAchat extends React.Component {
 
   afficherBouteilles() {
     let arr = [...this.state.mappedItems];
-
-    /*if (this.state.listeAchat) {
-      const map = this.state.items.map(bteObj => {
+    console.log("Existe listeAchat? ", this.state.listeAchat);
+    if (this.state.listeAchat) {
+      const mapa = this.state.items.map(bteObj => {
         return {
           id: bteObj.bouteille_id,
           nom: bteObj.nom,
           millesime: bteObj.millesime,
-          quantite_achat: bteObj.quantite
+          quantite: bteObj.quantite,
+          quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
+            ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).quantite_achat
         }
       })
-
-      arr = map;
+      arr = mapa;
       this.setState({ mappedItems: arr })
-    } else { */
-    const map = this.state.items.map(bteObj => {
-      return {
-        id: bteObj.bouteille_id,
-        nom: bteObj.nom,
-        millesime: bteObj.millesime,
-        quantite: bteObj.quantite,
-        quantite_achat: this.state.mappedItems.find(x => x.id === bteObj.bouteille_id) === undefined
-          ? 1 : this.state.mappedItems.find(x => x.id === bteObj.bouteille_id).quantite_achat
-      }
-    })
 
-    arr = map;
-    this.setState({ mappedItems: arr })
-    //}
+    } else {
+      const mapa = this.state.items.map(bteObj => {
+        return {
+          id: bteObj.bouteille_id,
+          nom: bteObj.nom,
+          millesime: bteObj.millesime,
+          quantite: bteObj.quantite,
+          quantite_achat: 1
+        }
+      })
+      arr = mapa;
+      this.setState({ mappedItems: arr })
+    }
 
   }
 
@@ -325,7 +319,7 @@ export default class ListeAchat extends React.Component {
       { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
     ];
 
-    console.log('TEST', this.state.bouteillesSelectionnes)
+    console.log('bouteillesSelectionnes', this.state.bouteillesSelectionnes)
     return (
       <Box className="liste_achat_container" sx={{
         display: "flex", justfyContent: "center", alignItems: "center",
