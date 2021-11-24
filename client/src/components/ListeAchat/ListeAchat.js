@@ -48,7 +48,6 @@ export default class ListeAchat extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('UPDATE', this.state.itemsSelected)
   }
 
   fetchListeAchat() {
@@ -74,7 +73,6 @@ export default class ListeAchat extends React.Component {
             this.setState({ idListeAchat: x.id });
           });
           //this.afficherBouteilles();
-          console.log("Liste d'achat: ", this.state.itemsListeAchat);
           this.cocherListeAchat();
         } else {
           //this.fetchBouteilles();
@@ -135,30 +133,23 @@ export default class ListeAchat extends React.Component {
   }
 
   creerListeAchat() {
-    console.log("Colonnes séléctionnées: ", this.state.bouteillesSelectionnes);
-    console.log("mappedItems: ", this.state.mappedItems);
     if (this.state.bouteillesSelectionnes.length > 0) {
-      console.log("Créer liste d'achat");
 
       this.setState({ bouteilles: [] })
       this.state.bouteillesSelectionnes
         .map((item) => {
           let index = this.state.mappedItems.findIndex(x => x.id == item);
           //let nouveauTableau = this.state.mappedItems.slice();
-          console.log("Dato: ", this.state.mappedItems[index].nom);
           //nouveauTableau[index].quantite_achat = item.quantite;
 
           const temporal = { id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat };
           this.state.bouteilles.push(temporal); //changer
         })
 
-      console.log("this.state.bouteilles: ", this.state.bouteilles);
-      console.log("this.state.listeAchat ", this.state.listeAchat);
       if (this.state.listeAchat) { //Modifier liste d'achat
         let donnes = {
           bouteilles: this.state.bouteilles
         };
-        console.log("donnes: ", donnes);
 
         const putMethod = {
           method: 'PUT',
@@ -168,7 +159,6 @@ export default class ListeAchat extends React.Component {
           }),
           body: JSON.stringify(donnes)
         };
-        console.log("putMethod: ", putMethod);
 
         fetch('https://rmpdwebservices.ca/webservice/php/listeachat/' + this.state.idListeAchat, putMethod)
           .then((reponse) => reponse.json())
@@ -183,7 +173,6 @@ export default class ListeAchat extends React.Component {
           id_usager: window.sessionStorage.getItem('id_usager'),
           bouteilles: this.state.bouteilles
         };
-        console.log("donnes: ", donnes);
 
         const postMethod = {
           method: 'POST',
@@ -205,7 +194,6 @@ export default class ListeAchat extends React.Component {
       }
 
     } else {
-      console.log("Il n'y a pas des bouteilles séléectionnées pour liste d'achat");
     }
   }
 
@@ -213,8 +201,6 @@ export default class ListeAchat extends React.Component {
     //Il faut mettre une fenêtre dialogoe pour confirmation ???
 
     if (this.state.listeAchat) {
-      console.log("Liste d'achat: ", this.state.idListeAchat);
-      console.log("Effacer la liste d'achat");
 
       const postMethod = {
         method: 'DELETE',
@@ -234,7 +220,6 @@ export default class ListeAchat extends React.Component {
         });
 
     } else {
-      console.log("Rien se passe...");
     }
   }
 
@@ -257,7 +242,6 @@ export default class ListeAchat extends React.Component {
    * @param {Set} ids 
    */
   onCheckbox(ids) {
-    console.log(ids)
     const selectedIDs = new Set(ids)
 
     const selectedRowData = this.state.mappedItems.filter((row) => {
@@ -271,7 +255,6 @@ export default class ListeAchat extends React.Component {
       let arr = [];
       Array.from(selectedIDs).map((x) => arr.push(x));
 
-      console.log(arr)
 
       return {
         itemsSelected: selectedRowData,
@@ -310,7 +293,6 @@ export default class ListeAchat extends React.Component {
       { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
     ];
 
-    console.log('bouteillesSelectionnes', this.state.bouteillesSelectionnes)
     return (
       <Box className="liste_achat_container" sx={{
         display: "flex", justfyContent: "center", alignItems: "center",

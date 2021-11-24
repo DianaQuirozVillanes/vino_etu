@@ -110,12 +110,11 @@ export default class ModifierCellier extends React.Component {
 	 */
 	modifierCellier() {
 		if (this.validation()) {
-			let donnes = {
+			let donnees = {
 				id: this.props.match.params.id,
 				emplacement: this.state.emplacement,
 				temperature: this.state.temperature
 			};
-			console.log('Donnes: ', donnes);
 
 			const putMethod = {
 				method: 'PUT',
@@ -123,7 +122,7 @@ export default class ModifierCellier extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/celliers/', putMethod)

@@ -167,11 +167,11 @@ export default class DetailsBouteille extends React.Component {
 		}
 		if (
 			this.state.nom &&
-			this.state.nom.trim() !== '' &&
-			(this.state.pays && this.state.pays.trim() !== '') &&
-			(this.state.millesime && this.state.millesime.trim() !== '') &&
-			(this.state.format && this.state.format.trim() !== '') &&
-			(this.state.date_ajout && this.state.date_ajout.trim() !== '')
+			this.state.nom !== '' &&
+			(this.state.pays && this.state.pays !== '') &&
+			(this.state.millesime && this.state.millesime !== '') &&
+			(this.state.format && this.state.format !== '') &&
+			(this.state.date_ajout && this.state.date_ajout !== '')
 		) {
 			estValide = true;
 		}

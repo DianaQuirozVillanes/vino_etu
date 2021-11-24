@@ -34,7 +34,6 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('trig')
   }
 
   fetchUsager(id) {
