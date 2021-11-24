@@ -537,6 +537,7 @@ export default class AjoutBouteille extends React.Component {
 							>
 								<MenuItem value="1">Vin Rouge</MenuItem>
 								<MenuItem value="2">Vin Blanc</MenuItem>
+								<MenuItem value="3">Vin Rosé</MenuItem>
 							</Select>
 						</FormControl>
 
