@@ -37,7 +37,6 @@ export default class ListeCellier extends React.Component {
 	}
 
 	fetchCelliers() {
-
 		/*const donnees = {
 			usager_id: null
 		};*/
@@ -50,7 +49,10 @@ export default class ListeCellier extends React.Component {
 			}
 		};
 
-		fetch('https://rmpdwebservices.ca/webservice/php/celliers/usager/' + window.sessionStorage.getItem('id_usager'), getMethod)
+		fetch(
+			'https://rmpdwebservices.ca/webservice/php/celliers/usager/' + window.sessionStorage.getItem('id_usager'),
+			getMethod
+		)
 			.then((reponse) => reponse.json())
 			.then((donnees) => {
 				this.setState({ items: donnees.data });
@@ -69,17 +71,27 @@ export default class ListeCellier extends React.Component {
 						display: 'flex',
 						justifyContent: 'space-between',
 						alignItems: 'center',
-						gap: "1rem",
-						margin: "0 auto",
+						gap: '1rem',
+						margin: '0 auto',
 						width: '90vw'
 					}}
 				>
-					<Fab size="small" margin="10px" sx={{ marginLeft: '.5rem 1.5rem' }} > <AddCircleIcon onClick={() => this.props.history.push("/celliers/ajouter")} sx={{ color: '#641B30' }} /> </Fab>
-					<Fab size="small"> <AddShoppingCartOutlinedIcon onClick={() => this.props.history.push("/listeachat")} sx={{ color: '#641B30' }} /> </Fab>
+					<Fab size="small" margin="10px" sx={{ marginLeft: '.5rem 1.5rem' }}>
+						{' '}
+						<AddCircleIcon
+							onClick={() => this.props.history.push('/celliers/ajouter')}
+							sx={{ color: '#641B30' }}
+						/>{' '}
+					</Fab>
+					<Fab size="small">
+						{' '}
+						<AddShoppingCartOutlinedIcon
+							onClick={() => this.props.history.push('/listeachat')}
+							sx={{ color: '#641B30' }}
+						/>{' '}
+					</Fab>
 				</Box>
-				<section className="liste_celliers">
-					{celliers}
-				</section>
+				<section className="liste_celliers">{celliers}</section>
 			</Box>
 		);
 	}
