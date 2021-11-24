@@ -49,7 +49,7 @@ export default class ModifierCellier extends React.Component {
 	 * @param {string} e Valeur du champs Emplacement
 	 */
 	saisirEmplacement(e) {
-		this.setState({ emplacement: e.target.value })
+		this.setState({ emplacement: e.target.value });
 	}
 
 	/**
@@ -58,7 +58,7 @@ export default class ModifierCellier extends React.Component {
 	 * @param {string} e Valeur du champs Temperature
 	 */
 	saisirTemperature(e) {
-		this.setState({ temperature: e.target.value })
+		this.setState({ temperature: e.target.value });
 	}
 
 	/**
@@ -136,8 +136,10 @@ export default class ModifierCellier extends React.Component {
 	}
 
 	render() {
-		const messageErreurEmplacement = (
-			<span className="message_erreur">{this.state.erreurEmplacement ? '* Ce champ est obligatoire.' : ''}</span>
+		const messageErreurEmplacement = this.state.erreurEmplacement ? (
+			<span className="message_erreur">* Ce champ est obligatoire.</span>
+		) : (
+			''
 		);
 		return (
 			<Box
