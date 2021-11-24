@@ -486,9 +486,16 @@ export default class DetailsBouteille extends React.Component {
 				<Fab
 					variant="extended"
 					onClick={() => this.modifier()}
-					sx={{ backgroundColor: '#641b30', color: 'white' }}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						gap: '.5rem',
+						backgroundColor: '#641b30',
+						color: 'white'
+					}}
 				>
-					<AutoFixHighOutlinedIcon sx={{ marginRight: '1rem' }} />
+					<AutoFixHighOutlinedIcon/>
 					Modifier
 				</Fab>
 			</Box>
