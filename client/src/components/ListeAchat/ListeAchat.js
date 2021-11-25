@@ -243,10 +243,6 @@ export default class ListeAchat extends React.Component {
       let arr = [];
       Array.from(selectedIDs).map((x) => arr.push(x));
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c1a78db15b89827c46e90f705c95aa1b30f55c72
       return {
         itemsSelected: selectedRowData,
         bouteillesSelectionnes: arr
