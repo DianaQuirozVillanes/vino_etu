@@ -22,9 +22,9 @@ export default class App extends React.Component {
 
     this.state = {
       estConnecte: false,
-      id_usager: undefined,
+      id_usager: "",
       estAdmin: false,
-      title: undefined
+      title: ""
     };
 
     this.seConnecter = this.seConnecter.bind(this);
@@ -34,7 +34,6 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('trig')
   }
 
   fetchUsager(id) {

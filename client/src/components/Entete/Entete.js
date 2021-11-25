@@ -36,6 +36,10 @@ export default class Entete extends React.Component {
 		this.closeAccMenu = this.closeAccMenu.bind(this);
 	}
 
+	componentDidMount() {
+		document.title = this.props.title;
+	}
+
 	openAccMenu(e) {
 		this.setState({ isAccMenuOpen: true, anchorElAccMenu: e.currentTarget });
 	}

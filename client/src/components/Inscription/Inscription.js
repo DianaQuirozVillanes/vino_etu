@@ -33,6 +33,11 @@ export default class Inscription extends React.Component {
 
 		this.validation = this.validation.bind(this);
 		this.sinscrire = this.sinscrire.bind(this);
+		this.saisirNom = this.saisirNom.bind(this);
+		this.saisirPrenom = this.saisirPrenom.bind(this);
+		this.saisirCourriel = this.saisirCourriel.bind(this);
+		this.saisirMotPasse = this.saisirMotPasse.bind(this);
+		this.saisirMotPasseVerif = this.saisirMotPasseVerif.bind(this);
 	}
 
 	componentDidMount() {
@@ -43,6 +48,56 @@ export default class Inscription extends React.Component {
 		this.props.title("S'enregistrer");
 	}
 
+	/**
+	 * Saisir la valeur du champs Nom
+	 * 
+	 * @param {string} e Valeur du champs Nom
+	 */
+	saisirNom(e) {
+		this.setState({ nom: e.target.value });
+	}
+
+	/**
+	 * Saisir la valeur du champs Prénom
+	 * 
+	 * @param {string} e Valeur du champs Prénom
+	 */
+	saisirPrenom(e) {
+		this.setState({ prenom: e.target.value });
+	}
+
+	/**
+	 * Saisir la valeur du champs Courriel
+	 * 
+	 * @param {string} e Valeur du champs Courriel
+	 */
+	saisirCourriel(e) {
+		this.setState({ courriel: e.target.value });
+	}
+
+	/**
+	 * Saisir la valeur du champs Mot de passe
+	 * 
+	 * @param {string} e Valeur du champs Mot de passe
+	 */
+	saisirMotPasse(e) {
+		this.setState({ mot_passe: e.target.value });
+	}
+
+	/**
+	 * Saisir la valeur du champs Confirmer le mot de passe
+	 * 
+	 * @param {string} e Valeur du champs Confirmer le mot de passe
+	 */
+	saisirMotPasseVerif(e) {
+		this.setState({ mot_passe_verif: e.target.value });
+	}
+
+	/**
+	 * Méthode pour la validation des champs
+	 * 
+	 * @returns {boolean} estValide
+	 */
 	validation() {
 		// Validation selon la forme minimale [a-Z]@[a-Z]
 		let expRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -58,7 +113,7 @@ export default class Inscription extends React.Component {
 			erreurMot_passe: false,
 			erreurMot_passe_verif: false,
 			erreurMot_passe_verif_vide: false
-		})
+		});
 
 		if (this.state.prenom === '') {
 			this.setState({ erreurPrenom: true });
@@ -95,8 +150,11 @@ export default class Inscription extends React.Component {
 		return estValide;
 	}
 
+	/**
+	 * Méthode pour l'inscription d'un nouvel usager
+	 * 
+	 */
 	sinscrire() {
-		console.log(this.validation());
 		if (this.validation()) {
 			let mot_chiffre = Bcryptjs.hashSync(this.state.mot_passe).toString();
 
@@ -127,16 +185,40 @@ export default class Inscription extends React.Component {
 	}
 
 	render() {
-		const msgErreurPrenom = <span className="message_erreur">{(this.state.erreurPrenom ? "* Ce champ est obligatoire." : "")}</span>
-		
-		const msgErreurNom = <span className="message_erreur">{(this.state.erreurNom ? "* Ce champ est obligatoire." : "")}</span>
-		
-		const msgErreurCourriel = <span className="message_erreur">{(this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : "" || this.state.erreurCourrielVide ? "* Ce champ est obligatoire." : "")}</span>
+		const msgErreurPrenom = this.state.erreurPrenom ? (
+			<span className="message_erreur">* Ce champ est obligatoire. </span>
+		) : (
+			''
+		);
 
-		const msgErreurMotPasse = <span className="message_erreur">{(this.state.erreurMot_passe ? "* Ce champ est obligatoire." : "")}</span>
-		
-		const msgErreurMotPasseVerif = <span className="message_erreur">{(this.state.erreurMot_passe_verif ? "* Les mots de passe ne sont pas identiques." : "" || this.state.erreurMot_passe_verif_vide ? "* Ce champ est obligatoire" : "")}</span>
-		
+		const msgErreurNom = this.state.erreurNom ? (
+			<span className="message_erreur">* Ce champ est obligatoire.</span>
+		) : (
+			''
+		);
+
+		const msgErreurCourriel = this.state.erreurCourriel ? (
+			<span className="message_erreur">* L'adresse courriel n'est pas valide.</span>
+		) : '' || this.state.erreurCourrielVide ? (
+			<span className="message_erreur">* Ce champ est obligatoire.</span>
+		) : (
+			''
+		);
+
+		const msgErreurMotPasse = this.state.erreurMot_passe ? (
+			<span className="message_erreur">* Ce champ est obligatoire.</span>
+		) : (
+			''
+		);
+
+		const msgErreurMotPasseVerif = this.state.erreurMot_passe_verif ? (
+			<span className="message_erreur">* Les mots de passe ne sont pas identiques.</span>
+		) : '' || this.state.erreurMot_passe_verif_vide ? (
+			<span className="message_erreur">* Ce champ est obligatoire</span>
+		) : (
+			''
+		);
+
 		return (
 			<Box
 				className="register_container"
@@ -174,7 +256,7 @@ export default class Inscription extends React.Component {
 							error={this.state.erreurNom}
 							label="Nom"
 							variant="outlined"
-							onBlur={(evt) => this.setState({ nom: evt.target.value })}
+							onBlur={(e) => this.saisirNom(e)}
 							sx={{
 								color: 'white',
 								'& label.Mui-focused': {
@@ -201,7 +283,7 @@ export default class Inscription extends React.Component {
 							error={this.state.erreurPrenom}
 							label="Prénom"
 							variant="outlined"
-							onBlur={(evt) => this.setState({ prenom: evt.target.value })}
+							onBlur={(e) => this.saisirPrenom(e)}
 							sx={{
 								color: 'white',
 								'& label.Mui-focused': {
@@ -228,7 +310,7 @@ export default class Inscription extends React.Component {
 							label="Courriel"
 							variant="outlined"
 							type="email"
-							onBlur={(evt) => this.setState({ courriel: evt.target.value })}
+							onBlur={(e) => this.saisirCourriel(e)}
 							sx={{
 								color: 'white',
 								'& label.Mui-focused': {
@@ -256,7 +338,7 @@ export default class Inscription extends React.Component {
 							variant="outlined"
 							type="password"
 							name="mot de passe"
-							onBlur={(evt) => this.setState({ mot_passe: evt.target.value })}
+							onBlur={(e) => this.saisirMotPasse(e)}
 							sx={{
 								color: 'white',
 								'& label.Mui-focused': {
@@ -283,7 +365,7 @@ export default class Inscription extends React.Component {
 							label="Confirmer mot de passe"
 							variant="outlined"
 							type="password"
-							onBlur={(evt) => this.setState({ mot_passe_verif: evt.target.value })}
+							onBlur={(e) => this.saisirMotPasseVerif(e)}
 							sx={{
 								color: 'white',
 								'& label.Mui-focused': {
@@ -310,9 +392,16 @@ export default class Inscription extends React.Component {
 					<Fab
 						variant="extended"
 						onClick={() => this.sinscrire()}
-						sx={{ backgroundColor: '#641b30', color: 'white' }}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: '.5rem',
+							backgroundColor: '#641b30',
+							color: 'white'
+						  }}
 					>
-						<ExitToAppOutlinedIcon sx={{ marginRight: '1rem' }} />
+						<ExitToAppOutlinedIcon />
 						Créer un compte
 					</Fab>
 				</Box>

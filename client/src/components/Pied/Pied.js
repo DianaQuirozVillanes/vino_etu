@@ -20,14 +20,10 @@ export default class Pied extends React.Component {
 		this.state = {
 			isListeAchatMenuOpen: false,
 			anchorElListeAchatMenu: null,
-			isCelliersMenuOpen: false,
-			anchorElCelliersMenu: null,
 		}
 
 		this.openListeAchatMenu = this.openListeAchatMenu.bind(this);
 		this.closeListeAchatMenu = this.closeListeAchatMenu.bind(this);
-		this.openCelliersMenu = this.openCelliersMenu.bind(this);
-		this.closeCelliersMenu = this.closeCelliersMenu.bind(this);
 	}
 
 	openListeAchatMenu(e) {
@@ -38,13 +34,7 @@ export default class Pied extends React.Component {
 		this.setState({ isListeAchatMenuOpen: false });
 	}
 
-	openCelliersMenu(e) {
-		this.setState({ isCelliersMenuOpen: true, anchorElCelliersMenu: e.currentTarget });
-	}
 
-	closeCelliersMenu() {
-		this.setState({ isCelliersMenuOpen: false })
-	}
 
 	render() {
 
@@ -90,7 +80,6 @@ export default class Pied extends React.Component {
 							label="Celliers"
 							value="recents"
 							icon={<FormatListBulletedIcon />}
-							//onClick={(e) => this.openCelliersMenu(e)}
 							onClick={() => this.props.history.push("/celliers/liste")}
 						/>
 
@@ -108,33 +97,7 @@ export default class Pied extends React.Component {
 							onClick={() => this.props.history.push("/listeachat")}
 						/>
 
-						<Menu
-							open={this.state.isCelliersMenuOpen}
-							anchorEl={this.state.anchorElCelliersMenu}
-							onClose={() => this.closeCelliersMenu()}
-							PaperProps={{
-								style: {
-									transform: 'translateY(-40%)',
-								}
-							}}
-							anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'center',
-							}}
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'center',
-							}}
-						>
-
-							<MenuItem onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/liste") }} sx={{ display: 'flex', gap: '.5rem' }}>
-								<FormatListNumberedIcon onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/liste") }} /> Liste des celliers
-							</MenuItem>
-
-							<MenuItem onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter") }} sx={{ display: 'flex', gap: '.5rem' }}>
-								<PlaylistAddIcon onClick={() => { this.closeCelliersMenu(); this.props.history.push("/celliers/ajouter") }} /> Ajouter un cellier
-							</MenuItem>
-						</Menu>
+						
 					</BottomNavigation>
 					<Box sx={{ width: '100vw', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1, height: '20px', backgroundColor: '#641B30' }}>
 					</Box>

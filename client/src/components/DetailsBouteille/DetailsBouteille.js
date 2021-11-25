@@ -16,17 +16,17 @@ export default class DetailsBouteille extends React.Component {
 
 		this.state = {
 			items: [],
-			nom: undefined,
-			description: undefined,
-			pays: undefined,
-			millesime: undefined,
-			code_saq: undefined,
-			format: undefined,
-			garde_jusqua: undefined,
-			note: undefined,
-			date_ajout: undefined,
-			quantite: undefined,
-			id_cellier: undefined,
+			nom: "",
+			description: "",
+			pays: "",
+			millesime: "",
+			code_saq: "",
+			format: "",
+			garde_jusqua: "",
+			note: "",
+			date_ajout: "",
+			quantite: "",
+			id_cellier: "",
 			erreurNom: false,
 			erreurPays: false,
 			erreurMillesime: false,
@@ -138,7 +138,7 @@ export default class DetailsBouteille extends React.Component {
 	/**
 	 * Fonction de validation des inputs
 	 * 
-	 * @returns {boolean} estValide
+	 * @returns {boolean} estValide Retourne si la validation est "true" ou "false"
 	 */
 	validation() {
 		let estValide = false;
@@ -167,11 +167,11 @@ export default class DetailsBouteille extends React.Component {
 		}
 		if (
 			this.state.nom &&
-			this.state.nom.trim() !== '' &&
-			(this.state.pays && this.state.pays.trim() !== '') &&
-			(this.state.millesime && this.state.millesime.trim() !== '') &&
-			(this.state.format && this.state.format.trim() !== '') &&
-			(this.state.date_ajout && this.state.date_ajout.trim() !== '')
+			this.state.nom !== '' &&
+			(this.state.pays && this.state.pays !== '') &&
+			(this.state.millesime && this.state.millesime !== '') &&
+			(this.state.format && this.state.format !== '') &&
+			(this.state.date_ajout && this.state.date_ajout !== '')
 		) {
 			estValide = true;
 		}
@@ -345,8 +345,12 @@ export default class DetailsBouteille extends React.Component {
 				<FormControl
 					sx={{
 						'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-							borderColor: 'white'
-						}
+							borderColor: 'white',
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							color: 'white'
+						},
+						borderColor: 'white'
 					}}
 				>
 					<InputLabel id="cellier-label">Origine</InputLabel>
@@ -357,7 +361,8 @@ export default class DetailsBouteille extends React.Component {
 							color: 'white',
 							'& .MuiSelect-icon': {
 								color: 'white'
-							}
+							},
+							
 						}}
 						value={this.state.pays}
 						onChange={(e) => this.saisirOrigine(e)}
@@ -483,9 +488,16 @@ export default class DetailsBouteille extends React.Component {
 				<Fab
 					variant="extended"
 					onClick={() => this.modifier()}
-					sx={{ backgroundColor: '#641b30', color: 'white' }}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						gap: '.5rem',
+						backgroundColor: '#641b30',
+						color: 'white'
+					}}
 				>
-					<AutoFixHighOutlinedIcon sx={{ marginRight: '1rem' }} />
+					<AutoFixHighOutlinedIcon/>
 					Modifier
 				</Fab>
 			</Box>
