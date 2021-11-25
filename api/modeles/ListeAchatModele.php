@@ -22,34 +22,48 @@ class ListeAchatModele extends Modele
     {
         $rows = array();
 
-        $firstReq = "SELECT COUNT(*) AS 'rows' FROM `vino__liste_achat` WHERE id_usager = $id";
-
-        $firstRes = $this->_db->query($firstReq);
+        $firstRes = $this->_db->prepare("SELECT COUNT(*) AS 'rows' FROM `vino__liste_achat` WHERE id_usager = ?");
 
         $next = false;
 
         if ($firstRes) {
-            if ($firstRes->num_rows) {
-                $fetchedRows = $firstRes->fetch_assoc();
+            $firstRes->bind_param('i', $id);
 
-                if ($fetchedRows['rows'] > 0) $next = true;
+            if($firstRes->execute()) {
+                $results = $firstRes->get_result();
+                
+                if ($results->num_rows) {
+                    $fetchedRows = $results->fetch_assoc();
+
+                    if ($fetchedRows['rows'] > 0) $next = true;
+                }
             }
-        }
+        } else {
+			throw new Exception("Erreur de requête sur la base de données", 1);
+		}
 
         if ($next) {
-            $requete = "SELECT a.id, b.bouteille_id, c.nom, b.millesime, b.quantite FROM vino__liste_achat a, vino__liste_achat_vino b, vino__bouteille c"
-                . " WHERE a.id_usager = $id AND a.id = b.liste_achat_id AND b.bouteille_id = c.id";
+            $requete = $this->_db->prepare("SELECT a.id, b.bouteille_id, c.nom, b.millesime, b.quantite FROM vino__liste_achat a, vino__liste_achat_vino b, vino__bouteille c"
+                . " WHERE a.id_usager = ? AND a.id = b.liste_achat_id AND b.bouteille_id = c.id");
 
-            if (($res = $this->_db->query($requete)) == true) {
-                if ($res->num_rows) {
-                    while ($row = $res->fetch_assoc()) {
-                        $rows[] = $row;
+            if ($requete) {
+                $requete->bind_param('i', $id);
+        
+                if ($requete->execute()) {
+                    $results = $requete->get_result();
+                
+                    if ($results->num_rows) {
+                        while ($row = $results->fetch_assoc()) {
+                            $rows[] = $row;
+                        }
                     }
+                } else {
+                    throw new Exception("Erreur de requête sur la base de données", 1);
                 }
             } else {
-                throw new Exception("Erreur de requête sur la base de donnée", 1);
+                throw new Exception("Erreur de requête sur la base de données", 1);
             }
-        }
+		}
 
         if (!$next) return false;
 
@@ -69,33 +83,38 @@ class ListeAchatModele extends Modele
     {
         $res = false;
 
-        $requete = "INSERT INTO vino__liste_achat (id_usager) VALUES ('$body->id_usager')";
+        $requete = $this->_db->prepare("INSERT INTO vino__liste_achat (id_usager) VALUES (?)");
 
-        $firstRes = $this->_db->query($requete);
+        if ($requete) {
+            $requete->bind_param('i', $body->id_usager);
+            
+            if ($requete->execute()) {
+                $id = $this->_db->insert_id;
 
-        $id = $this->_db->insert_id;
+                foreach ($body->bouteilles as $bte) {
 
-        if ($firstRes) {
-            foreach ($body->bouteilles as $bte) {
-
-                $requete = "INSERT INTO vino__liste_achat_vino(liste_achat_id, bouteille_id, millesime, quantite) VALUES (" .
-                    "'" . $id . "'," .
-                    "'" . $bte->id . "'," .
-                    "'" . $bte->millesime . "'," .
-                    "'" . $bte->quantite . "');";
-
-                $secondRes = $this->_db->query($requete);
-
-                if ($secondRes) {
-                    $res = $secondRes;
-                } else {
-                    throw new Exception("Erreur de requête sur la base de donnée", 1);
+                    $requete = $this->_db->prepare("INSERT INTO vino__liste_achat_vino(liste_achat_id, bouteille_id, millesime, quantite) 
+                        VALUES (?, ?, ?, ?);");
+    
+                    if ($requete) {
+                        $requete->bind_param('iiii', $id, $bte->id, $bte->millesime, $bte->quantite);
+            
+                        if ($requete->execute()) {
+                            $res = true;
+                        } else {
+                            throw new Exception("Erreur de requête sur la base de données", 1);
+                        }
+                    } else {
+                        throw new Exception("Erreur de requête sur la base de données", 1);
+                    }
                 }
+            } else {
+                throw new Exception("Erreur de requête sur la base de données", 1);
             }
         } else {
-            throw new Exception("Erreur de requête sur la base de donnée", 1);
-        }
-
+			throw new Exception("Erreur de requête sur la base de données", 1);
+		}
+        
         return $res;
     }
 
@@ -103,6 +122,8 @@ class ListeAchatModele extends Modele
      * Modifie les infos d'une liste d'achat.
      *
      * @param Object $body Nouvelles infos de la liste d'achat.
+     * 
+     * @throws Exception Erreur de requête sur la base de données.
      * 
      * @return Boolean $res Succès de la requête.
      */
@@ -117,31 +138,43 @@ class ListeAchatModele extends Modele
         foreach ($body->bouteilles as $bte) {
 
             $bouteilles .= $bte->id . ',';
-
-            $requete = "INSERT INTO vino__liste_achat_vino (liste_achat_id, bouteille_id, millesime, quantite)"
-                . " VALUES ('$body->listeAchatId', '$bte->id', '$bte->millesime', '$bte->quantite')"
+            
+            $requete = $this->_db->prepare("INSERT INTO vino__liste_achat_vino (liste_achat_id, bouteille_id, millesime, quantite)"
+                . " VALUES (?, ?, ?, ?)"
                 . " ON DUPLICATE KEY UPDATE"
-                . " quantite = $bte->quantite";
+                . " quantite = ?");
 
-            $res = $this->_db->query($requete);
-
-            if ($res) {
-                $next = true;
+            if ($requete) {
+                $requete->bind_param('iiiii', $body->listeAchatId, $bte->id, $bte->millesime, $bte->quantite, $bte->quantite);
+        
+                if ($requete->execute()) {
+                    $next = true;
+                } else {
+                    throw new Exception("Erreur de requête sur la base de données", 1);
+                }
             } else {
-                throw new Exception("Erreur de requête sur la base de donnée", 1);
+                throw new Exception("Erreur de requête sur la base de données", 1);
             }
         }
 
         if ($next) {
             $formattedBouteilles = mb_substr($bouteilles, 0, -1);
-
-            $deleteReq = "DELETE FROM vino__liste_achat_vino WHERE liste_achat_id = $body->listeAchatId AND"
-                . " bouteille_id NOT IN ($formattedBouteilles)";
+            
+            $deleteReq = $this->_db->prepare("DELETE FROM vino__liste_achat_vino WHERE liste_achat_id = ? AND"
+                . " bouteille_id NOT IN ($formattedBouteilles)");
     
-            $res = $this->_db->query($deleteReq);
+            if ($deleteReq) {
+                $deleteReq->bind_param('i', $body->listeAchatId);
 
-            if (!$res)
-                throw new Exception("Erreur de requête sur la base de donnée", 1);
+                if ($deleteReq->execute()) {
+				    $res = true;
+                } else { 
+				    $res = false;
+                    throw new Exception("Erreur de requête sur la base de donnée", 1);
+                }
+            } else {
+                throw new Exception("Erreur de requête sur la base de données", 1);
+            }
         }
 
         return $res;
@@ -160,24 +193,32 @@ class ListeAchatModele extends Modele
     {
         $res = false;
 
-        $requete = "DELETE FROM vino__liste_achat_vino WHERE liste_achat_id = $id";
-
-        $firstRes = $this->_db->query($requete);
+        $firstRes = $this->_db->prepare("DELETE FROM vino__liste_achat_vino WHERE liste_achat_id = ?");
 
         if ($firstRes) {
-            $requete = "DELETE FROM vino__liste_achat WHERE id = $id";
+			$firstRes->bind_param('i', $id);
 
-            $secondRes = $this->_db->query($requete);
+			if ($firstRes->execute()) {
+				$secondRes = $this->_db->prepare("DELETE FROM vino__liste_achat WHERE id = ?");
 
-            if ($secondRes) {
-                $res = $secondRes;
-            } else {
-                throw new Exception("Erreur de requête sur la base de donnée", 1);
-            }
+                if ($secondRes) {
+                    $secondRes->bind_param('i', $id);
+                    
+                    if ($secondRes->execute()) {
+                        $res = true;
+                    } else {
+                        throw new Exception("Erreur de requête sur la base de données", 1);
+                    }
+                } else {
+                    throw new Exception("Erreur de requête sur la base de données", 1);
+                }
+			} else {
+				throw new Exception("Erreur de requête sur la base de données", 1);
+			}
         } else {
-            throw new Exception("Erreur de requête sur la base de donnée", 1);
-        }
-
+			throw new Exception("Erreur de requête sur la base de données", 1);
+		}
+       
         return $res;
     }
 }

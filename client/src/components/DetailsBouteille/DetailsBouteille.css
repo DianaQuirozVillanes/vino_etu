@@ -31,10 +31,14 @@
 }
 
 .modif_bouteille_container fieldset {
-    border-color: white ;
+    border-color: white;
 }
 
 .modif_bouteille_container label,
 .modif_bouteille_container input {
-    color: white ;
+    color: white;
+}
+
+label.Mui-focused {
+    color: white;
 }

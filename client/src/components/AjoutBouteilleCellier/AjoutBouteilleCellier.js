@@ -2,11 +2,18 @@ import React from 'react';
 import BouteilleSAQ from '../BouteilleSAQ/BouteilleSAQ';
 import './AjoutBouteilleCellier.css';
 import { Box } from '@mui/system';
-import { FormHelperText, TextField } from '@mui/material';
+import { Fab, FormHelperText, TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+
+
+
+
+
 import moment from 'moment';
 
 export default class AjoutBouteille extends React.Component {
@@ -71,13 +78,10 @@ export default class AjoutBouteille extends React.Component {
 		}
 
 		// Titre du document.
-        this.props.title("Ajout bouteille");
+        this.props.title("Ajout d'une bouteille");
 
 		// Get les informations du cellier.
 		this.fetchCelliers();
-
-		// Titre du document.
-		document.title = this.props.title;
 	}
 
 	componentDidUpdate() {
@@ -530,6 +534,7 @@ export default class AjoutBouteille extends React.Component {
 							>
 								<MenuItem value="1">Vin Rouge</MenuItem>
 								<MenuItem value="2">Vin Blanc</MenuItem>
+								<MenuItem value="3">Vin Rosé</MenuItem>
 							</Select>
 						</FormControl>
 
@@ -561,13 +566,24 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 						{msgErreurFormat}
-						<FormControl>
+						<FormControl
+						sx={{
+							'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+								borderColor: 'white'
+							},
+							'& .MuiFormLabel-root.Mui-focused': {
+								color: 'white'
+							}
+						}}>
 							<InputLabel id="cellier-label">Origine</InputLabel>
 							<Select
 								label="Origine"
 								labelId="origine-label"
 								sx={{
 									color: 'white',
+									'& label.Mui-focused': {
+										color: 'white'
+									},
 									'& .MuiSelect-icon': {
 										color: 'white'
 									}
@@ -748,7 +764,22 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 					</Box>
-					<button onClick={this.ajouterBouteilleCellier}>Ajouter une bouteille au cellier</button>
+
+					<Fab
+						variant="extended"
+						onClick={() => this.ajouterBouteilleCellier()}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: '.5rem',
+							backgroundColor: '#641b30',
+							color: 'white'
+						}}
+					>
+						<AddOutlinedIcon />
+						Nouvelle bouteille
+					</Fab>
 				</Box>
 			</Box>
 		);

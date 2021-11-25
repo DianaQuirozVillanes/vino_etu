@@ -38,6 +38,10 @@ export default class Entete extends React.Component {
 		console.log(window.sessionStorage.getItem('estAdmin'))
 	}
 
+	componentDidMount() {
+		document.title = this.props.title;
+	}
+
 	openAccMenu(e) {
 		this.setState({ isAccMenuOpen: true, anchorElAccMenu: e.currentTarget });
 	}

@@ -66,6 +66,14 @@ export default class BouteilleCellier extends React.Component {
 							className="bouteille_boutons"
 							variant="extended"
 							onClick={() => this.props.ajouterAction(this.props.info)}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+								gap: '.5rem',
+								backgroundColor: 'white',
+								color: 'black'
+							}}
 						>
 							<AddIcon/>
 							Ajouter
@@ -74,9 +82,17 @@ export default class BouteilleCellier extends React.Component {
 							className="bouteille_boutons"
 							variant="extended"
 							onClick={() => this.props.retirerAction(this.props.info)}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+								gap: '.5rem',
+								backgroundColor: 'white',
+								color: 'black'
+							}}
 						>
 							<RemoveIcon />
-							Boire
+							Retirer
 						</Fab>
 						<Fab
 							className="bouteille_boutons bouton_modifier"
@@ -84,7 +100,14 @@ export default class BouteilleCellier extends React.Component {
 							onClick={() => this.props.retirerAction(this.props.info)}
 							component={Link}
 							to={'/cellier/bouteilles/' + this.props.info.id}
-							sx={{ backgroundColor: '#641b30', color: 'white' }}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+								gap: '.5rem',
+								backgroundColor: '#641b30',
+								color: 'white'
+							}}
 						>
 							<AutoFixHighOutlinedIcon />
 							Modifier
