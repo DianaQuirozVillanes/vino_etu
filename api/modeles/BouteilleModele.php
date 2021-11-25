@@ -83,7 +83,7 @@ class BouteilleModele extends Modele
 			throw new Exception("Erreur de requête sur la base de données", 1);
 		}
 
-		return $rows;
+		return mb_convert_encoding($rows, 'UTF-8', 'UTF-8');
 	}
 
 	/**
@@ -220,7 +220,7 @@ class BouteilleModele extends Modele
 
 		$res = false;
 
-		$requete = $this->_db->prepare("UPDATE vino__cellier_inventaire SET quantite = GREATEST(quantite = ?, 0) WHERE bouteille_id = ?");
+		$requete = $this->_db->prepare("UPDATE vino__cellier_inventaire SET quantite = GREATEST(quantite + ?, 0) WHERE bouteille_id = ?");
 
 		if ($requete) {
 			$requete->bind_param('ii', $nombre, $id);
