@@ -19,6 +19,9 @@ export default class Dialogue extends React.Component {
 			action: ''
 		};
 
+		this.saisirQuantite = this.saisirQuantite.bind(this);
+		this.clicBouton = this.clicBouton.bind(this);
+
 	}
 	/**
 	 * @param  {} previousProps
@@ -34,10 +37,24 @@ export default class Dialogue extends React.Component {
 		}
 	}
 
+	saisirQuantite(e) {
+		this.setState({ valeur: e.target.value });
+	}
+
+	clicBouton() {
+		this.setState({ valeur: '1' });
+	}
+
+	fermerDialogue() {
+		this.props.fermerDialogue();
+	}
+
+	
+
 	render() {
 		return (
 			<div>
-				<Dialog open={this.props.open} onClose={this.handleClose}>
+				<Dialog open={this.props.open} onClose={this.props.fermerDialogue}>
 					<DialogTitle>{this.state.titre}</DialogTitle>
 					<DialogContent>
 						<DialogContentText>Veuillez indiquer la quantité à {this.state.action}</DialogContentText>
@@ -49,19 +66,19 @@ export default class Dialogue extends React.Component {
 							fullWidth
 							variant="standard"
 							value={this.state.valeur}
-							onChange={(e) => this.setState({ valeur: e.target.value })}
+							onChange={(e) => this.saisirQuantite(e)}
 							inputProps={{ min: '1' }}
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button className="dialog_button" onClick={this.handleClose}>
+						<Button className="dialog_button" onClick={this.props.fermerDialogue}>
 							Annuler
 						</Button>
 						<Button
 							className="dialog_button"
 							onClick={() => {
 								this.props.changerQuantite(this.state.valeur);
-								this.setState({ valeur: '1' });
+								this.clicBouton();
 							}}
 						>
 							OK

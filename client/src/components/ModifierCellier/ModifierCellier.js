@@ -19,28 +19,52 @@ export default class ModifierCellier extends React.Component {
 			erreurEmplacement: false
 		};
 
+		this.saisirEmplacement = this.saisirEmplacement.bind(this);
+		this.saisirTemperature = this.saisirTemperature.bind(this);
 		this.validation = this.validation.bind(this);
 		this.chercherCellier = this.chercherCellier.bind(this);
 		this.modifierCellier = this.modifierCellier.bind(this);
 	}
 
 	componentDidMount() {
-        if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push("/connexion");
-        }
+		if (!window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push('/connexion');
+		}
 
-		this.props.title("Modifier cellier");
+		this.props.title('Modifier cellier');
 
-        this.setState({ titreBoutton: "Modifier cellier" })
-        this.chercherCellier();
-    }
+		this.setState({ titreBoutton: 'Modifier cellier' });
+		this.chercherCellier();
+	}
 
-    componentDidUpdate() {
-        if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push('/connexion');
-        }
-    }
+	componentDidUpdate() {
+		if (!window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push('/connexion');
+		}
+	}
 
+	/**
+	 * Saisir la valeur du champs Emplacement
+	 * 
+	 * @param {string} e Valeur du champs Emplacement
+	 */
+	saisirEmplacement(e) {
+		this.setState({ emplacement: e.target.value });
+	}
+
+	/**
+	 * Saisir la valeur du champs Temperature
+	 * 
+	 * @param {string} e Valeur du champs Temperature
+	 */
+	saisirTemperature(e) {
+		this.setState({ temperature: e.target.value });
+	}
+
+	/**
+	 * Méthode pour chercher les information du cellier
+	 * 
+	 */
 	chercherCellier() {
 		const getMethod = {
 			method: 'GET',
@@ -54,8 +78,6 @@ export default class ModifierCellier extends React.Component {
 			.then((reponse) => reponse.json())
 			.then((donnees) => {
 				if (donnees.data[0] === undefined) return this.props.history.push('/celliers/liste');
-				console.log('Données cellier: ', donnees.data[0]);
-
 				this.setState({
 					emplacement: donnees.data[0].emplacement,
 					temperature: donnees.data[0].temperature
@@ -63,6 +85,11 @@ export default class ModifierCellier extends React.Component {
 			});
 	}
 
+	/**
+	 * Méthode pour la validation des champs
+	 * 
+	 * @returns {boolean} estValide
+	 */
 	validation() {
 		let estValide = false;
 
@@ -77,14 +104,17 @@ export default class ModifierCellier extends React.Component {
 		return estValide;
 	}
 
+	/**
+	 * Méthode pour la modification d'un cellier
+	 * 
+	 */
 	modifierCellier() {
 		if (this.validation()) {
-			let donnes = {
+			let donnees = {
 				id: this.props.match.params.id,
 				emplacement: this.state.emplacement,
 				temperature: this.state.temperature
 			};
-			console.log('Donnes: ', donnes);
 
 			const putMethod = {
 				method: 'PUT',
@@ -92,7 +122,7 @@ export default class ModifierCellier extends React.Component {
 					'Content-type': 'application/json',
 					authorization: 'Basic ' + btoa('vino:vino')
 				},
-				body: JSON.stringify(donnes)
+				body: JSON.stringify(donnees)
 			};
 
 			fetch('https://rmpdwebservices.ca/webservice/php/celliers/', putMethod)
@@ -106,8 +136,10 @@ export default class ModifierCellier extends React.Component {
 	}
 
 	render() {
-		const messageErreurEmplacement = (
-			<span className="message_erreur">{this.state.erreurEmplacement ? '* Ce champ est obligatoire.' : ''}</span>
+		const messageErreurEmplacement = this.state.erreurEmplacement ? (
+			<span className="message_erreur">* Ce champ est obligatoire.</span>
+		) : (
+			''
 		);
 		return (
 			<Box
@@ -133,9 +165,12 @@ export default class ModifierCellier extends React.Component {
 					label="Emplacement"
 					variant="outlined"
 					value={this.state.emplacement}
-					onChange={(evt) => this.setState({ emplacement: evt.target.value })}
+					onChange={(e) => this.saisirEmplacement(e)}
 					sx={{
 						color: 'white',
+						'& label.Mui-focused': {
+							color: 'white'
+						},
 						'& input:valid + fieldset': {
 							borderColor: 'white'
 						},
@@ -150,7 +185,6 @@ export default class ModifierCellier extends React.Component {
 							borderColor: 'white'
 						}
 					}}
-
 				/>
 				{messageErreurEmplacement}
 				<TextField
@@ -162,14 +196,30 @@ export default class ModifierCellier extends React.Component {
 					InputProps={{
 						endAdornment: <InputAdornment position="end">°C</InputAdornment>
 					}}
-					onChange={(e) => this.setState({ temperature: e.target.value })}
+					onChange={(e) => this.saisirTemperature(e)}
+					sx={{
+						color: 'white',
+						'& label.Mui-focused': {
+							color: 'white'
+						},
+						'& input:valid:focus + fieldset': {
+							borderColor: 'white'
+						}
+					}}
 				/>
 				<Fab
 					variant="extended"
 					onClick={() => this.modifierCellier()}
-					sx={{ backgroundColor: '#641b30', color: 'white' }}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						gap: '.5rem',
+						backgroundColor: '#641b30',
+						color: 'white'
+					}}
 				>
-					<AutoFixHighOutlinedIcon sx={{ marginRight: '1rem' }} />
+					<AutoFixHighOutlinedIcon />
 					{this.state.titreBoutton}
 				</Fab>
 			</Box>

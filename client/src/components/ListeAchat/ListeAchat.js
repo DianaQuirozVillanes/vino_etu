@@ -129,10 +129,7 @@ export default class ListeAchat extends React.Component {
   }
 
   creerListeAchat() {
-    console.log("Colonnes séléctionnées: ", this.state.bouteillesSelectionnes);
-    console.log("mappedItems: ", this.state.mappedItems);
     if (this.state.bouteillesSelectionnes.length > 0) {
-      console.log("Créer liste d'achat");
 
       this.setState({ bouteilles: [] })
       this.state.bouteillesSelectionnes

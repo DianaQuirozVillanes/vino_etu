@@ -29,10 +29,10 @@
 }
 
 .modification_contenu fieldset {
-    border-color: white !important;
+    border-color: white;
 }
 
 .modification_contenu label,
 .modification_contenu input {
-    color: white !important;
+    color: white;
 }
