@@ -47,6 +47,8 @@ export default class ListeAchat extends React.Component {
     if (!window.sessionStorage.getItem('estConnecte')) {
       return this.props.history.push("/connexion");
     }
+    console.log("botellas seleccionadas: ", this.state.bouteilles);
+
   }
 
   fetchListeAchat() {
@@ -138,11 +140,23 @@ export default class ListeAchat extends React.Component {
       this.state.bouteillesSelectionnes
         .map((item) => {
           let index = this.state.mappedItems.findIndex(x => x.id == item);
-          
-          const temporal = { id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat };
-          this.state.bouteilles.push(temporal); //changer
-        })
+           
+          const bouteille = { id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat };
+          //this.state.bouteilles.push(bouteille); //changer
 
+          this.setState(function (state, props) {
+            let nouveauTableau = [...this.state.bouteilles];
+            console.log("bouteille: ", bouteille);
+
+            nouveauTableau.push(bouteille);
+      
+            return {
+              bouteilles: nouveauTableau
+              //itemsSelected: [nouveauTableau[index]]
+            };
+          });
+        })
+      /*
       if (this.state.listeAchat) { //Modifier liste d'achat
         let donnes = {
           bouteilles: this.state.bouteilles
@@ -188,7 +202,7 @@ export default class ListeAchat extends React.Component {
               this.setState({ titre: "Liste d'achat", listeAchat: true });
             }
           });
-      }
+      } */
     }
   }
 

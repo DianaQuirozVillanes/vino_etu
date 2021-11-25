@@ -66,7 +66,7 @@ class BouteilleModele extends Modele
 			. " WHERE usager_id = ?");
 
 		if ($res) {
-			$res->bind_param('i', $id);
+            $res->bind_param('i', $id);
 
 			if ($res->execute()) {
 				$results = $res->get_result();
@@ -79,11 +79,11 @@ class BouteilleModele extends Modele
 			} else {
 				throw new Exception("Erreur de requête sur la base de données", 1);
 			}
-		} else {
+        } else {
 			throw new Exception("Erreur de requête sur la base de données", 1);
 		}
-
-		return $rows;
+		
+		return mb_convert_encoding($rows, 'UTF-8', 'UTF-8');
 	}
 
 	/**
@@ -253,11 +253,11 @@ class BouteilleModele extends Modele
 		$id = $body->id;
 
 		$requete = $this->_db->prepare("UPDATE vino__bouteille AS t1, vino__cellier_inventaire AS t2"
-			. " SET t1.nom = '$body->nom', t1.pays = '$body->pays', t1.millesime = $body->millesime, t1.description = '$body->description', t1.format = '$body->format', t1.garde_jusqua = '$body->garde_jusqua', t1.note_degustation = '$body->note', t1.date_ajout = '$body->date_ajout', t2.quantite = '$body->quantite'"
-			. " WHERE t1.id = $id AND t2.bouteille_id = $id");
+			. " SET t1.nom = ?, t1.pays = ?, t1.millesime = ?, t1.description = ?, t1.format = ?, t1.garde_jusqua = ?, t1.note_degustation = ?, t1.date_ajout = ?, t2.quantite = ?"
+			. " WHERE t1.id = ? AND t2.bouteille_id = ?");
 
 		if ($requete) {
-			$requete->bind_param('', /*vars*/);
+			$requete->bind_param('ssisssssiii', $body->nom, $body->pays, $body->millesime, $body->description, $body->format, $body->garde_jusqua, $body->note, $body->date_ajout, $body->quantite, $id, $id);
 
 			if ($requete->execute()) {
 				$res = true;
