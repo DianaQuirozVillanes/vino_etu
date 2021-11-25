@@ -138,7 +138,7 @@ export default class DetailsBouteille extends React.Component {
 	/**
 	 * Fonction de validation des inputs
 	 * 
-	 * @returns {boolean} estValide
+	 * @returns {boolean} estValide Retourne si la validation est "true" ou "false"
 	 */
 	validation() {
 		let estValide = false;
@@ -349,7 +349,8 @@ export default class DetailsBouteille extends React.Component {
 						},
 						'& .MuiFormLabel-root.Mui-focused': {
 							color: 'white'
-						}
+						},
+						borderColor: 'white'
 					}}
 				>
 					<InputLabel id="cellier-label">Origine</InputLabel>
@@ -360,7 +361,8 @@ export default class DetailsBouteille extends React.Component {
 							color: 'white',
 							'& .MuiSelect-icon': {
 								color: 'white'
-							}
+							},
+							
 						}}
 						value={this.state.pays}
 						onChange={(e) => this.saisirOrigine(e)}
