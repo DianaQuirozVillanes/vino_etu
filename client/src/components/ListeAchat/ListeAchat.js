@@ -1,11 +1,8 @@
 import React from 'react';
 import './ListeAchat.css';
 import { DataGrid } from '@mui/x-data-grid';  //import { DataGrid } from '@mui/x-data-grid/index-cjs';
-import Button from '@mui/material/Button';
 import { Box } from "@mui/system";
-import { TextField } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-//import { DataGrid } from '@mui/x-data-grid/index-cjs';
 import { Fab } from '@mui/material';
 import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
 
@@ -43,11 +40,13 @@ export default class ListeAchat extends React.Component {
     }
 
     this.props.title("Liste d'achat");
-
     this.fetchBouteilles();;
   }
 
   componentDidUpdate() {
+    if (!window.sessionStorage.getItem('estConnecte')) {
+      return this.props.history.push("/connexion");
+    }
   }
 
   fetchListeAchat() {
@@ -72,10 +71,8 @@ export default class ListeAchat extends React.Component {
           this.state.itemsListeAchat.map(x => {
             this.setState({ idListeAchat: x.id });
           });
-          //this.afficherBouteilles();
           this.cocherListeAchat();
         } else {
-          //this.fetchBouteilles();
           this.setState(
             {
               titre: "Inventaire des bouteilles",
@@ -87,7 +84,6 @@ export default class ListeAchat extends React.Component {
   }
 
   cocherListeAchat() {
-    //coher les bouteilles et modifier la quantité d'achat
     let bouteillesListeAchat = [];
 
     this.state.itemsListeAchat
@@ -139,9 +135,7 @@ export default class ListeAchat extends React.Component {
       this.state.bouteillesSelectionnes
         .map((item) => {
           let index = this.state.mappedItems.findIndex(x => x.id == item);
-          //let nouveauTableau = this.state.mappedItems.slice();
-          //nouveauTableau[index].quantite_achat = item.quantite;
-
+          
           const temporal = { id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat };
           this.state.bouteilles.push(temporal); //changer
         })
@@ -192,14 +186,10 @@ export default class ListeAchat extends React.Component {
             }
           });
       }
-
-    } else {
     }
   }
 
   effacerListe() {
-    //Il faut mettre une fenêtre dialogoe pour confirmation ???
-
     if (this.state.listeAchat) {
 
       const postMethod = {
@@ -218,8 +208,6 @@ export default class ListeAchat extends React.Component {
             this.fetchBouteilles();
           }
         });
-
-    } else {
     }
   }
 
@@ -255,11 +243,15 @@ export default class ListeAchat extends React.Component {
       let arr = [];
       Array.from(selectedIDs).map((x) => arr.push(x));
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c1a78db15b89827c46e90f705c95aa1b30f55c72
       return {
         itemsSelected: selectedRowData,
         bouteillesSelectionnes: arr
       }
+     
     });
   }
 
@@ -288,9 +280,9 @@ export default class ListeAchat extends React.Component {
 
     const colonnes = [
       { field: 'nom', headerName: 'Nom', width: 230 },
-      { field: 'millesime', headerName: 'Millesime', width: 150 },
-      { field: 'quantite', headerName: 'Quantité Inventaire', width: 130, type: 'number' },
-      { field: 'quantite_achat', headerName: 'Quantité Achat', width: 130, editable: true, type: 'number', shrink: true, min: 1 },
+      { field: 'millesime', headerName: 'Millesime', width: 90 },
+      { field: 'quantite', headerName: 'Inv.', width: 60, type: 'number' },
+      { field: 'quantite_achat', headerName: 'Achat', width: 70, editable: true, type: 'number', shrink: true, min: 1 },
     ];
 
     return (

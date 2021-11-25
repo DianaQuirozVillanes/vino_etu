@@ -47,3 +47,9 @@
 .MuiTablePagination-root {
     color: #ffffff;
 }
+
+.liste_achat_container .MuiToolbar-root {
+    width: 250px;
+    color: #ffffff;
+
+}

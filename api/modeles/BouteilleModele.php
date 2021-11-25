@@ -4,10 +4,6 @@ namespace VinoAPI\Modeles;
 
 use Exception;
 
-ini_set("display_errors", 1);
-ini_set("track_errors", 1);
-ini_set("html_errors", 1);
-error_reporting(E_ALL);
 /**
  * Traite les requêtes des bouteilles à la db.
  */
@@ -17,6 +13,8 @@ class BouteilleModele extends Modele
 	 * Retourne la bouteille correspondante à l'id.
 	 *
 	 * @param Integer $id Id de la bouteille.
+	 * 
+	 * @throws Exception Erreur de requête sur la base de données.
 	 * 
 	 * @return Array $rows Bouteille.
 	 */
@@ -31,14 +29,17 @@ class BouteilleModele extends Modele
 
 		if ($res) {
 			$res->bind_param('i', $id);
-			$res->execute();
 
-			$results = $res->get_result();
+			if ($res->execute()) {
+				$results = $res->get_result();
 
-			if ($results->num_rows) {
-				while ($row = $results->fetch_assoc()) {
-					$rows[] = $row;
+				if ($results->num_rows) {
+					while ($row = $results->fetch_assoc()) {
+						$rows[] = $row;
+					}
 				}
+			} else {
+				throw new Exception("Erreur de requête sur la base de données", 1);
 			}
 		} else {
 			throw new Exception("Erreur de requête sur la base de données", 1);
@@ -66,14 +67,17 @@ class BouteilleModele extends Modele
 
 		if ($res) {
 			$res->bind_param('i', $id);
-			$res->execute();
 
-			$results = $res->get_result();
+			if ($res->execute()) {
+				$results = $res->get_result();
 
-			if ($results->num_rows) {
-				while ($row = $results->fetch_assoc()) {
-					$rows[] = $row;
+				if ($results->num_rows) {
+					while ($row = $results->fetch_assoc()) {
+						$rows[] = $row;
+					}
 				}
+			} else {
+				throw new Exception("Erreur de requête sur la base de données", 1);
 			}
 		} else {
 			throw new Exception("Erreur de requête sur la base de données", 1);
@@ -107,37 +111,42 @@ class BouteilleModele extends Modele
 
 		if ($requeteSAQ) {
 			$requeteSAQ->bind_param('s', $nomWildcard);
-			$requeteSAQ->execute();
+			if ($requeteSAQ->execute()) {
+				$resultsSAQ = $requeteSAQ->get_result();
 
-			$resultsSAQ = $requeteSAQ->get_result();
-
-			if ($resultsSAQ->num_rows) {
-				while ($row = $resultsSAQ->fetch_assoc()) {
-					array_push($rows, $row);
-				}
-
-				$success = true;
-			}
-
-			if ($success) {
-				$requeteCellier = $this->_db->prepare("SELECT vino__bouteille.*, vino__cellier_inventaire.quantite, 'cellier' AS 'table' FROM vino__bouteille"
-					. " LEFT JOIN vino__cellier_inventaire ON vino__bouteille.id = vino__cellier_inventaire.bouteille_id"
-					. " WHERE (nom) LIKE ? LIMIT 0,10");
-
-				if ($requeteCellier) {
-					$requeteCellier->bind_param('s', $nomWildcard);
-					$requeteCellier->execute();
-
-					$resultsCellier = $requeteCellier->get_result();
-
-					if ($resultsCellier->num_rows) {
-						while ($row = $resultsCellier->fetch_assoc()) {
-							array_push($rows, $row);
-						}
+				if ($resultsSAQ->num_rows) {
+					while ($row = $resultsSAQ->fetch_assoc()) {
+						array_push($rows, $row);
 					}
-				} else {
-					throw new Exception("Erreur de requête sur la base de données", 1);
+
+					$success = true;
 				}
+
+				if ($success) {
+					$requeteCellier = $this->_db->prepare("SELECT vino__bouteille.*, vino__cellier_inventaire.quantite, 'cellier' AS 'table' FROM vino__bouteille"
+						. " LEFT JOIN vino__cellier_inventaire ON vino__bouteille.id = vino__cellier_inventaire.bouteille_id"
+						. " WHERE (nom) LIKE ? LIMIT 0,10");
+
+					if ($requeteCellier) {
+						$requeteCellier->bind_param('s', $nomWildcard);
+
+						if ($requeteCellier->execute()) {
+							$resultsCellier = $requeteCellier->get_result();
+
+							if ($resultsCellier->num_rows) {
+								while ($row = $resultsCellier->fetch_assoc()) {
+									array_push($rows, $row);
+								}
+							}
+						} else {
+							throw new Exception("Erreur de requête sur la base de données", 1);
+						}
+					} else {
+						throw new Exception("Erreur de requête sur la base de données", 1);
+					}
+				}
+			} else {
+				throw new Exception("Erreur de requête sur la base de données", 1);
 			}
 		} else {
 			throw new Exception("Erreur de requête sur la base de données", 1);
@@ -151,6 +160,8 @@ class BouteilleModele extends Modele
 	 * 
 	 * @param Object $data Tableau des données représentants la bouteille.
 	 * 
+	 * @throws Exception Erreur de requête sur la base de données.
+	 * 
 	 * @return Boolean $res Succès ou échec de l'ajout.
 	 */
 	public function ajouterNouvelleBouteilleCellier($data)
@@ -160,24 +171,34 @@ class BouteilleModele extends Modele
 
 		$requeteBte = $this->_db->prepare("INSERT INTO `vino__bouteille` (`usager_id_usager`, `nom`, `pays`, `millesime`, `description`, `url_saq`, `url_img`, `format`, `vino__type_id`, `garde_jusqua`, `note_degustation`, `date_ajout`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 
-		$requeteBte->bind_param('ississssisss', $data->usager_id, $data->nom, $data->pays, $data->millesime, $data->description, $data->url_saq, $data->url_img, $data->format, $data->vino__type_id, $data->garde_jusqua, $data->note_degustation, $data->date_ajout);
+		if ($requeteBte) {
+			$requeteBte->bind_param('ississssisss', $data->usager_id, $data->nom, $data->pays, $data->millesime, $data->description, $data->url_saq, $data->url_img, $data->format, $data->vino__type_id, $data->garde_jusqua, $data->note_degustation, $data->date_ajout);
 
-		if ($requeteBte->execute()) {
-			$id = $this->_db->insert_id;
+			if ($requeteBte->execute()) {
+				$id = $this->_db->insert_id;
 
-			$requeteInv = $this->_db->prepare("INSERT INTO vino__cellier_inventaire(usager_id, id_cellier, bouteille_id, quantite) VALUES (" .
-				"?," .
-				"?," .
-				"?," .
-				"?);");
+				$requeteInv = $this->_db->prepare("INSERT INTO vino__cellier_inventaire(usager_id, id_cellier, bouteille_id, quantite) VALUES (" .
+					"?," .
+					"?," .
+					"?," .
+					"?);");
 
-			if ($requeteInv) {
-				$requeteInv->bind_param('iiii', $data->usager_id, $data->id_cellier, $id, $data->quantite);
+				if ($requeteInv) {
+					$requeteInv->bind_param('iiii', $data->usager_id, $data->id_cellier, $id, $data->quantite);
 
-				if ($requeteInv->execute()) {
-					$res = true;
+					if ($requeteInv->execute()) {
+						$res = true;
+					} else {
+						throw new Exception("Erreur de requête sur la base de données", 1);
+					}
+				} else {
+					throw new Exception("Erreur de requête sur la base de données", 1);
 				}
+			} else {
+				throw new Exception("Erreur de requête sur la base de données", 1);
 			}
+		} else {
+			throw new Exception("Erreur de requête sur la base de données", 1);
 		}
 
 		return $res;
@@ -189,15 +210,29 @@ class BouteilleModele extends Modele
 	 * @param Integer $id id de la bouteille
 	 * @param Integer $nombre Nombre de bouteille a ajouter ou retirer
 	 * 
+	 * @throws Exception Erreur de requête sur la base de données.
+	 * 
 	 * @return Boolean $res Succès ou échec de l'ajout.
 	 */
 	public function modifierQuantiteBouteilleCellier($id, $nombre)
 	{
 		//TODO : Valider les données.
 
-		$requete = "UPDATE vino__cellier_inventaire SET quantite = GREATEST(quantite + " . $nombre . ", 0) WHERE bouteille_id = " . $id;
+		$res = false;
 
-		$res = $this->_db->query($requete);
+		$requete = $this->_db->prepare("UPDATE vino__cellier_inventaire SET quantite = GREATEST(quantite = ?, 0) WHERE bouteille_id = ?");
+
+		if ($requete) {
+			$requete->bind_param('ii', $nombre, $id);
+
+			if ($requete->execute()) {
+				$res = true;
+			} else {
+				throw new Exception("Erreur de requête sur la base de données", 1);
+			}
+		} else {
+			throw new Exception("Erreur de requête sur la base de données", 1);
+		}
 
 		return $res;
 	}
@@ -206,19 +241,33 @@ class BouteilleModele extends Modele
 	 * Cette méthode UPDATE les informations d'une bouteille.
 	 *
 	 * @param Object $body Les informations
+	 * 
+	 * @throws Exception Erreur de requête sur la base de données.
+	 * 
 	 * @return Boolean $res Succès de la requête
 	 */
 	public function modifierBouteille($body)
 	{
+		$res = false;
+
 		$id = $body->id;
 
-		$requete = "UPDATE vino__bouteille AS t1, vino__cellier_inventaire AS t2"
-			. " SET t1.nom = '$body->nom', t1.code_saq = '$body->code_saq', t1.pays = '$body->pays', t1.millesime = $body->millesime, t1.description = '$body->description', t1.format = '$body->format', t1.garde_jusqua = '$body->garde_jusqua', t1.note_degustation = '$body->note', t1.date_ajout = '$body->date_ajout', t2.quantite = '$body->quantite'"
-			. " WHERE t1.id = $id AND t2.bouteille_id = $id";
+		$requete = $this->_db->prepare("UPDATE vino__bouteille AS t1, vino__cellier_inventaire AS t2"
+			. " SET t1.nom = '$body->nom', t1.pays = '$body->pays', t1.millesime = $body->millesime, t1.description = '$body->description', t1.format = '$body->format', t1.garde_jusqua = '$body->garde_jusqua', t1.note_degustation = '$body->note', t1.date_ajout = '$body->date_ajout', t2.quantite = '$body->quantite'"
+			. " WHERE t1.id = $id AND t2.bouteille_id = $id");
 
-		$res = $this->_db->query($requete);
+		if ($requete) {
+			$requete->bind_param('', /*vars*/);
 
-		//TODO Return id du cellier de la bouteille modifiée.
+			if ($requete->execute()) {
+				$res = true;
+			} else {
+				throw new Exception("Erreur de requête sur la base de données", 1);
+			}
+		} else {
+			throw new Exception("Erreur de requête sur la base de données", 1);
+		}
+
 		return $res;
 	}
 }
