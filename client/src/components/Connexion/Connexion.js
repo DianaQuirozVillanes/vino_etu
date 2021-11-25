@@ -22,6 +22,8 @@ export default class Connexion extends React.Component {
 		this.validation = this.validation.bind(this);
 		this.peseEntree = this.peseEntree.bind(this);
 		this.seConnecter = this.seConnecter.bind(this);
+		this.saisirCourriel = this.saisirCourriel.bind(this);
+		this.saisirMotPasse = this.saisirMotPasse.bind(this);
 	}
 
 	componentDidMount() {
@@ -30,6 +32,14 @@ export default class Connexion extends React.Component {
 		}
 
 		this.props.title('Connexion');
+	}
+
+	saisirCourriel(e) {
+		this.setState({ courriel: e.target.value });
+	}
+
+	saisirMotPasse(e) {
+		this.setState({ mot_passe: e.target.value });
 	}
 
 	validation() {
@@ -152,7 +162,7 @@ export default class Connexion extends React.Component {
 							error={this.state.erreurCourriel}
 							label="Courriel"
 							variant="outlined"
-							onBlur={(evt) => this.setState({ courriel: evt.target.value })}
+							onBlur={(e) => this.saisirCourriel(e)}
 							placeholder="bobus@gmail.com"
 							sx={{
 								color: 'white',
@@ -182,7 +192,7 @@ export default class Connexion extends React.Component {
 							label="Mot de passe"
 							type="password"
 							variant="outlined"
-							onChange={(evt) => this.setState({ mot_passe: evt.target.value })}
+							onChange={(e) => this.saisirMotPasse(e)}
 							onKeyDown={(e) => this.peseEntree(e)}
 							placeholder="12345"
 							sx={{
@@ -217,9 +227,9 @@ export default class Connexion extends React.Component {
 							justifyContent: 'center',
 							alignItems: 'center',
 							gap: '.5rem',
-							backgroundColor: '#641b30', 
+							backgroundColor: '#641b30',
 							color: 'white'
-						  }}
+						}}
 					>
 						<LoginOutlinedIcon />
 						Se connecter
