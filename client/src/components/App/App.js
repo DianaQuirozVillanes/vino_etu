@@ -49,7 +49,8 @@ export default class App extends React.Component {
     fetch('https://rmpdwebservices.ca/webservice/php/usagers/' + id, options)
       .then((res) => res.json())
       .then((data) => {
-        if (data.data[0].est_admin === "1") {
+        console.log(data)
+        if (data.data[0].est_admin === 1) {
           window.sessionStorage.setItem('estAdmin', true);
         }
       });
