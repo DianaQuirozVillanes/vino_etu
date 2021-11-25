@@ -25,7 +25,7 @@ export default class ListeCellier extends React.Component {
 			return this.props.history.push('/connexion');
 		}
 
-		this.props.title('Celliers');
+		this.props.title('Liste des celliers');
 
 		this.fetchCelliers();
 	}

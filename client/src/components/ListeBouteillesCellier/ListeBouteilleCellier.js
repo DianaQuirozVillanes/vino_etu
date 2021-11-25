@@ -29,7 +29,7 @@ export default class ListeBouteilleCellier extends React.Component {
 			titre: '',
 			action: undefined,
 			premierId: undefined,
-			nomCellier: undefined,
+			nomCellier: "",
 			drapeau: undefined
 		};
 
@@ -49,7 +49,7 @@ export default class ListeBouteilleCellier extends React.Component {
             return this.props.history.push('/connexion');
         }
 
-        this.props.title("Bouteilles");
+        
 		
 		this.fetchBouteilles();
 	}
@@ -58,6 +58,7 @@ export default class ListeBouteilleCellier extends React.Component {
         if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
         }
+		this.props.title("Cellier: " + this.state.nomCellier);
     }
 
 	fermerDialogue() {
@@ -258,6 +259,8 @@ export default class ListeBouteilleCellier extends React.Component {
 						label="Trier par"
 						onChange={(e) => this.sortBouteilles(e.target.value)}
 						sx={{
+							backgroundColor: 'black',
+							color: 'white',
 							borderColor: 'white',
 							'& label.Mui-focused': {
 								color: 'white'
