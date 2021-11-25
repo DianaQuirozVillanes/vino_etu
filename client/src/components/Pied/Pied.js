@@ -4,12 +4,8 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import WineBarIcon from '@mui/icons-material/WineBar';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { Menu, MenuItem } from "@mui/material";
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { Box } from "@mui/system";
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 

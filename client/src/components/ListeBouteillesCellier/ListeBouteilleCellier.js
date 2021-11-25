@@ -8,7 +8,6 @@ import './ListeBouteilleCellier.css';
 
 //import { circularProgressClasses } from '@mui/material';
 import { Box } from '@mui/system';
-import { Breadcrumbs, Link, touchRippleClasses, Typography } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 //import MenuItem from '@mui/material/MenuItem';
 //import ListSubheader from '@mui/material/ListSubheader';
@@ -69,10 +68,14 @@ export default class ListeBouteilleCellier extends React.Component {
 		const key = parsedObj.key;
 		const order = parsedObj.order;
 		if (order.toUpperCase() === 'ASC') {
-			const sortedItems = this.state.items.sort((a, b) => a[key].localeCompare(b[key]));
+			const sortedItems = this.state.items.sort((a, b) => {
+				a[key].localeCompare(b[key])
+			});
 			this.setState({ items: sortedItems });
 		} else if (order.toUpperCase() === 'DESC') {
-			const sortedItems = this.state.items.sort((a, b) => b[key].localeCompare(a[key]));
+			const sortedItems = this.state.items.sort((a, b) => {
+				b[key].localeCompare(a[key])
+			});
 			this.setState({ items: sortedItems });
 		}
 	}

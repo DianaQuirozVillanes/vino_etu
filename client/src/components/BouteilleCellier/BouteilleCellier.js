@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import vinBlanc from '../../vin_blanc.png';
 import vinRouge from '../../vin_rouge.png';
-import listePays from '../../pays.json';
 import './BouteilleCellier.css';
 import { Box } from '@mui/system';
 import { Fab } from '@mui/material';
