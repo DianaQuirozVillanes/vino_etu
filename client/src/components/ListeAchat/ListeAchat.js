@@ -49,6 +49,9 @@ export default class ListeAchat extends React.Component {
     }
   }
 
+  /**
+   * Fonctionne que retourne les items de la liste d'achat par usager, si elle existe
+   */
   fetchListeAchat() {
     fetch('https://rmpdwebservices.ca/webservice/php/listeachat/usager/' + window.sessionStorage.getItem('id_usager'), {
       method: 'GET',
@@ -83,6 +86,10 @@ export default class ListeAchat extends React.Component {
       });
   }
 
+  /**
+   * Fonctionne que retourne les bouteilles existentes sur la liste d'achat de l'usager pour
+   * qu'elles soient croché sur la liste de bouteilles
+   */
   cocherListeAchat() {
     let bouteillesListeAchat = [];
 
@@ -104,6 +111,9 @@ export default class ListeAchat extends React.Component {
       })
   }
 
+  /**
+   * Fonctionne que retourne les vinos qui existen dans tous les celliers de l'usager, pour voir la quantité existente
+   */
   fetchBouteilles() {
     fetch('https://rmpdwebservices.ca/webservice/php/bouteilles/usager/' + window.sessionStorage.getItem('id_usager'), {
       method: 'GET',
@@ -128,6 +138,9 @@ export default class ListeAchat extends React.Component {
       });
   }
 
+  /**
+   * Fonctionne qui crée ou modifie la lista d'achat de l'usager
+   */
   creerListeAchat() {
     if (this.state.bouteillesSelectionnes.length > 0) {
 
@@ -197,6 +210,9 @@ export default class ListeAchat extends React.Component {
     }
   }
 
+  /**
+   * Fonctionne que efface la liste d'achat par usager
+   */
   effacerListe() {
     if (this.state.listeAchat) {
 
@@ -219,6 +235,12 @@ export default class ListeAchat extends React.Component {
     }
   }
 
+  /**
+   * 
+   * @param {*} e 
+   * 
+   * Fonctionne qui mettre à jour la quantité pour acheter de chaque bouteilles
+   */
   onModificationQte(e) {
     this.setState(function (state, props) {
       let index = state.mappedItems.findIndex(x => x.id === e.id);
@@ -236,6 +258,8 @@ export default class ListeAchat extends React.Component {
   /**
    * 
    * @param {Set} ids 
+   * 
+   * Fonctionne que remplie l'array des bouteilles séléectionnes
    */
   onCheckbox(ids) {
     const selectedIDs = new Set(ids)
@@ -259,6 +283,9 @@ export default class ListeAchat extends React.Component {
     });
   }
 
+  /**
+   * Fonctionne que fixe l'entête du datagrid
+   */
   afficherBouteilles() {
     let arr = [...this.state.mappedItems];
 
