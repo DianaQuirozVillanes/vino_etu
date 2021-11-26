@@ -26,14 +26,95 @@
     text-align: center;
 }
 
+.MuiNativeSelect-select>option {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
 .css-1g12qau-MuiSvgIcon-root-MuiNativeSelect-icon {
     color: white !important;
 }
 
-.css-ffg8md-MuiNativeSelect-select-MuiInputBase-input-MuiOutlinedInput-input:not([multiple]) > optgroup option {
-    background-color: lightcoral !important;
+/* Media Queries */
+@media screen and (min-width: 375px) {
+    .bouteille_container {
+        max-width: 355px !important;
+    }
+
+    .css-1j6u16s-MuiFormControl-root {
+        margin-left: 0.75rem !important;
+    }
 }
 
-.css-ffg8md-MuiNativeSelect-select-MuiInputBase-input-MuiOutlinedInput-input:not([multiple]) > optgroup {
-    background-color: lightcoral !important;
+@media screen and (min-width: 425px) {
+    .bouteille_container {
+        max-width: 355px !important;
+    }
+
+    .css-1j6u16s-MuiFormControl-root {
+        margin-left: 1.75rem !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .bouteille_container {
+        max-width: 355px !important;
+    }
+
+    .liste_bouteilles {
+        flex-direction: row !important;
+        max-width: 55% !important;
+    }
+
+    .css-1j6u16s-MuiFormControl-root {
+        margin-left: 26vw !important;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .bouteille_container {
+        max-width: 355px !important;
+    }
+
+    .liste_bouteilles {
+        flex-direction: row !important;
+        max-width: 55% !important;
+    }
+
+    .css-1j6u16s-MuiFormControl-root {
+        margin-left: 32vw !important;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .bouteille_container {
+        max-width: 355px !important;
+    }
+
+    .liste_bouteilles {
+        flex-direction: row !important;
+        justify-content: unset;
+        padding-left: 35px !important;
+        max-width: 55% !important;
+    }
+
+    .css-1j6u16s-MuiFormControl-root {
+        margin-left: 23.75vw !important;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .bouteille_container {
+        max-width: 355px !important;
+    }
+
+    .liste_bouteilles {
+        flex-direction: row !important;
+        justify-content: unset;
+        padding-left: 15vw !important;
+        max-width: 55% !important;
+    }
+
+    .css-1j6u16s-MuiFormControl-root {
+        margin-left: 29.85vw !important;
+    }
 }
