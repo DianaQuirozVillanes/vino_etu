@@ -7,15 +7,7 @@ use DOMDocument;
 use stdClass;
 
 /**
- * Class MonSQL
- * Classe qui génère ma connection à MySQL à travers un singleton
- *
- *
- * @author Jonathan Martel
- * @version 1.0
- *
- *
- *
+ * WebScraper pour la SAQ.
  */
 class SAQ extends Modele
 {
@@ -31,21 +23,14 @@ class SAQ extends Modele
 	{
 		parent::__construct();
 		if (!($this->stmt = $this->_db->prepare("INSERT INTO vino__bouteille_saq(nom, type, code_saq, pays, description, prix_saq, url_saq, url_img, format) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"))) {
-			//echo "Echec de la préparation : (" . $mysqli->errno . ") " . $mysqli->error;
 		}
 	}
 
-	/**
-	 * getProduits
-	 * @param int $nombre
-	 * @param int $debut
-	 */
 	public function getProduits($nombre = 24, $page = 1)
 	{
 		$s = curl_init();
-		$url = "https://www.saq.com/fr/produits/vin/vin-rouge?p=1&product_list_limit=24&product_list_order=name_asc";
+		$url = "https://www.saq.com/fr/produits/vin?p=" . $page . "&product_list_limit=" . $nombre . "&product_list_order=name_asc";
 
-		// Se prendre pour un navigateur pour berner le serveur de la saq...
 		curl_setopt_array($s, array(
 			CURLOPT_URL => $url,
 			CURLOPT_RETURNTRANSFER => true,
@@ -73,19 +58,11 @@ class SAQ extends Modele
 		foreach ($elements as $key => $noeud) {
 			if (strpos($noeud->getAttribute('class'), "product-item") !== false) {
 				$info = $this->recupereInfo($noeud);
-				var_dump($info);
-				echo "<p>" . $info->nom;
 				$retour = $this->ajouteProduit($info);
-				echo "<br>Code de retour : " . $retour->raison . "<br>";
-				if ($retour->succes == false) {
-					echo "<pre>";
-					var_dump($info);
-					echo "</pre>";
-					echo "<br>";
-				} else {
+
+				if ($retour->succes) {
 					$i++;
 				}
-				echo "</p>";
 			}
 		}
 
@@ -102,13 +79,14 @@ class SAQ extends Modele
 
 		return $innerHTML;
 	}
+
 	private function nettoyerEspace($chaine)
 	{
 		return preg_replace('/\s+/', ' ', $chaine);
 	}
+
 	private function recupereInfo($noeud)
 	{
-
 		$info = new stdClass;
 		$imgFirst = $noeud->getElementsByTagName("img")->item(0);
 		if (strpos($imgFirst->getAttribute('class'), "product-image-photo") !== false) {
@@ -167,13 +145,20 @@ class SAQ extends Modele
 		$retour->succes = false;
 		$retour->raison = '';
 
-		var_dump($this->_db);
+		$strip = array(
+			'Š' => 'S', 'š' => 's', 'Ž' => 'Z', 'ž' => 'z', 'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E',
+			'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O', 'Ù' => 'U',
+			'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ý' => 'Y', 'Þ' => 'B', 'ß' => 'Ss', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c',
+			'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o',
+			'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y'
+		);
+		$type = strtr($bte->desc->type, $strip);
+
 		// Récupère le type
-		$rows = $this->_db->query("select id from vino__type where type = '" . $bte->desc->type . "'");
-		var_dump($rows);
+		$rows = $this->_db->query("select id from vino__type where type = '" . $type . "'");
+
 		if ($rows->num_rows == 1) {
 			$type = $rows->fetch_assoc();
-			//var_dump($type);
 			$type = $type['id'];
 
 			$rows = $this->_db->query("select id from vino__bouteille_saq where code_saq = '" . $bte->desc->code_SAQ . "'");
@@ -181,7 +166,6 @@ class SAQ extends Modele
 				$this->stmt->bind_param("sisssssss", $bte->nom, $type, $bte->desc->code_SAQ, $bte->desc->pays, $bte->desc->texte, $bte->prix, $bte->url, $bte->img, $bte->desc->format);
 				$retour->succes = $this->stmt->execute();
 				$retour->raison = self::INSERE;
-				//var_dump($this->stmt);
 			} else {
 				$retour->succes = false;
 				$retour->raison = self::DUPLICATION;
@@ -190,6 +174,7 @@ class SAQ extends Modele
 			$retour->succes = false;
 			$retour->raison = self::ERREURDB;
 		}
+
 		return $retour;
 	}
 }

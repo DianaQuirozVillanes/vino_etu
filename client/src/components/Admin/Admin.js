@@ -1,7 +1,9 @@
 import React from "react";
 import "./Admin.css";
 import { DataGrid } from '@mui/x-data-grid';
-import { Breadcrumbs, Link, Typography } from '@mui/material';
+import { CircularProgress, Fab } from '@mui/material';
+import { Box } from "@mui/system";
+import LoopIcon from '@mui/icons-material/Loop';
 
 export default class Admin extends React.Component {
     constructor(props) {
@@ -9,8 +11,12 @@ export default class Admin extends React.Component {
 
         // Object usagers dans un state.
         this.state = {
-            usagers: []
+            usagers: [],
+            loading: false,
+            success: false,
         };
+
+        this.importClick = this.importClick.bind(this);
     }
 
     componentDidMount() {
@@ -21,11 +27,11 @@ export default class Admin extends React.Component {
 
         // Titre du document
         this.props.title('Admin');
-        
+
         // Get les informations de l'usager.
         this.getUsagers()
     }
-    
+
     componentDidUpdate() {
         if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
@@ -48,6 +54,34 @@ export default class Admin extends React.Component {
                     usagers: donnees.data
                 })
             });
+    }
+
+    importClick() {
+        if (!this.state.loading) {
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'applicaiton/json',
+                    'authorization': 'Basic ' + btoa('vino:vino')
+                }
+            }
+
+            this.setState({
+                success: false,
+                loading: true
+            });
+
+            fetch("https://rmpdwebservices.ca/webservice/php/saq/", options)
+                .then(response => {
+                    if (response.status == 200) {
+                        console.log('200')
+                        this.setState({
+                            success: true,
+                            loading: false
+                        });
+                    }
+                })
+        }
     }
 
     render() {
@@ -73,10 +107,48 @@ export default class Admin extends React.Component {
             }
         })
 
+        const buttonSx = {
+            ...(this.state.success && {
+                backgroundColor: '#641b30',
+                '&:hover': {
+                    backgroundColor: '#641b30 !important',
+                },
+            }),
+            backgroundColor: '#641b30',
+            color: 'white',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '.5rem',
+            position: 'relative',
+            margin: '0 auto',
+            marginBottom: '1rem'
+        };
+
         // Affichage.
         return (
             <>
+                <Fab
+                    variant="extended"
+                    sx={buttonSx}
+                    disabled={this.state.loading}
+                    onClick={this.importClick}
+                >
+                    <LoopIcon /> Mise à jour SAQ
+                    {this.state.loading && (
+                        <CircularProgress
+                            size={24}
+                            sx={{
+                                color: 'green',
+                                position: 'absolute',
+                                transform: 'rotateX(90deg)'
+                            }}
+                        />
+                    )}
+                </Fab>
+
                 <span className="titre" >Liste des usagers</span>
+
 
                 <div style={{
                     height: 500, width: '85vw',

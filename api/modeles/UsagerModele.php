@@ -79,6 +79,7 @@ class UsagerModele extends Modele
         } else {
             throw new Exception("Erreur de requête sur la base de donnée", 1);
         }
+
         return $rows;
     }
 
@@ -147,7 +148,6 @@ class UsagerModele extends Modele
 			throw new Exception("Erreur de requête sur la base de données", 1);
 		}
 
-        //TODO Return id de l'usager modifié.
         return $res;
     }
 
