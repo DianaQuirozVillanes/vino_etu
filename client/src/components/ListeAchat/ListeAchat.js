@@ -72,7 +72,7 @@ export default class ListeAchat extends React.Component {
             }
           );
           this.state.itemsListeAchat.map(x => {
-            this.setState({ idListeAchat: x.id });
+            return this.setState({ idListeAchat: x.id });
           });
           this.cocherListeAchat();
         } else {
@@ -87,8 +87,8 @@ export default class ListeAchat extends React.Component {
   }
 
   /**
-   * Fonctionne que retourne les bouteilles existentes sur la liste d'achat de l'usager pour
-   * qu'elles soient croché sur la liste de bouteilles
+   * Fonction qui retourne les bouteilles existentes sur la liste d'achat de l'usager pour
+   * qu'elles soient cochées sur la liste de bouteilles
    */
   cocherListeAchat() {
     let bouteillesListeAchat = [];
@@ -98,7 +98,7 @@ export default class ListeAchat extends React.Component {
         bouteillesListeAchat = [...bouteillesListeAchat, parseInt(item.bouteille_id)]
 
         this.setState(function (state, props) {
-          let index = state.mappedItems.findIndex(x => x.id == item.bouteille_id);
+          let index = state.mappedItems.findIndex(x => x.id === item.bouteille_id);
           let nouveauTableau = state.mappedItems.slice();
 
           nouveauTableau[index].quantite_achat = item.quantite;
@@ -150,7 +150,7 @@ export default class ListeAchat extends React.Component {
 
       this.state.bouteillesSelectionnes
         .map((item) => {
-          let index = this.state.mappedItems.findIndex(x => x.id == item);
+           let index = this.state.mappedItems.findIndex(x => x.id === item);
 
           bouteilles.push({ id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat });
         });

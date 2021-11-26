@@ -156,7 +156,6 @@ export default class Connexion extends React.Component {
 						}}
 					>
 						<TextField
-							autoComplete
 							error={this.state.erreurCourriel}
 							label="Courriel"
 							variant="outlined"
@@ -185,7 +184,6 @@ export default class Connexion extends React.Component {
 						/>
 						{msgErreurCourriel}
 						<TextField
-							autoComplete
 							error={this.state.erreurMot_passe}
 							label="Mot de passe"
 							type="password"
