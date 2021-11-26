@@ -3,6 +3,7 @@
 namespace VinoAPI\Controllers;
 
 use VinoAPI\Core\Router;
+use VinoAPI\Libs\SAQ;
 use VinoAPI\Modeles\BouteilleModele;
 
 /**
@@ -35,5 +36,17 @@ class SAQController extends Router
         }
 
         echo json_encode($this->retour);
+    }
+
+    public function importSAQ()
+    {
+        $page = 90;
+        $nombreProduit = 96; //48 ou 96	
+
+        $saq = new SAQ;
+        for ($i = 1; $i < $page; $i++)    //permet d'importer séquentiellement plusieurs pages.
+        {
+            $saq->getProduits($nombreProduit, $i);
+        }
     }
 }
