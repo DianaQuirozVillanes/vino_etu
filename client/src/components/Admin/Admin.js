@@ -150,7 +150,7 @@ export default class Admin extends React.Component {
                 <span className="titre_admin" >Liste des usagers</span>
 
 
-                <div style={{
+                <div className="div_admin" style={{
                     height: 500, width: '85vw',
                     margin: '0 auto',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)',
