@@ -2,7 +2,7 @@ p.MuiTypography-root {
     color: white !important;
 }
 
-.modifier_cellier_container > * {
+.modifier_cellier_container>* {
     width: 80% !important;
 }
 
@@ -35,10 +35,28 @@ p.MuiTypography-root {
 }
 
 .modifier_cellier_container fieldset {
-   border-color: white;
+    border-color: white;
 }
 
-.modifier_cellier_container label, 
+.modifier_cellier_container label,
 .modifier_cellier_container input {
     color: white;
+}
+
+.css-1kty9di-MuiFormLabel-root-MuiInputLabel-root {
+    color: white!important;
+}
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+    .modifier_cellier_container {
+        max-width: 320px !important;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .modifier_cellier_container {
+        max-width: 320px !important;
+        margin-top: 10vw !important;
+    }
 }

@@ -7,9 +7,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import './DetailsBouteille.css';
+import './ModifierBouteille.css';
 
-export default class DetailsBouteille extends React.Component {
+export default class ModifierBouteille extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -51,7 +51,7 @@ export default class DetailsBouteille extends React.Component {
 			return this.props.history.push('/connexion');
 		}
 
-		this.props.title("Détails bouteille");
+		this.props.title("Modifier");
 
 		this.recupereBouteille();
 	}
@@ -361,7 +361,7 @@ export default class DetailsBouteille extends React.Component {
 							'& .MuiSelect-icon': {
 								color: 'white'
 							},
-							
+
 						}}
 						value={this.state.pays}
 						onChange={(e) => this.saisirOrigine(e)}
@@ -496,7 +496,7 @@ export default class DetailsBouteille extends React.Component {
 						color: 'white'
 					}}
 				>
-					<AutoFixHighOutlinedIcon/>
+					<AutoFixHighOutlinedIcon />
 					Modifier
 				</Fab>
 			</Box>

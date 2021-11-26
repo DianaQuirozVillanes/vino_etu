@@ -1,57 +1,73 @@
 .bouteille_img_container {
-	height: 90px;
-	margin: auto 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	height: 125px;
 }
 
-.bouteille_img_container > a {
+.pastille_img {
+	margin-left: -1rem;
+	margin-top: -6.25rem;
+}
+
+.bouteille_img_container>a {
 	height: 70%;
 }
 
 .bouteille_img {
-	height: 100%;
+	height: 115%;
 	width: auto;
-	margin-top: 1.5rem;
-	/* border: grey 5px solid; */
-	border-radius: .5em;
-	padding: 2px;
 	box-sizing: border-box;
 }
 
+.titre_vin {
+	margin: 0.5rem 1rem;
+	font-size: 15px;
+}
+
+
 .saq_logo {
-	height: 5%;
 	margin-top: 2em;
 	margin-right: 1em;
+	height: 5%;
 }
 
 .bouteille_description {
-	color: white;
-	font-size: 0.875em;
-	font-weight: 700;
 	display: flex;
+	justify-content: flex-end;
 	flex-direction: column;
-	gap: 1.5rem;
-	width: 100% !important;
 	align-items: center;
-	padding-top: 1rem;
+	row-gap: 16px;
+	margin-bottom: 25px;
+	color: white;
+	font-size: 1em;
+	font-weight: 500;
 }
 
-.bouteille_description > * {
+.bouteille_description>* {
 	text-align: center;
+	color: white;
 }
 
-.bouteille_boutons_container > * {
-	padding: 1rem 2rem !important;
+.bouteille_description>a:visited {
+	color: white;
+}
+
+.bouteille_boutons_container>* {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 0.25rem;
+	padding: 1rem 2rem !important;
 	width: 80% !important;
 }
 
-.bouteille_boutons_container > a {
+.bouteille_boutons_container {
+	margin-bottom: 5px;
+	margin-right: -1rem;
+}
+
+.bouteille_boutons_container>a {
 	text-decoration: none;
 }
 
@@ -65,22 +81,22 @@
 	flex-direction: column;
 	gap: 0;
 	flex: 1;
+	padding: 0.5rem;
+	width: 90vw;
 	border-radius: .5em;
 	background-color: rgba(0, 0, 0, 0.8);
 	color: white;
-	width: 90vw;
-	padding: 0.5rem;
 }
 
-.content > a > p {
+.content>a>p {
 	width: fit-content;
 }
 
-.content > a {
+.content>a {
 	color: white;
 }
 
-.content > a:visited {
+.content>a:visited {
 	color: white;
 }
 
@@ -93,6 +109,87 @@
 	padding-top: 1rem;
 }
 
-.url_saq {
-	margin-left: 2em;
+optgroup, option {
+	background-color: rgba(0, 0, 0, 0.8)!important;
+}
+
+/* Media Queries */
+@media screen and (min-width: 375px) {
+	.bouteille_container {
+		max-width: 355px !important;
+	}
+
+	.css-1j6u16s-MuiFormControl-root {
+		margin-left: 0.75rem !important;
+	}
+}
+
+@media screen and (min-width: 425px) {
+	.bouteille_container {
+		max-width: 355px !important;
+	}
+
+	.css-1j6u16s-MuiFormControl-root {
+		margin-left: 1.75rem !important;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.bouteille_container {
+		max-width: 355px !important;
+	}
+
+	.liste_bouteilles {
+		flex-direction: row !important;
+		max-width: 55% !important;
+	}
+
+	.css-1j6u16s-MuiFormControl-root {
+		margin-left: 26vw !important;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.bouteille_container {
+		max-width: 355px !important;
+	}
+
+	.liste_bouteilles {
+		flex-direction: row !important;
+		max-width: 55% !important;
+	}
+
+	.css-1j6u16s-MuiFormControl-root {
+		margin-left: 32vw !important;
+	}
+}
+
+@media screen and (min-width: 1440px) {
+	.bouteille_container {
+		max-width: 355px !important;
+	}
+
+	.liste_bouteilles {
+		flex-direction: row !important;
+		max-width: 55% !important;
+	}
+
+	.css-1j6u16s-MuiFormControl-root {
+		margin-left: 23.75vw !important;
+	}
+}
+
+@media screen and (min-width: 1920px) {
+	.bouteille_container {
+		max-width: 355px !important;
+	}
+
+	.liste_bouteilles {
+		flex-direction: row !important;
+		max-width: 55% !important;
+	}
+
+	.css-1j6u16s-MuiFormControl-root {
+		margin-left: 29.85vw !important;
+	}
 }

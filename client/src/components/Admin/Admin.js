@@ -20,11 +20,11 @@ export default class Admin extends React.Component {
 
         // Titre du document
         this.props.title('Admin');
-        
+
         // Get les informations de l'usager.
         this.getUsagers()
     }
-    
+
     componentDidUpdate() {
         if (!window.sessionStorage.getItem('estConnecte')) {
             return this.props.history.push('/connexion');
@@ -75,9 +75,9 @@ export default class Admin extends React.Component {
         // Affichage.
         return (
             <>
-                <span className="titre" >Liste des usagers</span>
+                <span className="titre_admin" >Liste des usagers</span>
 
-                <div style={{
+                <div className="div_admin" style={{
                     height: 500, width: '85vw',
                     margin: '0 auto',
                     backgroundColor: 'rgba(0, 0, 0, 0.8)',

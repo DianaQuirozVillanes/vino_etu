@@ -232,7 +232,7 @@ export default class Inscription extends React.Component {
 					flexDirection: 'column',
 					borderRadius: '1rem',
 					margin: '0 auto',
-					marginTop: '15vh'
+					marginTop: '3vh'
 				}}
 			>
 				<Box

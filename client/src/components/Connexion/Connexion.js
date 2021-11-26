@@ -11,8 +11,8 @@ export default class Connexion extends React.Component {
 		this.state = {
 			courriel: '',
 			mot_passe: '',
-			id_usager: undefined,
-			erreurDB: false,
+			id_usager: '',
+			messageErreur: '',
 			erreurCourriel: false,
 			erreurMot_passe: false
 		};
@@ -124,7 +124,7 @@ export default class Connexion extends React.Component {
 		);
 		return (
 			<Box
-				className="login_container"
+				className="contenu_connexion"
 				sx={{
 					backgroundColor: 'rgba(0, 0, 0, 0.8)',
 					display: 'flex',
@@ -146,7 +146,7 @@ export default class Connexion extends React.Component {
 						gap: '2rem'
 					}}
 				>
-					<span className="login_title">Bienvenue dans votre cellier</span>
+					<span className="titre_connexion">Bienvenue dans votre cellier</span>
 
 					<Box
 						sx={{

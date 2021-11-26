@@ -1,39 +1,46 @@
-.login_title {
-	color: white;
-	font-weight: 700;
-	text-align: center;
+.titre_connexion {
 	margin-top: 2rem;
+	text-align: center;
+	font-weight: 700;
+	color: white;
 }
 
-.login_container input {
+.contenu_connexion input {
 	padding: .7rem;
-	border-radius: .5rem;
 	border: none;
+	border-radius: .5rem;
 }
 
-.login_container input:focus {
+.contenu_connexion input:focus {
 	outline: unset;
 }
 
-.login_container button {
+.contenu_connexion button {
+	margin-bottom: 2rem;
+	padding: .5rem 1rem;
 	width: 100%;
 	outline: unset;
-	padding: .5rem 1rem;
 	border: none;
-	margin-bottom: 2rem;
 	font-size: 1em;
 }
 
-.login_container fieldset {
+.contenu_connexion fieldset {
 	border-color: white;
 }
 
-.login_container label,
-.login_container input {
+.contenu_connexion label,
+.contenu_connexion input {
 	color: white;
 }
 
 .message_erreur {
 	font-size: 0.9em;
 	color: red;
+}
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+	.css-1tlyyk5 {
+		width: 320px !important;
+	}
 }

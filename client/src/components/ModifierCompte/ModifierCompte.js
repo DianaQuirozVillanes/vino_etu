@@ -28,9 +28,9 @@ export default class ModifierCompte extends React.Component {
 		// Binder le contexte 'this' aux fonctions.
 		this.validation = this.validation.bind(this);
 		this.modifier = this.modifier.bind(this);
-        this.saisirNom = this.saisirNom.bind(this);
-        this.saisirPrenom = this.saisirPrenom.bind(this);
-        this.saisirCourriel = this.saisirCourriel.bind(this);
+		this.saisirNom = this.saisirNom.bind(this);
+		this.saisirPrenom = this.saisirPrenom.bind(this);
+		this.saisirCourriel = this.saisirCourriel.bind(this);
 	}
 
 	componentDidMount() {
@@ -50,36 +50,36 @@ export default class ModifierCompte extends React.Component {
 		}
 	}
 
-    /**
+	/**
 	 * Saisir la valeur du champs Nom
 	 * 
 	 * @param {string} e Valeur du champs Nom
 	 */
-    saisirNom(e) {
-        this.setState({ nom: e.target.value });
-    }
+	saisirNom(e) {
+		this.setState({ nom: e.target.value });
+	}
 
-    /**
+	/**
 	 * Saisir la valeur du champs Prénom
 	 * 
 	 * @param {string} e Valeur du champs Prénom
 	 */
-    saisirPrenom(e) {
-        this.setState({ prenom: e.target.value });
-    }
+	saisirPrenom(e) {
+		this.setState({ prenom: e.target.value });
+	}
 
-    /**
+	/**
 	 * Saisir la valeur du champs Courriel
 	 * 
 	 * @param {string} e Valeur du champs Courriel
 	 */
-    saisirCourriel(e) {
-        this.setState({ courriel: e.target.value });
-    }
+	saisirCourriel(e) {
+		this.setState({ courriel: e.target.value });
+	}
 
 	/**
-     * Validation du formulaire
-     */
+	 * Validation du formulaire
+	 */
 	validation() {
 		let estValide = false;
 		this.setState({
@@ -117,8 +117,8 @@ export default class ModifierCompte extends React.Component {
 	}
 
 	/**
-    * Fetch de tous les usagers.
-    */
+	* Fetch de tous les usagers.
+	*/
 	getUsagers() {
 		const options = {
 			method: 'GET',
@@ -143,8 +143,8 @@ export default class ModifierCompte extends React.Component {
 	}
 
 	/**
-     * Modifier les informations de l'usager.
-     */
+	 * Modifier les informations de l'usager.
+	 */
 	modifier() {
 		if (this.validation()) {
 			const donnees = {
