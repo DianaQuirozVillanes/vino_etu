@@ -47,8 +47,6 @@ export default class ListeAchat extends React.Component {
     if (!window.sessionStorage.getItem('estConnecte')) {
       return this.props.history.push("/connexion");
     }
-    console.log("botellas seleccionadas: ", this.state.bouteilles);
-
   }
 
   fetchListeAchat() {
@@ -134,29 +132,25 @@ export default class ListeAchat extends React.Component {
     if (this.state.bouteillesSelectionnes.length > 0) {
 
       this.setState({ bouteilles: [] })
+
+      let bouteilles = [];
+
       this.state.bouteillesSelectionnes
         .map((item) => {
           let index = this.state.mappedItems.findIndex(x => x.id == item);
-           
-          const bouteille = { id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat };
-          //this.state.bouteilles.push(bouteille); //changer
 
-          this.setState(function (state, props) {
-            let nouveauTableau = [...this.state.bouteilles];
-            console.log("bouteille: ", bouteille);
+          bouteilles.push({ id: this.state.mappedItems[index].id, millesime: this.state.mappedItems[index].millesime, quantite: this.state.mappedItems[index].quantite_achat });
+        });
 
-            nouveauTableau.push(bouteille);
-      
-            return {
-              bouteilles: nouveauTableau
-              //itemsSelected: [nouveauTableau[index]]
-            };
-          });
-        })
-      /*
+      this.setState(prevState => {
+        return {
+          bouteilles: [...prevState.bouteilles, bouteilles]
+        }
+      });
+
       if (this.state.listeAchat) { //Modifier liste d'achat
         let donnes = {
-          bouteilles: this.state.bouteilles
+          bouteilles: bouteilles
         };
 
         const putMethod = {
@@ -179,7 +173,7 @@ export default class ListeAchat extends React.Component {
       } else {  //Créer liste d'achat
         let donnes = {
           id_usager: window.sessionStorage.getItem('id_usager'),
-          bouteilles: this.state.bouteilles
+          bouteilles: bouteilles
         };
 
         const postMethod = {
@@ -199,7 +193,7 @@ export default class ListeAchat extends React.Component {
               this.setState({ titre: "Liste d'achat", listeAchat: true });
             }
           });
-      } */
+      }
     }
   }
 
@@ -261,7 +255,7 @@ export default class ListeAchat extends React.Component {
         itemsSelected: selectedRowData,
         bouteillesSelectionnes: arr
       }
-     
+
     });
   }
 
