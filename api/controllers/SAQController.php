@@ -37,14 +37,21 @@ class SAQController extends Router
 
         echo json_encode($this->retour);
     }
-
+    
+    /**
+     * Importe séquentiellement chaque page de bouteille de la SAQ.
+     *
+     * @return void
+     */
     public function importSAQ()
     {
         $page = 90;
-        $nombreProduit = 96; //48 ou 96	
+        
+        $nombreProduit = 96;
 
         $saq = new SAQ;
-        for ($i = 1; $i < $page; $i++)    //permet d'importer séquentiellement plusieurs pages.
+
+        for ($i = 1; $i < $page; $i++)
         {
             $saq->getProduits($nombreProduit, $i);
         }
