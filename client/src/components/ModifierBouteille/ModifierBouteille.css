@@ -1,4 +1,4 @@
-.modif_bouteille_container > * {
+.modif_bouteille_container>* {
     width: 80% !important;
 }
 
@@ -18,7 +18,7 @@
 .modif_bouteille_container input:focus {
     outline: unset;
 }
- 
+
 .modif_bouteille_container button {
     color: white;
     outline: unset;
@@ -41,4 +41,18 @@
 
 label.Mui-focused {
     color: white;
+}
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+    .modif_bouteille_container {
+        width: 363px !important;
+
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .modif_bouteille_container {
+        margin-top: 4vh !important;
+    }
 }

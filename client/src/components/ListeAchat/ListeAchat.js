@@ -17,7 +17,7 @@ export default class ListeAchat extends React.Component {
       bouteilles: [],
       listeAchat: false,
       titre: "",
-      idListeAchat: undefined,
+      idListeAchat: '',
       isChecked: false,
       mappedItems: [],
       titreBouton: "",
