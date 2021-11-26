@@ -64,15 +64,16 @@ export default class ListeBouteilleCellier extends React.Component {
 	fermerDialogue() {
 		this.setState({open : false});
 	}
+
 	sortBouteilles(obj) {
 		const parsedObj = JSON.parse(obj);
 		const key = parsedObj.key;
 		const order = parsedObj.order;
 		if (order.toUpperCase() === 'ASC') {
-			const sortedItems = this.state.items.sort((a, b) => a[key].localeCompare(b[key]));
+			const sortedItems = this.state.items.sort((a, b) => a[key].toString().localeCompare(b[key]));
 			this.setState({ items: sortedItems });
 		} else if (order.toUpperCase() === 'DESC') {
-			const sortedItems = this.state.items.sort((a, b) => b[key].localeCompare(a[key]));
+			const sortedItems = this.state.items.sort((a, b) => b[key].toString().localeCompare(a[key]));
 			this.setState({ items: sortedItems });
 		}
 	}
@@ -170,7 +171,6 @@ export default class ListeBouteilleCellier extends React.Component {
 			.then((data) => {
 				if (data.data) {
 					this.fetchBouteilles();
-				} else {
 				}
 			});
 		this.setState({ message: '' });
