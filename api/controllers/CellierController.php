@@ -3,7 +3,6 @@
 namespace VinoAPI\Controllers;
 
 use VinoAPI\Core\Router;
-use VinoAPI\Modeles\BouteilleModele;
 use VinoAPI\Modeles\CellierModele;
 
 /**
