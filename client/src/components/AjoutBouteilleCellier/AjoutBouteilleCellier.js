@@ -2,7 +2,7 @@ import React from 'react';
 import BouteilleSAQ from '../BouteilleSAQ/BouteilleSAQ';
 import './AjoutBouteilleCellier.css';
 import { Box } from '@mui/system';
-import { Fab, FormHelperText, TextField } from '@mui/material';
+import { Fab, TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -539,7 +539,6 @@ export default class AjoutBouteille extends React.Component {
 						</FormControl>
 
 						<TextField
-							autoFocus
 							error={this.state.erreurFormat}
 							label="Format"
 							variant="outlined"

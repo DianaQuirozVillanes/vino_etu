@@ -1,4 +1,3 @@
-import { Breadcrumbs, Link, Typography } from '@mui/material';
 import React from 'react';
 import Cellier from '../Cellier/Cellier';
 import './ListeCellier.css';
@@ -6,7 +5,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box } from '@mui/system';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 
 export default class ListeCellier extends React.Component {
 	constructor(props) {
@@ -25,7 +23,7 @@ export default class ListeCellier extends React.Component {
 			return this.props.history.push('/connexion');
 		}
 
-		this.props.title('Liste des celliers');
+		this.props.title('Celliers');
 
 		this.fetchCelliers();
 	}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/system';
 import { Fab, TextField } from '@mui/material';
-import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
 import './ModifierCellier.css';

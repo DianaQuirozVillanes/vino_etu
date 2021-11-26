@@ -1,6 +1,4 @@
 import React from 'react';
-import Page404 from '../Page404/Page404';
-import { Route, Redirect, withRouter, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { Box } from '@mui/system';
 import { Fab, TextField } from '@mui/material';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
@@ -158,7 +156,6 @@ export default class Connexion extends React.Component {
 						}}
 					>
 						<TextField
-							autoComplete
 							error={this.state.erreurCourriel}
 							label="Courriel"
 							variant="outlined"
@@ -187,7 +184,6 @@ export default class Connexion extends React.Component {
 						/>
 						{msgErreurCourriel}
 						<TextField
-							autoComplete
 							error={this.state.erreurMot_passe}
 							label="Mot de passe"
 							type="password"

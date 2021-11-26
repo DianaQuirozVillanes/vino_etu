@@ -8,7 +8,6 @@ import './ListeBouteilleCellier.css';
 
 //import { circularProgressClasses } from '@mui/material';
 import { Box } from '@mui/system';
-import { Breadcrumbs, Link, touchRippleClasses, Typography } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 //import MenuItem from '@mui/material/MenuItem';
 //import ListSubheader from '@mui/material/ListSubheader';
@@ -90,7 +89,7 @@ export default class ListeBouteilleCellier extends React.Component {
 			.then((reponse) => reponse.json())
 			.then((donnees) => {
 				donnees.data.map((item) => {
-					Object.entries(item).map((i) => {
+					return Object.entries(item).map((i) => {
 						if (i[0] === "pays") item.drapeau = this.getDrapeauPays(i[1]);
 					});
 				})
@@ -114,7 +113,7 @@ export default class ListeBouteilleCellier extends React.Component {
 				}
 			})
 			.map((data) => {
-				flag = 'https://flagcdn.com/' + data.alpha2 + '.svg';
+				return flag = 'https://flagcdn.com/' + data.alpha2 + '.svg';
 			});
 		return flag;
 	}
