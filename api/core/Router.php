@@ -169,7 +169,8 @@ class Router
 				$listeAchatClassObj->modifierListeAchat();
 				break;
 			case 'saq':
-				echo json_encode('saq put');
+				$saqClassObj = new SAQController;
+				$saqClassObj->importSAQ();
 				break;
 			default:
 				$this->retour['erreur'] = $this->erreur(400);
