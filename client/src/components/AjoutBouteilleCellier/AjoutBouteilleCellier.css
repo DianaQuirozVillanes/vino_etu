@@ -30,11 +30,11 @@
 }
 
 .formulaire_ajout_bouteille_cellier fieldset {
-   border-color: white ;
+    border-color: white;
 }
-.MuiOutlinedInput.Mui-error
-.MuiOutlinedInput-notchedOutline  {
-    border-color: red ;
+
+.MuiOutlinedInput.Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: red;
 }
 
 .formulaire_ajout_bouteille_cellier legend {
@@ -55,4 +55,25 @@
 
 .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
     color: white;
+}
+
+.MuiPaper-root .MuiList-root {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.9);
+
+}
+
+.MuiOutlinedInput-root-selected {
+    border-color: white!important;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected {
+    background-color: rgb(40, 86, 106) !important;
+}
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+    .formulaire_ajout_bouteille_cellier {
+        max-width: 320px !important;
+    }
 }

@@ -28,10 +28,24 @@
 }
 
 .register_container fieldset {
-    border-color: white ;
+    border-color: white;
 }
 
 .register_container label,
 .register_container input {
-    color: white ;
+    color: white;
+}
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+    .register_container {
+        max-width: 320px !important;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .register_container {
+        max-width: 320px !important;
+        margin-top: 8vh !important;
+    }
 }

@@ -46,23 +46,24 @@ export default class ListeBouteilleCellier extends React.Component {
 
 	componentDidMount() {
 		if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push('/connexion');
-        }
+			return this.props.history.push('/connexion');
+		}
 
-        
-		
+		this.props.title("Bouteilles");
+		window.sessionStorage.setItem('id_cellier', this.props.id);
+
 		this.fetchBouteilles();
 	}
 
 	componentDidUpdate() {
-        if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push('/connexion');
-        }
+		if (!window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push('/connexion');
+		}
 		this.props.title("Cellier: " + this.state.nomCellier);
-    }
+	}
 
 	fermerDialogue() {
-		this.setState({open : false});
+		this.setState({ open: false });
 	}
 
 	sortBouteilles(obj) {
@@ -234,24 +235,24 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<FormControl 
-				sx={{
-					minWidth: 120,
-					borderColor: 'white', 
-					borderRadius: '0.5rem', 
-					marginLeft: '1.8rem',
-					'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-						borderColor: 'white'
-					},
-					'& .MuiOutlinedInput-root': {
-						borderColor: 'white'
-					},
-					'& .MuiFormLabel-root.Mui-focused': {
-						color: 'white'
-					}
+				<FormControl
+					sx={{
+						minWidth: 120,
+						borderColor: 'white',
+						borderRadius: '0.5rem',
+						marginLeft: '1.8rem',
+						'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+							borderColor: 'white'
+						},
+						'& .MuiOutlinedInput-root': {
+							borderColor: 'white'
+						},
+						'& .MuiFormLabel-root.Mui-focused': {
+							color: 'white'
+						}
 					}}
 				>
-					<InputLabel htmlFor="grouped-native-select" sx={{color: 'white'}}>Trier par</InputLabel>
+					<InputLabel htmlFor="grouped-native-select" sx={{ color: 'white' }}>Trier par</InputLabel>
 					<Select
 						native
 						defaultValue=""
@@ -259,11 +260,12 @@ export default class ListeBouteilleCellier extends React.Component {
 						label="Trier par"
 						onChange={(e) => this.sortBouteilles(e.target.value)}
 						sx={{
-							backgroundColor: 'black',
 							color: 'white',
+							backgroundColor: 'rgba(0,0,0,0.8)',
 							borderColor: 'white',
 							'& label.Mui-focused': {
-								color: 'white'
+								color: 'white',
+								borderColor: 'white'
 							},
 							'& .MuiSelect-icon': {
 								color: 'white'
@@ -300,7 +302,7 @@ export default class ListeBouteilleCellier extends React.Component {
 
 					<div className="liste_bouteilles">{bouteilles}</div>
 				</section>
-			</Box>
+			</Box >
 		);
 	}
 }
