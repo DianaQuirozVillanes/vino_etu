@@ -56,3 +56,16 @@
     color: #ffffff;
 
 }
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+    .liste_achat_container {
+        max-width: 425px !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .liste_achat_container {
+        max-width: 495px !important;
+    }
+}

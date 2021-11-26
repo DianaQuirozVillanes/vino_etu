@@ -30,6 +30,12 @@
     .css-14axgsi {
         max-width: 90vw !important;
     }
+
+    .liste_celliers {
+        width: 90.5vw !important;
+        justify-content: unset !important;
+        flex: 0 0 35% !important;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -38,7 +44,14 @@
     }
 
     .css-14axgsi {
-        max-width: 33vw !important;
+        max-width: 68vw !important;
+    }
+
+
+    .liste_celliers {
+        width: 68vw !important;
+        justify-content: unset !important;
+        flex: 0 0 35% !important;
     }
 }
 
@@ -48,24 +61,12 @@
     }
 
     .css-14axgsi {
-        max-width: 67vw !important;
+        max-width: 72vw !important;
     }
 
-    .liste_celliers>* {
-        flex: 0 0 33%!important;
-    }
-}
-
-@media screen and (min-width: 1920px) {
-    .cellier_container_parent {
-        width: 338px !important;
-    }
-
-    .css-14axgsi {
-        max-width: 67vw !important;
-    }
-
-    .liste_celliers>* {
-        flex: 0 0 33%!important;
+    .liste_celliers {
+        width: 73vw !important;
+        justify-content: unset !important;
+        flex: 0 0 33% !important;
     }
 }
