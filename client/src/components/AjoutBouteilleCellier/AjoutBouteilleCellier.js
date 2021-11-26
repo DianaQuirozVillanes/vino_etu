@@ -539,7 +539,6 @@ export default class AjoutBouteille extends React.Component {
 						</FormControl>
 
 						<TextField
-							autoFocus
 							error={this.state.erreurFormat}
 							label="Format"
 							variant="outlined"

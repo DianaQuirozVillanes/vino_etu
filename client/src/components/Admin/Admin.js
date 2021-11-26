@@ -147,7 +147,7 @@ export default class Admin extends React.Component {
                     )}
                 </Fab>
 
-                <span className="titre" >Liste des usagers</span>
+                <span className="titre_admin" >Liste des usagers</span>
 
 
                 <div style={{

@@ -320,7 +320,7 @@ export default class ListeAchat extends React.Component {
       <Box className="liste_achat_container" sx={{
         display: "flex", justfyContent: "center", alignItems: "center",
         width: "85vw", flexDirection: "column", borderRadius: "1rem",
-        margin: "0 auto", marginTop: "10vh", color: "white",
+        margin: "0 auto", marginTop: "5vh", color: "white",
       }} >
 
         <Box className="liste_achat_rows" style={{ height: 400, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: 0 }}>
