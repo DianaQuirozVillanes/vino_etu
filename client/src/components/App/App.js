@@ -8,7 +8,7 @@ import Inscription from "../Inscription/Inscription";
 import Connexion from "../Connexion/Connexion";
 import ListeCelliers from "../ListeCelliers/ListeCellier";
 import AjoutCellier from "../AjoutCellier/AjoutCellier";
-import DetailsBouteille from "../DetailsBouteille/DetailsBouteille";
+import ModifierBouteille from "../ModifierBouteille/ModifierBouteille";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import ModifierCompte from "../ModifierCompte/ModifierCompte";
 import ListeAchat from "../ListeAchat/ListeAchat";
@@ -22,9 +22,9 @@ export default class App extends React.Component {
 
     this.state = {
       estConnecte: false,
-      id_usager: undefined,
+      id_usager: '',
       estAdmin: false,
-      title: undefined
+      title: ''
     };
 
     this.seConnecter = this.seConnecter.bind(this);
@@ -170,7 +170,7 @@ export default class App extends React.Component {
             exact
             path="/cellier/bouteilles/:id"
             render={(param_route) => (
-              <DetailsBouteille
+              <ModifierBouteille
                 title={this.setTitre}
                 {...param_route}
                 bouteille_id={param_route?.match?.params?.bouteille_id}

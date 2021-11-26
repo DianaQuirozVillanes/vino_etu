@@ -25,21 +25,21 @@ export default class ModifierCellier extends React.Component {
 	}
 
 	componentDidMount() {
-        if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push("/connexion");
-        }
+		if (!window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push("/connexion");
+		}
 
-		this.props.title("Modifier cellier");
+		this.props.title("Modifier");
 
-        this.setState({ titreBoutton: "Modifier cellier" })
-        this.chercherCellier();
-    }
+		this.setState({ titreBoutton: "Modifier cellier" })
+		this.chercherCellier();
+	}
 
-    componentDidUpdate() {
-        if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push('/connexion');
-        }
-    }
+	componentDidUpdate() {
+		if (!window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push('/connexion');
+		}
+	}
 
 	chercherCellier() {
 		const getMethod = {
@@ -70,7 +70,7 @@ export default class ModifierCellier extends React.Component {
 			erreurEmplacement: true
 		});
 
-		if (this.state.emplacement && this.state.emplacement.trim() !== '') {
+		if (this.state.emplacement && this.state.emplacement !== '') {
 			estValide = true;
 			this.setState({ erreurEmplacement: false });
 		}
@@ -122,7 +122,7 @@ export default class ModifierCellier extends React.Component {
 					flexDirection: 'column',
 					borderRadius: '1rem',
 					margin: '0 auto',
-					marginTop: '15vh'
+					marginTop: '16vh'
 				}}
 			>
 				<span className="modifier_cellier_title"> {this.state.titreBoutton} </span>

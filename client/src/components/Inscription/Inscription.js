@@ -128,15 +128,15 @@ export default class Inscription extends React.Component {
 
 	render() {
 		const msgErreurPrenom = <span className="message_erreur">{(this.state.erreurPrenom ? "* Ce champ est obligatoire." : "")}</span>
-		
+
 		const msgErreurNom = <span className="message_erreur">{(this.state.erreurNom ? "* Ce champ est obligatoire." : "")}</span>
-		
+
 		const msgErreurCourriel = <span className="message_erreur">{(this.state.erreurCourriel ? "* L'adresse courriel n'est pas valide." : "" || this.state.erreurCourrielVide ? "* Ce champ est obligatoire." : "")}</span>
 
 		const msgErreurMotPasse = <span className="message_erreur">{(this.state.erreurMot_passe ? "* Ce champ est obligatoire." : "")}</span>
-		
+
 		const msgErreurMotPasseVerif = <span className="message_erreur">{(this.state.erreurMot_passe_verif ? "* Les mots de passe ne sont pas identiques." : "" || this.state.erreurMot_passe_verif_vide ? "* Ce champ est obligatoire" : "")}</span>
-		
+
 		return (
 			<Box
 				className="register_container"
@@ -150,7 +150,7 @@ export default class Inscription extends React.Component {
 					flexDirection: 'column',
 					borderRadius: '1rem',
 					margin: '0 auto',
-					marginTop: '15vh'
+					marginTop: '3vh'
 				}}
 			>
 				<Box

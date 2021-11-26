@@ -6,13 +6,14 @@
 	color: white;
 }
 
-.MuiPaper-root {
-	background-color: rgba(0, 0, 0, 0.8)!important;
+.MuiDialog-container .MuiPaper-root {
+	background-color: rgba(22, 22, 22, 1) !important;
 }
 
-.MuiInput-input {
-	color: white!important;
+.MuiDialog-container .MuiInput-input {
+	color: white !important;
 }
-.MuiButton-root{
-	color: white!important;
+
+.MuiDialog-container .MuiButton-root {
+	color: white !important;
 }

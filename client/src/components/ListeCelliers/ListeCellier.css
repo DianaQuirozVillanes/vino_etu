@@ -1,10 +1,71 @@
 .liste_celliers {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    width: 100vw;
-    margin: 0 auto;
+    flex-direction: row;
     padding-top: 1rem;
+    margin: 0 auto;
+    width: 100vw;
+}
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+
+    .cellier_container_parent {
+        width: 338px !important;
+    }
+
+    .css-14axgsi {
+        max-width: 80vw !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .cellier_container_parent {
+        width: 338px !important;
+    }
+
+    .css-14axgsi {
+        max-width: 90vw !important;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .cellier_container_parent {
+        width: 338px !important;
+    }
+
+    .css-14axgsi {
+        max-width: 33vw !important;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .cellier_container_parent {
+        width: 338px !important;
+    }
+
+    .css-14axgsi {
+        max-width: 67vw !important;
+    }
+
+    .liste_celliers>* {
+        flex: 0 0 33%!important;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .cellier_container_parent {
+        width: 338px !important;
+    }
+
+    .css-14axgsi {
+        max-width: 67vw !important;
+    }
+
+    .liste_celliers>* {
+        flex: 0 0 33%!important;
+    }
 }

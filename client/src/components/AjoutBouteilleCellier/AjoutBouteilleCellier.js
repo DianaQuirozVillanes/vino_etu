@@ -71,17 +71,16 @@ export default class AjoutBouteille extends React.Component {
 		}
 
 		// Titre du document.
-        this.props.title("Ajout bouteille");
+		this.props.title("Ajout bouteille");
 
 		// Get les informations du cellier.
 		this.fetchCelliers();
 
-		// Titre du document.
-		document.title = this.props.title;
+		console.log(window.sessionStorage.getItem('id_cellier'));
 	}
 
 	componentDidUpdate() {
-	  if (this.state.celliers.length <= 0) {
+		if (this.state.celliers.length <= 0) {
 			return this.props.history.push('/celliers/ajouter');
 		}
 
@@ -201,7 +200,7 @@ export default class AjoutBouteille extends React.Component {
 	saisirMillesime(e) {
 		this.setState({ millesime: e.target.value });
 	}
-	
+
 	/**
 	 * Saisir la date d'achat de la bouteille
 	 * 
@@ -341,7 +340,7 @@ export default class AjoutBouteille extends React.Component {
 	 * 
 	 * @returns JSX
 	 */
-  
+
 	render() {
 		// Map des bouteilles dans le cellier
 		const bouteilles = this.state.bouteillesSAQ.map((bouteille, index) => {
@@ -469,7 +468,7 @@ export default class AjoutBouteille extends React.Component {
 										color: 'white'
 									}
 								}}
-								value={this.state.id_cellier}
+								value={window.sessionStorage.getItem('id_cellier')}
 								onChange={(e) => this.saisirCellier(e)}
 							>
 								{this.state.celliers.map((cellier) => (
@@ -561,7 +560,12 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 						{msgErreurFormat}
-						<FormControl>
+						<FormControl
+							sx={{
+								'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+									borderColor: 'white'
+								}
+							}}>
 							<InputLabel id="cellier-label">Origine</InputLabel>
 							<Select
 								label="Origine"
@@ -748,7 +752,7 @@ export default class AjoutBouteille extends React.Component {
 							}}
 						/>
 					</Box>
-					<button onClick={this.ajouterBouteilleCellier}>Ajouter une bouteille au cellier</button>
+					<button onClick={this.ajouterBouteilleCellier}>Ajouter</button>
 				</Box>
 			</Box>
 		);

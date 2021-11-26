@@ -46,22 +46,23 @@ export default class ListeBouteilleCellier extends React.Component {
 
 	componentDidMount() {
 		if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push('/connexion');
-        }
+			return this.props.history.push('/connexion');
+		}
 
-        this.props.title("Bouteilles");
-		
+		this.props.title("Bouteilles");
+		window.sessionStorage.setItem('id_cellier', this.props.id);
+
 		this.fetchBouteilles();
 	}
 
 	componentDidUpdate() {
-        if (!window.sessionStorage.getItem('estConnecte')) {
-            return this.props.history.push('/connexion');
-        }
-    }
+		if (!window.sessionStorage.getItem('estConnecte')) {
+			return this.props.history.push('/connexion');
+		}
+	}
 
 	handleClose() {
-		this.setState({open : false});
+		this.setState({ open: false });
 	}
 	sortBouteilles(obj) {
 		const parsedObj = JSON.parse(obj);
@@ -233,14 +234,40 @@ export default class ListeBouteilleCellier extends React.Component {
 
 		return (
 			<Box>
-				<FormControl sx={{ m: 1, minWidth: 120, color: 'white', borderRadius: '0.5rem', marginLeft: '1.8rem' }}>
-					<InputLabel htmlFor="grouped-native-select" sx={{color: 'white'}}>Trier par</InputLabel>
+				<FormControl sx={{
+					minWidth: 120,
+					borderColor: 'white',
+					borderRadius: '0.5rem',
+					marginLeft: '1.8rem',
+					'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+						borderColor: 'white'
+					},
+					'& .MuiOutlinedInput-root': {
+						borderColor: 'white'
+					},
+					'& .MuiFormLabel-root.Mui-focused': {
+						color: 'white'
+					}
+				}}>
+					<InputLabel htmlFor="grouped-native-select" sx={{ color: 'white' }}>Trier par</InputLabel>
 					<Select
 						native
 						defaultValue=""
 						id="grouped-native-select"
 						label="Grouping"
 						onChange={(e) => this.sortBouteilles(e.target.value)}
+						sx={{
+							color: 'white',
+							backgroundColor: 'rgba(0,0,0,0.8)',
+							borderColor: 'white',
+							'& label.Mui-focused': {
+								color: 'white',
+								borderColor: 'white'
+							},
+							'& .MuiSelect-icon': {
+								color: 'white'
+							}
+						}}
 					>
 						<optgroup label="Nom">
 							<option value={JSON.stringify({ key: 'nom', order: 'asc' })}>Nom (A-Z)</option>

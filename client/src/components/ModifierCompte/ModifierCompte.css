@@ -36,3 +36,17 @@
 .modification_contenu input {
     color: white !important;
 }
+
+/* Media Queries */
+@media screen and (min-width: 425px) {
+    .modification_contenu {
+        max-width: 320px !important;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .modification_contenu {
+        max-width: 320px !important;
+        margin-top: 17.5vh !important;
+    }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import vinBlanc from '../../vin_blanc.png';
 import vinRouge from '../../vin_rouge.png';
+import vinRose from '../../vin_rose.png';
 import listePays from '../../pays.json';
 import './BouteilleCellier.css';
 import { Box } from '@mui/system';
@@ -26,31 +27,30 @@ export default class BouteilleCellier extends React.Component {
 	render() {
 		return (
 			<div className="bouteille_container">
-				<div className="titre">{this.props.info.nom}</div>
+				<div className="titre_vin">{this.props.info.nom}</div>
 				<div className="content_container">
 					<div className="content">
 						<div className="bouteille_img_container">
 							<img className="bouteille_img" src={this.state.imgSaq} alt="Bouteille de vin" />
-							<img
-								src={this.props.info.vino__type_id === '1' ? vinRouge : vinBlanc}
+							<img className="pastille_img"
+								src={this.props.info.vino__type_id == '1' ? vinRouge : this.props.info.vino__type_id == '2' ? vinBlanc : this.props.info.vino__type_id == '3' ? vinRose: ''}
 								alt="Couleur du vin"
 							/>
 						</div>
-						{this.props.info.url_saq ? (
-							<a href={this.props.info.url_saq}>
-								<p className="url_saq">SAQ</p>
-							</a>
-						) : null}
+
 					</div>
 					<div className="bouteille_description">
+						{this.props.info.url_saq ? (
+							<a href={this.props.info.url_saq} className="url_saq">SAQ</a>
+						) : null}
 						<img
 							className="bouteille_drapeau"
 							src={this.props.info.drapeau}
 							width="30"
-							alt="Drapeau du pays"
+							alt="Pays"
 						/>
-						<p>{this.props.info.millesime}</p>
-						<p>Qté : {this.props.info.quantite}</p>
+						<span>{this.props.info.millesime}</span>
+						<span>Qté : {this.props.info.quantite}</span>
 					</div>
 					<Box
 						className="bouteille_boutons_container"
@@ -67,7 +67,7 @@ export default class BouteilleCellier extends React.Component {
 							variant="extended"
 							onClick={() => this.props.ajouterAction(this.props.info)}
 						>
-							<AddIcon/>
+							<AddIcon />
 							Ajouter
 						</Fab>
 						<Fab

@@ -37,7 +37,7 @@ export default class AjoutCellier extends React.Component {
 			return this.props.history.push('/connexion');
 		}
 
-		this.props.title("Ajout cellier");
+		this.props.title("Ajouter un cellier");
 
 		this.setState({ titreBoutton: 'Nouveau cellier' });
 	}

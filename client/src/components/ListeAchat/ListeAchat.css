@@ -1,15 +1,14 @@
-
-.liste_achat_container> * {
+.liste_achat_container>* {
     padding: .7rem;
     border-radius: .5rem;
     border: none;
 }
 
 .liste_achat_rows {
-    color :white !important;
+    color: white !important;
 }
 
-.liste_achat_container > .button {
+.liste_achat_container>.button {
     color: white;
     /*width: 100%;
     outline: unset;
@@ -22,18 +21,22 @@
     background-color: #641B30;
 }
 
-.liste_achat_container > .liste_achat_effacer:hover {
+.liste_achat_container>.liste_achat_effacer:hover {
     color: white;
     background-color: white;
-    border:none;
+    border: none;
+}
+
+.MuiDataGrid-columnHeaderTitle:hover {
+    color: #1976d2;
 }
 
 .MuiTextField-root {
     color: red;
-} 
+}
 
 .MuiDataGrid-root {
-    color :white !important;
+    color: white !important;
 }
 
 .liste_achat_rows .MuiCheckbox-root {

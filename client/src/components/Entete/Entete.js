@@ -104,7 +104,7 @@ export default class Entete extends React.Component {
 							>
 								{window.sessionStorage.getItem('estAdmin') ? (
 
-									<MenuItem onClick={() => { this.closeAccMenu(); this.props.history.push("/admin") }} sx={{ display: 'flex', gap: '.5rem' }}>
+									<MenuItem onClick={() => { this.closeAccMenu(); this.props.history.push("/admin") }} sx={{ display: 'flex', gap: '.5rem', border: 'none' }}>
 										<AdminPanelSettingsIcon onClick={() => this.props.history.push("/admin")} /> Panneau admin
 									</MenuItem>
 

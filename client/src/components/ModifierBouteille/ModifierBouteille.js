@@ -8,25 +8,25 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import './DetailsBouteille.css';
+import './ModifierBouteille.css';
 
-export default class DetailsBouteille extends React.Component {
+export default class ModifierBouteille extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			items: [],
-			nom: undefined,
-			description: undefined,
-			pays: undefined,
-			millesime: undefined,
-			code_saq: undefined,
-			format: undefined,
-			garde_jusqua: undefined,
-			note: undefined,
-			date_ajout: undefined,
-			quantite: undefined,
-			id_cellier: undefined,
+			nom: '',
+			description: '',
+			pays: '',
+			millesime: '',
+			code_saq: '',
+			format: '',
+			garde_jusqua: '',
+			note: '',
+			date_ajout: '',
+			quantite: '',
+			id_cellier: '',
 			erreurNom: false,
 			erreurPays: false,
 			erreurMillesime: false,
@@ -52,7 +52,7 @@ export default class DetailsBouteille extends React.Component {
 			return this.props.history.push('/connexion');
 		}
 
-		this.props.title("Détails bouteille");
+		this.props.title("Modifier");
 
 		this.recupereBouteille();
 	}
@@ -167,11 +167,11 @@ export default class DetailsBouteille extends React.Component {
 		}
 		if (
 			this.state.nom &&
-			this.state.nom.trim() !== '' &&
-			(this.state.pays && this.state.pays.trim() !== '') &&
-			(this.state.millesime && this.state.millesime.trim() !== '') &&
-			(this.state.format && this.state.format.trim() !== '') &&
-			(this.state.date_ajout && this.state.date_ajout.trim() !== '')
+			this.state.nom !== '' &&
+			(this.state.pays && this.state.pays !== '') &&
+			(this.state.millesime && this.state.millesime !== '') &&
+			(this.state.format && this.state.format !== '') &&
+			(this.state.date_ajout && this.state.date_ajout !== '')
 		) {
 			estValide = true;
 		}
