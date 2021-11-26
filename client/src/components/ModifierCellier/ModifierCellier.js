@@ -97,7 +97,7 @@ export default class ModifierCellier extends React.Component {
 			erreurEmplacement: true
 		});
 
-		if (this.state.emplacement && this.state.emplacement.trim() !== '') {
+		if (this.state.emplacement && this.state.emplacement !== '') {
 			estValide = true;
 			this.setState({ erreurEmplacement: false });
 		}
@@ -154,7 +154,7 @@ export default class ModifierCellier extends React.Component {
 					flexDirection: 'column',
 					borderRadius: '1rem',
 					margin: '0 auto',
-					marginTop: '15vh'
+					marginTop: '16vh'
 				}}
 			>
 				<span className="modifier_cellier_title"> {this.state.titreBoutton} </span>

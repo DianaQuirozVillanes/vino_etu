@@ -10,3 +10,7 @@
 .MuiToolbar-root>* {
     flex: 1 0 33%;
 }
+
+.css-1e4vd54-MuiButtonBase-root-MuiButton-root:hover {
+    background-color: unset !important;
+}
